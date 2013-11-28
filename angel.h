@@ -1,0 +1,40 @@
+#ifndef ANGEL_H
+#define ANGEL_H
+
+#include <QWidget>
+#include "cardandskill.h"
+#include "picbutton.h"
+#include "newdialog.h"
+class Angel : public CardAndSkill
+{
+    Q_OBJECT
+public:
+    explicit Angel(PaintStruct* paintStruct,QWidget *parent);
+    NewDialog* dialog;
+    NewDialog* windClear;
+    PicButton* magicGroup[3];
+    bool reminiscence;
+    bool ask;
+    int blessCount;
+    void paint(QPaintEvent *, QPainter *);
+    void changeSelfMode(int mode);
+    void setFrame();
+    void dialogSet(bool canX[10]);
+    void dialogReset();
+    void skillCancel();
+    void selfReset();
+    //void skillReset();
+signals:
+public slots:
+    void magicSetZero();
+    void magicSetOne();
+    void magicSetTwo();
+    void skillset();
+    void skillClear();
+    void countPlus();
+    void countMinus();
+    void reminiscenceSet();
+    void reminiscenceReset();
+};
+
+#endif // ANGEL_H
