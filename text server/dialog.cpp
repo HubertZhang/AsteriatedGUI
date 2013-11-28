@@ -6,7 +6,7 @@ Dialog::Dialog(QWidget *parent) :
     ui(new Ui::Dialog),server(parent,1)
 {
     ui->setupUi(this);
-    connect(ui->lineEdit,SIGNAL(returnPressed()),ui->pushButton,SLOT(click()));
+    //connect(ui->lineEdit,SIGNAL(returnPressed()),ui->pushButton,SLOT(click()));
     connect(ui->pushButton, SIGNAL(clicked()),this,SLOT(send()));
     connect(&server,SIGNAL(connectionBuilt()),this,SLOT(begin()));
     ui->pushButton->setEnabled(false);

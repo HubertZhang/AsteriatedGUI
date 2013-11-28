@@ -21,7 +21,7 @@ void AGClient::readMessage()
         int messageLength= 0;
         if (bytesAvailable() < (int)sizeof(int)) return;
         socketIn >> messageLength;
-        
+
         if (bytesAvailable() < (int)sizeof(int)*messageLength) return;
         std::vector<int> temp;
         for (int i = 0; i<messageLength; i++) {
