@@ -18,6 +18,7 @@ Window::Window(QWidget *parent) :
     timer->start(17);
     cardAttack = new CardAttack(this);
     connect(cardAttack,SIGNAL(paintOver()),this,SLOT(changeYPhase()));
+    connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
 }
 void Window::timeOut()
 {
@@ -86,18 +87,24 @@ void Window::paintEvent(QPaintEvent *event)
     }
     delete painter;
 }
-void Window::messageProcess(int information[15])
+void Window::messageProcess(std::vector<int> m)
 {
+    int message[15];
+    for(int i = 0; i<15; i++)
+    {
+        if(i<m.size()) message[i] = m[i];
+        else message[i] = 0;
+    }
     if(phase == 6)
     {
         cardAttack->destroyPic();
     }
-    switch(information[0])
+    switch(message[0])
     {
         case 0:
         {
             int color;
-            if(information[1] == information[2] || information[1] == information[3] || information[1] == information[4])
+            if(message[1] == message[2] || message[1] == message[3] || message[1] == message[4])
             {
                 color = 0;
             }
@@ -108,8 +115,8 @@ void Window::messageProcess(int information[15])
             int paraColor[6];
             for(int i = 0;i < 5;i++)
             {
-                paraColor[i] = (information[1] + 5 - i) % 6;
-                if(paraColor[i] == information[2] || paraColor[i] == information[3] || paraColor[i] == information[4])
+                paraColor[i] = (message[1] + 5 - i) % 6;
+                if(paraColor[i] == message[2] || paraColor[i] == message[3] || paraColor[i] == message[4])
                 {
                     paraColor[i] = 0;
                 }
@@ -121,7 +128,7 @@ void Window::messageProcess(int information[15])
             paraColor[5] = color;
             for(int i = 0;i < 15;i++)
             {
-                this->paintStructInit[i] = information[i];
+                this->paintStructInit[i] = message[i];
             }
             wColor = new PaintColor(paraColor);
             this->phase = 1;
@@ -129,7 +136,7 @@ void Window::messageProcess(int information[15])
         }
         case 1:
         {
-            chooseCharacter = new ChooseCharacter(information[1],information[2],information[3]);
+            chooseCharacter = new ChooseCharacter(message[1],message[2],message[3]);
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[0],SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[1],SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[2],SLOT(isThisClicked(int,int)));
@@ -160,7 +167,7 @@ void Window::messageProcess(int information[15])
             }
             for(int i = 0;i < 6;i++)
             {
-                tempOne[i] = information[tempOne[i] + 1];
+                tempOne[i] = message[tempOne[i] + 1];
 
             }
             paintStruct = new PaintStruct(tempOne,this);
@@ -170,7 +177,7 @@ void Window::messageProcess(int information[15])
             }
             this->phase = 3;
             cardList = new CardList();
-            switch(information[paintStructInit[1] + 1])
+            switch(message[paintStructInit[1] + 1])
             {
                 case 1:cardAndSkill = new SwordMaster(paintStruct,this);break;
                 case 2:cardAndSkill = new Berserker(paintStruct,this);break;
@@ -191,7 +198,7 @@ void Window::messageProcess(int information[15])
         case 3:
         {
             paintStruct->paintArrow = true;
-            paintStruct->arrowNum = ((-information[1] + 5 + paintStructInit[1]) % 6);
+            paintStruct->arrowNum = ((-message[1] + 5 + paintStructInit[1]) % 6);
             break;
         }
         case 4:
@@ -207,10 +214,10 @@ void Window::messageProcess(int information[15])
         }
         case 5:
         {
-            int site = ((-information[1] + 5 + paintStructInit[1]) % 6);
-            if(information[3])
+            int site = ((-message[1] + 5 + paintStructInit[1]) % 6);
+            if(message[3])
             {
-                paintStruct->gameCharacter[site]->status[paintStruct->gameCharacter[site]->statusNum] = information[2];
+                paintStruct->gameCharacter[site]->status[paintStruct->gameCharacter[site]->statusNum] = message[2];
                 paintStruct->gameCharacter[site]->statusNum ++;
             }
             else
@@ -218,7 +225,7 @@ void Window::messageProcess(int information[15])
                 bool find = false;
                 for(int i = 0;i < paintStruct->gameCharacter[site]->statusNum;i++)
                 {
-                    if(paintStruct->gameCharacter[site]->status[i] == information[2])
+                    if(paintStruct->gameCharacter[site]->status[i] == message[2])
                     {
                         find = true;
                     }
@@ -251,54 +258,54 @@ void Window::messageProcess(int information[15])
         }
         case 8:
         {
-            if(information[1])
+            if(message[1])
             {
-                paintStruct->gemBlue += information[2];
-                paintStruct->crystalBlue += information[3];
-                paintStruct->grailBlue += information[4];
-                paintStruct->moraleBlue += information[5];
+                paintStruct->gemBlue += message[2];
+                paintStruct->crystalBlue += message[3];
+                paintStruct->grailBlue += message[4];
+                paintStruct->moraleBlue += message[5];
             }
             else
             {
-                paintStruct->gemRed += information[2];
-                paintStruct->crystalRed += information[3];
-                paintStruct->grailRed += information[4];
-                paintStruct->moraleRed += information[5];
+                paintStruct->gemRed += message[2];
+                paintStruct->crystalRed += message[3];
+                paintStruct->grailRed += message[4];
+                paintStruct->moraleRed += message[5];
             }
             break;
         }
         case 9:
         {
-            int site = ((-information[1] + 5 + paintStructInit[1]) % 6);
-            paintStruct->gameCharacter[site]->cardNum += information[2];
-            paintStruct->gameCharacter[site]->cardLimit += information[3];
-            paintStruct->gameCharacter[site]->cure += information[4];
-            paintStruct->gameCharacter[site]->gem += information[5];
-            paintStruct->gameCharacter[site]->crystal += information[6];
-            paintStruct->gameCharacter[site]->yellow += information[7];
-            paintStruct->gameCharacter[site]->blue += information[8];
+            int site = ((-message[1] + 5 + paintStructInit[1]) % 6);
+            paintStruct->gameCharacter[site]->cardNum += message[2];
+            paintStruct->gameCharacter[site]->cardLimit += message[3];
+            paintStruct->gameCharacter[site]->cure += message[4];
+            paintStruct->gameCharacter[site]->gem += message[5];
+            paintStruct->gameCharacter[site]->crystal += message[6];
+            paintStruct->gameCharacter[site]->yellow += message[7];
+            paintStruct->gameCharacter[site]->blue += message[8];
             break;
         }
         case 10:
         {
             //if(information[14] != -1)
             //{
-                information[1] = ((-information[1] + 5 + paintStructInit[1]) % 6);
-                for(int i = 4;i < 4 + information[2];i ++)
+                message[1] = ((-message[1] + 5 + paintStructInit[1]) % 6);
+                for(int i = 4;i < 4 + message[2];i ++)
                 {
-                    information[i] = ((-information[i] + 5 + paintStructInit[1]) % 6);
+                    message[i] = ((-message[i] + 5 + paintStructInit[1]) % 6);
                 }
             //}
-            cardAttack->set(information);
+            cardAttack->set(message);
             this->phase = 6;
             break;
         }
         case 11:
         {
             int info[3];
-            info[0] = information[2];
-            info[1] = information[1];
-            int site = ((-information[3] + 5 + paintStructInit[1]) % 6);
+            info[0] = message[2];
+            info[1] = message[1];
+            int site = ((-message[3] + 5 + paintStructInit[1]) % 6);
             info[2] = site;
             cardAndSkill->linkReset();
             cardAndSkill->changePaintMode(1,info);
@@ -306,7 +313,7 @@ void Window::messageProcess(int information[15])
         }
         case 12:
         {
-            int info[3] = {2,information[1],0};
+            int info[3] = {2,message[1],0};
             askDialog = new AskDialog(info,this,paintStruct);
             connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
@@ -316,9 +323,9 @@ void Window::messageProcess(int information[15])
         case 13:
         {
             cardAndSkill->destroyCard();
-            for(int i = 0;i < information[1];i++)
+            for(int i = 0;i < message[1];i++)
             {
-                cardAndSkill->card[cardAndSkill->cardNum] = information[2 + i];
+                cardAndSkill->card[cardAndSkill->cardNum] = message[2 + i];
                 cardAndSkill->cardNum ++;
             }
             cardAndSkill->buttonFixed();
@@ -327,7 +334,7 @@ void Window::messageProcess(int information[15])
         }
         case 14:
         {
-            int info[3] = {information[1],information[2],0};
+            int info[3] = {message[1],message[2],0};
             cardAndSkill->linkReset();
             cardAndSkill->changePaintMode(3,info);
             break;
@@ -343,9 +350,9 @@ void Window::messageProcess(int information[15])
             {
                 canX[i] = false;
             }
-            for(int i = 0;i < information[1];i ++)
+            for(int i = 0;i < message[1];i ++)
             {
-                canX[information[2 + i]] = true;
+                canX[message[2 + i]] = true;
             }
             cardAndSkill->dialogSet(canX);
         }
@@ -353,27 +360,27 @@ void Window::messageProcess(int information[15])
 }
 void Window::informationGet()
 {
-    string y;
-    y = mySource->inputLine->text().toStdString();
-    const char* s = y.c_str();
-    int information[15];
-    for(int i = 0;i < 15;i++)
-    {
-        information[i] = 0;
-    }
-    int i = 0;
-    int j = 0;
-    while(s[i] != '\0')
-    {
-        if(s[i] == '_')
-        {
-            i ++;
-            j ++;
-        }
-        information[j] = information[j]*10 + (s[i] - 48);
-        i ++;
-    }
-    messageProcess(information);
+    networkSocket.setup((char*)mySource->inputLine->text().toStdString().c_str());
+    mySource->close();
+//    const char* s = y.c_str();
+//    int information[15];
+//    for(int i = 0;i < 15;i++)
+//    {
+//        information[i] = 0;
+//    }
+//    int i = 0;
+//    int j = 0;
+//    while(s[i] != '\0')
+//    {
+//        if(s[i] == '_')
+//        {
+//            i ++;
+//            j ++;
+//        }
+//        information[j] = information[j]*10 + (s[i] - 48);
+//        i ++;
+//    }
+//    messageProcess(information);
 }
 /*void Window::informationSelf(int info[])
 {

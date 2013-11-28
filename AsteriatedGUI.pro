@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     arrowmaid.cpp \
     sealmaid.cpp \
     darkkiller.cpp \
-	puremaid.cpp
+	puremaid.cpp \
+    agclient.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -57,7 +58,8 @@ HEADERS  += widget.h \
     arrowmaid.h \
     sealmaid.h \
     darkkiller.h \
-	puremaid.h
+	puremaid.h \
+    agclient.h
 
 RESOURCES += \
     resource/Image.qrc
