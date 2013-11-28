@@ -215,7 +215,7 @@ void Angel::changeSelfMode(int mode)
         }
         case 8:
         {
-                
+
         }
     }
 }
@@ -224,6 +224,11 @@ void Angel::paint(QPaintEvent *event, QPainter *painter)
     if(reminiscence)
     {
         windClear->paint(event,painter);
+    }
+    if(ask)
+    {
+        dialog->paint(event,painter);
+        cancel->canBeClicked = true;
     }
     for(int i = 0;i < 3;i++)
     {
@@ -236,7 +241,7 @@ void Angel::paint(QPaintEvent *event, QPainter *painter)
         cardButton[i]->paint(event,painter);
     }
 }
-void PureMaid::setFrame()
+void Angel::setFrame()
 {
     ask = true;
 }
@@ -248,29 +253,28 @@ void PureMaid::setFrame()
         dialog->skillGroup[i]->isClicked = false;
     }
 }*/
-void PureMaid::skillset()
+void Angel::skillset()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardList->getSkillOne(card[i]) == 61)
+        if(cardList->getNature(card[i]) == wind)
         {
             magicGroup[0]->canBeClicked = true;
         }
-        if(cardList->getSkillOne(card[i]) == 62)
+        if(cardList->getNature(card[i]) == water)
         {
             magicGroup[1]->canBeClicked = true;
         }
-    }
-    if(paintStructX->gameCharacter[5]->gem + paintStructX->gameCharacter[5]->crystal != 0)
-    {
-        magicGroup[2]->canBeClicked = true;
+        if(cardList->getSkillTwo(card[i]) == 71)
+        {
+            magicGroup[2]->canBeClicked = true;
+        }
     }
 }
-void PureMaid::skillCancel()
+void Angel::skillCancel()
 {
-    pureLightCount = 0;
-    frame = false;
-    pureCureCount = 0;
+    blessCount = 0;
+    reminiscence = false;
     //pureCureFrame->reset();
     for(int i = 0;i < 6;i++)
     {

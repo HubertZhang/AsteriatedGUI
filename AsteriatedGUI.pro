@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,12 +30,13 @@ SOURCES += main.cpp\
     framelabel.cpp \
     swordmaster.cpp \
     newdialog.cpp \
+    agclient.cpp \
     berserker.cpp \
     arrowmaid.cpp \
     sealmaid.cpp \
     darkkiller.cpp \
-	puremaid.cpp \
-    agclient.cpp
+    puremaid.cpp \
+    angel.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -54,12 +55,13 @@ HEADERS  += widget.h \
     framelabel.h \
     swordmaster.h \
     newdialog.h \
+    agclient.h \
     berserker.h \
     arrowmaid.h \
     sealmaid.h \
     darkkiller.h \
-	puremaid.h \
-    agclient.h
+    puremaid.h \
+    angel.h
 
 RESOURCES += \
     resource/Image.qrc

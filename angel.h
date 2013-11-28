@@ -5,6 +5,7 @@
 #include "cardandskill.h"
 #include "picbutton.h"
 #include "newdialog.h"
+#include "askdialog.h"
 class Angel : public CardAndSkill
 {
     Q_OBJECT
@@ -12,6 +13,7 @@ public:
     explicit Angel(PaintStruct* paintStruct,QWidget *parent);
     NewDialog* dialog;
     NewDialog* windClear;
+    AskDialog* kamiPro;
     PicButton* magicGroup[3];
     bool reminiscence;
     bool ask;

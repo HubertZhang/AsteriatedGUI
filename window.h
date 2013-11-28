@@ -10,7 +10,6 @@
 #include "choosecharacter.h"
 #include <QMouseEvent>
 #include "askdialog.h"
-#include "agclient.h"
 #include "cardList.h"
 #include "cardandskill.h"
 #include "cardattack.h"
@@ -39,14 +38,13 @@ private:
     bool paint;
 public:
     explicit Window(QWidget *parent = 0);
+    void messageProcess(int information[15]);
     void mousePressEvent(QMouseEvent *event);
-    AGClient networkSocket;
 protected:
     void paintEvent(QPaintEvent *);
 public slots:
     void timeOut();
     void informationGet();
-    void messageProcess(std::vector<int> m);
     //void informationSelf(int info[15]);
     void changeWPhase();
     void changeXPhase();
