@@ -18,6 +18,7 @@ public:
     bool reminiscence;
     bool ask;
     int blessCount;
+    int morale;
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();

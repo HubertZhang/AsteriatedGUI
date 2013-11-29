@@ -167,8 +167,8 @@ void SealMaid::changeSelfMode(int mode)
             for(int i = 0;i < 6;i++)
             {
                 paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(reminiscenceSet()));
                 connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(reminiscenceReset()));
+                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(reminiscenceSet()));
                 disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
             }
             break;
@@ -282,6 +282,7 @@ void SealMaid::skillClear()
 }
 void SealMaid::reminiscenceSet()
 {
+    reminiscenceReset();
     int point = 0;
     for(int i = 0;i < 6;i++)
     {

@@ -31,6 +31,7 @@ public:
     void destroyCard();
     void linkReset();
     void changePaintMode(int mode,int information[3]);
+    virtual void setResPara(int);
     virtual void dialogSet(bool canX[10]);
     virtual void setFrame();
     virtual void skillReset();

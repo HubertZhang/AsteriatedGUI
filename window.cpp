@@ -344,6 +344,7 @@ void Window::messageProcess(std::vector<int> m)
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->setFrame();
+            cardAndSkill->setResPara(information[2 + information[1]]);
             connect(cardAndSkill->ensure,SIGNAL(changeClicked()),cardAndSkill,SLOT(selfReset()));
             bool canX[10];
             for(int i = 0;i < 10;i++)

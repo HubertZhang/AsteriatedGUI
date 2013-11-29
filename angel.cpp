@@ -215,6 +215,24 @@ void Angel::changeSelfMode(int mode)
         }
         case 8:
         {
+            int protect = morale;
+            if(paintStructX->gameCharacter[5]->gem + paintStructX->gameCharacter[5]->crystal < morale)
+            {
+                protect = paintStructX->gameCharacter[5]->gem + paintStructX->gameCharacter[5]->crystal;
+            }
+            int info[3] = {2,0,0};
+            AskDialog* moraleAsk = new AskDialog(info,windowX,paintStructX);
+            for(int i = 0;i < 5;i++)
+            {
+                if(i < protect)
+                {
+                    moraleAsk->number[i]->canBeClicked = true;
+                }
+                else
+                {
+                    moraleAsk->number[i]->canBeClicked = false;
+                }
+            }
 
         }
     }
@@ -388,4 +406,8 @@ void SealMaid::reminiscenceSet()
 void Angel::selfReset()
 {
 
+}
+void Angel::setResPara(int para)
+{
+    morale = para;
 }

@@ -530,3 +530,7 @@ void CardAndSkill::skillCancel()
 {
 
 }
+void CardAndSkill::setResPara(int para)
+{
+
+}
