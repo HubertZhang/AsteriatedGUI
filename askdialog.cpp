@@ -471,19 +471,20 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
     {
         connect(storeWindow,SIGNAL(mouseClicked(int,int)),ensure,SLOT(isThisClicked(int,int)));
         connect(storeWindow,SIGNAL(mouseClicked(int,int)),cancel,SLOT(isThisClicked(int,int)));
+        //system("pause");
         for(int i = 0;i < 5;i++)
         {
             if(i < storeData->gameCharacter[5]->cure && i < information[1])
             {
                 number[i] = new PicButton(i + 49,99 + 328 + 70 * i,407,50,50,true);
-                connect(storeWindow,SIGNAL(mouseClicked(int,int)),number[i],SLOT(isThisClicked(int,int)));
-                connect(number[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(number[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
             }
             else
             {
                 number[i] = new PicButton(i + 49,99 + 328 + 70 * i,407,50,50,false);
             }
+            connect(storeWindow,SIGNAL(mouseClicked(int,int)),number[i],SLOT(isThisClicked(int,int)));
+            connect(number[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(number[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         }
         for(int i = 0;i < 5;i++)
         {

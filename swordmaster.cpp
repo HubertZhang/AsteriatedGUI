@@ -64,7 +64,6 @@ void SwordMaster::changeSelfMode(int mode)
                     cardButton[i]->canBeClicked = true;
                 }
             }
-            cancel->canBeClicked = true;
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             //system("pause");
             break;
@@ -80,7 +79,6 @@ void SwordMaster::changeSelfMode(int mode)
                 }
             }
             //system("pause");
-            cancel->canBeClicked = true;
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
         }

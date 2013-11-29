@@ -6,17 +6,19 @@
 #include "picbutton.h"
 #include "newdialog.h"
 #include "askdialog.h"
+class Window;
 class Angel : public CardAndSkill
 {
     Q_OBJECT
 public:
-    explicit Angel(PaintStruct* paintStruct,QWidget *parent);
+    explicit Angel(PaintStruct* paintStruct,QWidget *parent,Window* windowAngel);
     NewDialog* dialog;
     NewDialog* windClear;
     AskDialog* kamiPro;
     PicButton* magicGroup[3];
     bool reminiscence;
     bool ask;
+    bool proAsk;
     int blessCount;
     int morale;
     void paint(QPaintEvent *, QPainter *);
@@ -26,6 +28,7 @@ public:
     void dialogReset();
     void skillCancel();
     void selfReset();
+    void setResPara(int);
     //void skillReset();
 signals:
 public slots:

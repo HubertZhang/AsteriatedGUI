@@ -185,6 +185,8 @@ void Window::messageProcess(std::vector<int> m)
                 case 4:cardAndSkill = new SealMaid(paintStruct,this);break;
                 case 5:cardAndSkill = new DarkKiller(paintStruct,this);break;
                 case 6:cardAndSkill = new PureMaid(paintStruct,this);break;
+                case 7:cardAndSkill = new Angel(paintStruct,this,this);break;
+                case 8:cardAndSkill = new MagicMaid(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -356,6 +358,7 @@ void Window::messageProcess(std::vector<int> m)
                 canX[information[2 + i]] = true;
             }
             cardAndSkill->dialogSet(canX);
+            cardAndSkill->cancel->canBeClicked = true;
         }
     }
 }

@@ -9,7 +9,6 @@
 #include <QPalette>
 #include "picbutton.h"
 #include "paintstruct.h"
-
 class Window;
 class AskDialog : public QWidget
 {

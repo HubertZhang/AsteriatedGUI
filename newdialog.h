@@ -12,7 +12,7 @@ class NewDialog : public QWidget
 {
     Q_OBJECT
 public:
-    explicit NewDialog(QWidget *parent = 0);
+    explicit NewDialog(QWidget*);
     void init(int);
     int skillCount;
     QFont* font;

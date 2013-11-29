@@ -4,8 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 using namespace std;
-CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent) :
-    QWidget(parent)
+CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent)
 {
     cancelClick = false;
     frame = false;
@@ -296,6 +295,11 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                             }
                             case missile:
                             {
+                                if(paintStructX->gameCharacter[5]->characterNum == 8)
+                                {
+                                    magicSetTwo();
+                                    break;
+                                }
                                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
                                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
                                 break;
@@ -531,6 +535,10 @@ void CardAndSkill::skillCancel()
 
 }
 void CardAndSkill::setResPara(int para)
+{
+
+}
+void CardAndSkill::magicSetTwo()
 {
 
 }

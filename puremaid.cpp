@@ -7,7 +7,6 @@ PureMaid::PureMaid(PaintStruct* paintStruct,QWidget *parent) :
     pureLightCount = 0;
     pureCureCount = 0;
     pureCureFrame = new FrameLabel(windowX);
-    //dialog = new NewDialog(windowX);
     //dialog->init(6);//无响应
     magicGroup[0] = new PicButton(71,362,559,100,42,false);
     magicGroup[1] = new PicButton(72,465,559,100,42,false);

@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QFont>
 #include <QPalette>
+class Window;
 class FrameLabel : public QWidget
 {
     Q_OBJECT

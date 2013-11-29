@@ -20,6 +20,8 @@
 #include "sealmaid.h"
 #include "darkkiller.h"
 #include "puremaid.h"
+#include "angel.h"
+#include "magicmaid.h"
 class Window : public QWidget
 {
     Q_OBJECT

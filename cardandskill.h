@@ -9,6 +9,7 @@
 #include "cardList.h"
 #include "card.h"
 #include "framelabel.h"
+
 class CardAndSkill : public QWidget
 {
     Q_OBJECT
@@ -30,7 +31,7 @@ public:
     void buttonFixed();
     void destroyCard();
     void linkReset();
-    void changePaintMode(int mode,int information[3]);
+    virtual void changePaintMode(int mode,int information[3]);
     virtual void setResPara(int);
     virtual void dialogSet(bool canX[10]);
     virtual void setFrame();
@@ -52,6 +53,7 @@ public slots:
     virtual void dialogReset();
     virtual void skillset();
     virtual void selfReset();
+    virtual void magicSetTwo();
 };
 
 #endif // CARDANDSKILL_H
