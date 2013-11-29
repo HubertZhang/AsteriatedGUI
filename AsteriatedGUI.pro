@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     sealmaid.cpp \
     darkkiller.cpp \
     puremaid.cpp \
-    angel.cpp
+    #angel.cpp \
+    agchatclient.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -61,7 +62,8 @@ HEADERS  += widget.h \
     sealmaid.h \
     darkkiller.h \
     puremaid.h \
-    angel.h
+    #angel.h \
+    agchatclient.h
 
 RESOURCES += \
     resource/Image.qrc

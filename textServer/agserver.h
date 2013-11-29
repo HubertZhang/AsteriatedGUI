@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef __Test1__AGServe__
-#define __Test1__AGServe__
+#ifndef __AGServer_h__
+#define __AGServer_h__
 #include <iostream>
 #include <QtWidgets>
 #include <QtNetwork/QTcpSocket>
@@ -46,7 +46,7 @@ public slots:
     void onDisconnected(){emit serverError();}
     void readFinished(int id, std::vector<int> message){emit messageRecieved(id, message);}
 public:
-    explicit AGServer(QWidget *parent = 0,int playerNum = 6,int port = 10000);
+    explicit AGServer(QWidget *parent = 0,int playerNum = 1,int port = 10000);
     void sendMessage(int id, std::vector<int> message);
 protected:
     void incomingConnection(qintptr socketDescriptor);
@@ -56,4 +56,4 @@ private:
     QList<int> socketDescriptorList;
 };
 
-#endif /* defined(__Test1__AGServe__) */
+#endif /* defined(__AGServer_h__) */

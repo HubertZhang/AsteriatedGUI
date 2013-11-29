@@ -13,6 +13,13 @@ Window::Window(QWidget *parent) :
     connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
     phase = 0;
     starBG = new StarBG();
+    chatLine = new QLineEdit(this);
+    chatLine->setGeometry(1060,730,300,30);
+    //chatLine->setPalette(QPalette(QColor(255,0,0,0)));
+    chatLine->setEnabled(false);
+    chatBrowser = new QTextBrowser;
+    //chatBrowser->setPalette(QPalette(QColor(255,0,0,0)));
+    connect(&networkSocket,SIGNAL(idReceived(int)),this,SLOT(chatReady(int)));
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
     timer->start(17);
@@ -20,6 +27,26 @@ Window::Window(QWidget *parent) :
     connect(cardAttack,SIGNAL(paintOver()),this,SLOT(changeYPhase()));
     connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
 }
+void Window::chatReady(int id)
+{
+    chatSocket.setup(id,(char*)networkSocket.peerAddress().toString().toStdString().c_str());
+    chatLine->setEnabled(true);
+    connect(chatLine,SIGNAL(returnPressed()),this,SLOT(sendChatMessage()));
+    connect(&chatSocket,SIGNAL(readFinished(int,QString)),this,SLOT(displayMessage(int,QString)));
+}
+
+void Window::sendChatMessage()
+{
+    QString temp = chatLine->text();
+    chatLine->clear();
+    chatSocket.sendMessage(temp);
+}
+
+void Window::displayMessage(int id, QString message)
+{
+     chatBrowser->append(QString::number(id)+QString(": ")+message);
+}
+
 void Window::timeOut()
 {
     paint = !paint;

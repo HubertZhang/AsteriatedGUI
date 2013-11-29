@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "agserver.h"
+#include "chatserver.h"
 namespace Ui {
 class Dialog;
 }
@@ -15,6 +16,7 @@ public:
     explicit Dialog(QWidget *parent = 0);
     ~Dialog();
     AGServer server;
+    AGChatServer chatServer;
 public slots:
     void send();
     void begin();

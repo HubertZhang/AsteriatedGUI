@@ -14,9 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         dialog.cpp \
-    agserver.cpp
+    agserver.cpp \
+    chatserver.cpp
 
 HEADERS  += dialog.h \
-    agserver.h
+    agserver.h \
+    chatserver.h
 
 FORMS    += dialog.ui
