@@ -231,7 +231,6 @@ void Angel::changeSelfMode(int mode)
                     bool shieldExist = false;
                     for(int k = 0;k < paintStructX->gameCharacter[j]->statusNum;k++)
                     {
-                        cout << j << k << cardList->getName(paintStructX->gameCharacter[j]->status[k]) << cardList->getSkillTwo(paintStructX->gameCharacter[j]->status[k]) << endl;
                         if(cardList->getName(paintStructX->gameCharacter[j]->status[k]) == shield || cardList->getSkillTwo(paintStructX->gameCharacter[j]->status[k]) == 71)
                         {
                             //system("pause");
@@ -239,7 +238,6 @@ void Angel::changeSelfMode(int mode)
                             break;
                         }
                     }
-                    cout << endl;
                     if(!shieldExist)
                     {
                         connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));

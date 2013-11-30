@@ -85,6 +85,7 @@ void SwordMaster::changeSelfMode(int mode)
         case 5://烈风技能响应阶段
         {
             emit resetSignal();
+            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
         }
     }

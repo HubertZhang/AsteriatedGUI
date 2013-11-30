@@ -38,6 +38,12 @@ public:
     virtual void skillReset();
     virtual void changeSelfMode(int);
     virtual void skillCancel();
+    virtual void magicSwordSet();
+    void discard(int count);
+    void append(bool);
+    int discardCount;
+    int allCount;
+    void missileAttack();
 signals:
     void isClicked(int x,int y);
     void resetSignal();
@@ -54,6 +60,8 @@ public slots:
     virtual void skillset();
     virtual void selfReset();
     virtual void magicSetTwo();
+    void discardPlus();
+    void discardMinus();
 };
 
 #endif // CARDANDSKILL_H

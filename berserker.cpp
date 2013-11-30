@@ -60,6 +60,7 @@ void Berserker::changeSelfMode(int mode)
         case 6://撕裂技能响应阶段
         {
             emit resetSignal();
+            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
         }
     }

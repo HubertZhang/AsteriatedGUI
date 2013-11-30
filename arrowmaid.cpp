@@ -84,6 +84,7 @@ void ArrowMaid::changeSelfMode(int mode)
         case 5://精准射击响应阶段
         {
             emit resetSignal();
+            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
         }
         case 7://狙击

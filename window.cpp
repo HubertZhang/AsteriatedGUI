@@ -187,6 +187,12 @@ void Window::messageProcess(std::vector<int> m)
                 case 6:cardAndSkill = new PureMaid(paintStruct,this);break;
                 case 7:cardAndSkill = new Angel(paintStruct,this,this);break;
                 case 8:cardAndSkill = new MagicMaid(paintStruct,this);break;
+                case 9:cardAndSkill = new MagicSword(paintStruct,this);break;
+                case 10:cardAndSkill = new PureSpear(paintStruct,this,this);break;
+                case 11:cardAndSkill = new ElementMaster(paintStruct,this);break;
+                case 12:cardAndSkill = new Adventurer(paintStruct,this,this);break;
+                case 13:cardAndSkill = new Necromancer(paintStruct,this,this);break;
+                case 14:cardAndSkill = new ArbitrationMaid(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -359,6 +365,34 @@ void Window::messageProcess(std::vector<int> m)
             }
             cardAndSkill->dialogSet(canX);
             cardAndSkill->cancel->canBeClicked = true;
+            break;
+        }
+        case 16:
+        {
+            int site = ((-information[1] + 5 + paintStructInit[1]) % 6);
+            paintStruct->gameCharacter[site]->activated = information[2];
+            break;
+        }
+        case 17://弃牌函数
+        {
+            cardAndSkill->linkReset();
+            cardAndSkill->dialogReset();
+            cardAndSkill->discard(information[1]);
+            break;
+        }
+        case 19://增加一次行动
+        {
+            cardAndSkill->linkReset();
+            cardAndSkill->dialogReset();
+            cardAndSkill->append(information[1]);
+            break;
+        }
+        case 20://魔蛋响应
+        {
+            cardAndSkill->linkReset();
+            cardAndSkill->dialogReset();
+            cardAndSkill->missileAttack();
+            break;
         }
     }
 }
@@ -404,10 +438,14 @@ void Window::changeYPhase()
 }
 void Window::changeZPhase()
 {
+    for(int i = 0;i < 6;i++)
+    {
+        paintStruct->gameCharacter[i]->characterPic->isClicked = false;
+        paintStruct->gameCharacter[i]->characterPic->canBeClicked = false;
+    }
     delete askDialog;
     phase = 4;
 }
-
 void Window::mousePressEvent(QMouseEvent *event)
 {
     emit mouseClicked(event->x(),event->y());

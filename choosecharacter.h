@@ -18,6 +18,7 @@ public:
     void paint(QPaintEvent* event,QPainter* painter);
 signals:
 public slots:
+    //void sendMessage();
 };
 
 #endif // CHOOSECHARACTER_H

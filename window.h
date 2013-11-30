@@ -22,6 +22,12 @@
 #include "puremaid.h"
 #include "angel.h"
 #include "magicmaid.h"
+#include "magicsword.h"
+#include "purespear.h"
+#include "elementmaster.h"
+#include "adventurer.h"
+#include "necromancer.h"
+#include "arbitrationmaid.h"
 class Window : public QWidget
 {
     Q_OBJECT

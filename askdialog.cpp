@@ -466,6 +466,32 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 connect(composeGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
             }
         }
+        if(paintStruct->gameCharacter[5]->characterNum == 12)
+        {
+            for(int i = 0;i < 5;i++)
+            {
+                disconnect(refineGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                disconnect(refineGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                for(int j = 0;j < 6;j++)
+                {
+                    if(paintStruct->gameCharacter[j]->color == paintStruct->gameCharacter[5]->color)
+                    {
+                        connect(refineGroup[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                        connect(refineGroup[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                        for(int k = 0;k < 6;k++)
+                        {
+                            if(j == k)
+                            {
+                                continue;
+                            }
+                            connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
+                        }
+                    }
+                }
+            }
+        }
     }
     if(kind[0] == 2)
     {
@@ -650,12 +676,21 @@ void AskDialog::activeInit(int characterNum)
             break;
         }
         case 9:
+        {
+            activateGroup[0] = new PicButton(84,9 + 328 + 100,257,100,42,false);
+            break;
+        }
+        case 14:
+        {
+            activateGroup[0] = new PicButton(102,9 + 328 + 100,257,100,42,false);
+            activateGroup[1] = new PicButton(104,9 + 328 + 200,257,100,42,false);
+            break;
+        }
         case 15:
         case 16:
         {
             break;
         }
-        case 14:
         case 20:
         case 22:
         case 23:
@@ -688,7 +723,7 @@ bool AskDialog::canActivate(int skill)
         }
         case 61:
         {
-            if(storeData->gameCharacter[5]->gem != 0 && !storeData->gameCharacter[5]->isActivated)
+            if(storeData->gameCharacter[5]->gem != 0 && !storeData->gameCharacter[5]->activated)
             {
                 return true;
             }

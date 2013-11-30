@@ -37,7 +37,14 @@ SOURCES += main.cpp\
     darkkiller.cpp \
     puremaid.cpp \
     angel.cpp \
-    magicmaid.cpp
+    magicmaid.cpp \
+    magicsword.cpp \
+    purespear.cpp \
+    elementmaster.cpp \
+    adventurer.cpp \
+    necromancer.cpp \
+    arbitrationmaid.cpp \
+    priestmaid.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -63,7 +70,14 @@ HEADERS  += widget.h \
     darkkiller.h \
     puremaid.h \
     angel.h \
-    magicmaid.h
+    magicmaid.h \
+    magicsword.h \
+    purespear.h \
+    elementmaster.h \
+    adventurer.h \
+    necromancer.h \
+    arbitrationmaid.h \
+    priestmaid.h
 
 RESOURCES += \
     resource/Image.qrc

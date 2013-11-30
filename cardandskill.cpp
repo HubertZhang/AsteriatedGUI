@@ -106,6 +106,11 @@ void CardAndSkill::linkReset()
             disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
         }
     }
+    for(int i = 0;i < cardNum;i++)
+    {
+        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(discardPlus()));
+        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(discardMinus()));
+    }
     //system("pause");
 }
 void CardAndSkill::changePaintMode(int mode,int information[3])
@@ -308,6 +313,10 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                     }
                 }
             }
+            if(paintStructX->gameCharacter[5]->characterNum == 9)
+            {
+                magicSwordSet();
+            }
             //system("pause");
             emit skillSetSig();
             break;
@@ -429,20 +438,19 @@ void CardAndSkill::cardClicked(int x, int y)
             }
             else
             {
-                if(x > (976 - 99) && !cardButton[cardNum - 1]->isConnect)
+                if(x > (976 - 99))
                 {
-                    connect(this,SIGNAL(isClicked(int,int)),cardButton[cardNum - 1],SLOT(isThisClicked(int,int)));
-                    cardButton[cardNum - 1]->isConnect = true;
+                    int x = cardButton[cardNum - 1]->xp + 50;
+                    int y = cardButton[cardNum - 1]->yp + 50;
+                    cardButton[cardNum - 1]->isThisClicked(x,y);
                 }
                 else
                 {
-                    int i = (x - 99 - 364)/(((102 * 6) - 99)/(cardNum - 1));
-                    if(!cardButton[i]->isConnect)
-                    {
-                        connect(this,SIGNAL(isClicked(int,int)),cardButton[i],SLOT(isThisClicked(int,int)));
-                    }
+                    int i = (x - 364)/(((102 * 6) - 99)/(cardNum - 1));
+                    int x = cardButton[i]->xp + 50;
+                    int y = cardButton[i]->yp + 50;
+                    cardButton[i]->isThisClicked(x,y);
                 }
-                emit isClicked(x,y);
             }
         }
     }
@@ -541,4 +549,104 @@ void CardAndSkill::setResPara(int para)
 void CardAndSkill::magicSetTwo()
 {
 
+}
+void CardAndSkill::discard(int count)
+{
+    discardCount = 0;
+    allCount = count;
+    for(int i = 0;i < cardNum;i++)
+    {
+        connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(discardPlus()));
+        connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(discardMinus()));
+        cardButton[i]->canBeClicked = true;
+    }
+}
+void CardAndSkill::discardPlus()
+{
+    discardCount ++;
+    if(discardCount == allCount)
+    {
+        ensure->canBeClicked = true;
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(!cardButton[i]->isClicked)
+            {
+                cardButton[i]->canBeClicked = false;
+            }
+        }
+    }
+
+}
+void CardAndSkill::discardMinus()
+{
+    discardCount --;
+    ensure->canBeClicked = false;
+    for(int i = 0;i < cardNum;i++)
+    {
+        cardButton[i]->canBeClicked = true;
+    }
+}
+void CardAndSkill::append(bool appKind)
+{
+    int info[3] = {0,0,0};
+    changePaintMode(2,info);
+    if(appKind)
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(cardList->getType(card[i]) == attack)
+            {
+                cardButton[i]->canBeClicked = false;
+            }
+        }
+    }
+    else
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(cardList->getType(card[i]) == magic)
+            {
+                cardButton[i]->canBeClicked = false;
+            }
+        }
+        skillCancel();//Special Adventurer
+    }
+}
+void CardAndSkill::magicSwordSet()
+{
+
+}
+void CardAndSkill::missileAttack()
+{
+    cancel->canBeClicked = true;
+    if(paintStructX->gameCharacter[5]->characterNum == 8)
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(cardList->getName(card[i]) == missile || cardList->getNature(card[i]) == fire || cardList->getNature(card[i]) == ground)
+            {
+                cardButton[i]->canBeClicked = true;
+                connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                for(int j = 0;j < cardNum;j++)
+                {
+                    connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                }
+            }
+        }
+        return;
+    }
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardList->getName(card[i]) == missile)
+        {
+            cardButton[i]->canBeClicked = true;
+            connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            for(int j = 0;j < cardNum;j++)
+            {
+                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+            }
+        }
+    }
 }
