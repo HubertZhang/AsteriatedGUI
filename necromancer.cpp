@@ -141,6 +141,7 @@ void Necromancer::changeSelfMode(int mode)
         case 6://死亡之触响应阶段
         {
             cancel->canBeClicked = false;
+            deathPaint = true;
             for(int i = 0;i < 6;i++)
             {
                 cardButton[i]->canBeClicked = true;
@@ -181,7 +182,7 @@ void Necromancer::paint(QPaintEvent *event, QPainter *painter)
     {
         dialog->paint(event,painter);
     }
-    if(deathCount)
+    if(deathPaint)
     {
         deathTouch->paint(event,painter);
     }

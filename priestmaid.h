@@ -18,6 +18,7 @@ public:
     AskDialog* sacredContract;
     bool sacredContractPaint;
     int magicCount;
+    int cureCount;
     int sacredZoneCount;
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
@@ -26,6 +27,7 @@ public:
     void dialogSet(bool canX[10]);
     void dialogReset();
     void selfReset();
+    void priestAct();
     //void skillReset();
 signals:
 public slots:
@@ -42,6 +44,8 @@ public slots:
     void waterPhase();
     void contractSet();
     void contractReset();
+    void curePlus();
+    void cureMinus();
 };
 
 #endif // PRIESTMAID_H

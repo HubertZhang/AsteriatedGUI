@@ -44,6 +44,7 @@ public:
     int discardCount;
     int allCount;
     void missileAttack();
+    virtual void priestAct();
 signals:
     void isClicked(int x,int y);
     void resetSignal();

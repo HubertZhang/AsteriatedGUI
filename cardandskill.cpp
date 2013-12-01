@@ -650,3 +650,7 @@ void CardAndSkill::missileAttack()
         }
     }
 }
+void CardAndSkill::priestAct()
+{
+
+}

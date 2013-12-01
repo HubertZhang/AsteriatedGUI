@@ -93,6 +93,12 @@ void NewDialog::init(int chara)
             skillGroup[0] = new PicButton(101,328 + 25,479,100,42,false);
             break;
         }
+        case 15:
+        {
+            skillCount = 1;
+            skillGroup[0] = new PicButton(101,328 + 25,479,100,42,false);
+            break;
+        }
         case 101:
         {
             skillCount = 10;

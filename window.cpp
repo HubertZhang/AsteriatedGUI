@@ -193,6 +193,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 12:cardAndSkill = new Adventurer(paintStruct,this,this);break;
                 case 13:cardAndSkill = new Necromancer(paintStruct,this,this);break;
                 case 14:cardAndSkill = new ArbitrationMaid(paintStruct,this);break;
+                case 15:cardAndSkill = new PriestMaid(paintStruct,this,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -438,6 +439,13 @@ void Window::changeYPhase()
 }
 void Window::changeZPhase()
 {
+    if(paintStruct->gameCharacter[5]->characterNum == 15)
+    {
+        if(askDialog->activateGroup[0]->isClicked)
+        {
+            cardAndSkill->priestAct();
+        }
+    }
     for(int i = 0;i < 6;i++)
     {
         paintStruct->gameCharacter[i]->characterPic->isClicked = false;

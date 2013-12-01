@@ -28,6 +28,7 @@
 #include "adventurer.h"
 #include "necromancer.h"
 #include "arbitrationmaid.h"
+#include "priestmaid.h"
 class Window : public QWidget
 {
     Q_OBJECT
