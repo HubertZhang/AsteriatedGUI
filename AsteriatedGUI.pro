@@ -36,6 +36,7 @@ SOURCES += main.cpp\
     sealmaid.cpp \
     darkkiller.cpp \
     puremaid.cpp \
+    agchatclient.cpp \
     angel.cpp \
     magicmaid.cpp \
     magicsword.cpp \
@@ -69,6 +70,7 @@ HEADERS  += widget.h \
     sealmaid.h \
     darkkiller.h \
     puremaid.h \
+    agchatclient.h \
     angel.h \
     magicmaid.h \
     magicsword.h \

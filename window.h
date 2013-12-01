@@ -11,6 +11,7 @@
 #include <QMouseEvent>
 #include "askdialog.h"
 #include "agclient.h"
+#include "agchatclient.h"
 #include "cardList.h"
 #include "cardandskill.h"
 #include "cardattack.h"
@@ -47,15 +48,21 @@ private:
     int phase;//To decide the paint function
     bool paint;
 public:
+    QLineEdit* chatLine;
+    QTextBrowser* chatBrowser;
     explicit Window(QWidget *parent = 0);
     void mousePressEvent(QMouseEvent *event);
     AGClient networkSocket;
+    AGChatClient chatSocket;
 protected:
     void paintEvent(QPaintEvent *);
 public slots:
     void timeOut();
     void informationGet();
     void messageProcess(std::vector<int> m);
+    void chatReady(int id);
+    void sendChatMessage();
+    void displayMessage(int id,QString message);
     void changeWPhase();
     void changeXPhase();
     void changeYPhase();
