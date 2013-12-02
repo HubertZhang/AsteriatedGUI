@@ -211,7 +211,7 @@ void MagicSword::countMinus()
 }
 void MagicSword::selfReset()
 {
-    system("pause");
+    //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
         if(dialog->skillGroup[i]->isClicked)

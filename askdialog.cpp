@@ -5,12 +5,15 @@
 using namespace std;
 AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
 {
+    informationKind = 0;
     storeData = paintStruct;
     storeWindow = parent;
     bg = new QPixmap();
     bg->load(":/character/chooseCharacterFrame.png");
     ensure = new PicButton(32,595,479,100,42,false);
     cancel = new PicButton(33,715,479,100,42,true);
+    connect(ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageAskDialog()));
+    connect(cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageAskDialog()));
     connect(ensure,SIGNAL(changeClicked()),this,SLOT(destroyLabel()));
     connect(cancel,SIGNAL(changeClicked()),this,SLOT(destroyLabel()));
     labelOne = new QLabel(parent);
@@ -152,6 +155,13 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 refine[i] = false;
             }
         }
+        if(!refineAllow)
+        {
+            for(int i = 0;i < 5;i++)
+            {
+                refine[i] = false;
+            }
+        }
         refineGroup[0] = new PicButton(38,9 + 328 + 100 + offsetX * 2,257 + offsetY,50,42,refine[0]);
         refineGroup[1] = new PicButton(39,9 + 328 + 100 + 50 + offsetX * 3,257 + offsetY,50,42,refine[1]);
         refineGroup[2] = new PicButton(40,9 + 328 + 100 + 50 * 2 + offsetX * 4,257 + offsetY,100,42,refine[2]);
@@ -162,8 +172,8 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             buyAllow = true;
         }
-        bool buy[3];
-        for(int i = 0;i < 3;i++)
+        bool buy[4];
+        for(int i = 0;i < 4;i++)
         {
             buy[i] = false;
         }
@@ -185,21 +195,38 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             buy[0] = true;
             buy[1] = true;
+            if(storeData->gameCharacter[5]->characterNum == 9)
+            {
+                buy[1] = false;
+            }
         }
         if(stone < 4)
         {
             buy[2] = true;
+            if(storeData->gameCharacter[5]->characterNum == 9)
+            {
+                buy[2] = false;
+                buy[3] = true;
+            }
         }
         if(storeData->gameCharacter[5]->cardLimit - storeData->gameCharacter[5]->cardNum < 3)
         {
-            for(int i = 0;i < 3;i++)
+            for(int i = 0;i < 4;i++)
             {
                 buyGroup[i] = false;
+            }
+        }
+        if(!buyAllow)
+        {
+            for(int i = 0;i < 4;i++)
+            {
+                buy[i] = false;
             }
         }
         buyGroup[0] = new PicButton(43,9 + 328 + 100 + offsetX * 2,257 + offsetY * 2,50,42,buy[0]);
         buyGroup[1] = new PicButton(44,9 + 328 + 100 + 50 + offsetX * 3,257 + offsetY * 2,50,42,buy[1]);
         buyGroup[2] = new PicButton(41,9 + 328 + 100 + 50 * 2 + offsetX * 4,257 + offsetY * 2,100,42,buy[2]);
+        buyGroup[3] = new PicButton(46,9 + 328 + 100 * 2 + 50 * 2 + offsetX * 5,257 + offsetY * 2,100,42,buy[3]);
         bool composeAllow = false;
         if(color)
         {
@@ -273,6 +300,13 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             {
                 connect(attributeGroup[3],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
                 connect(attributeGroup[3],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            }
+        }
+        if(!composeAllow)
+        {
+            for(int i = 0;i < 3;i++)
+            {
+                compose[i] = false;
             }
         }
         composeGroup[0] = new PicButton(43,9 + 328 + 100 + offsetX * 2,257 + offsetY * 3,50,42,compose[0]);
@@ -593,7 +627,7 @@ void AskDialog::paint(QPaintEvent* event, QPainter* painter)
             {
                 refineGroup[i]->paint(event,painter);
             }
-            for(int i = 0;i < 3;i++)
+            for(int i = 0;i < 4;i++)
             {
                 buyGroup[i]->paint(event,painter);
             }
@@ -693,6 +727,7 @@ void AskDialog::activeInit(int characterNum)
         }
         case 16:
         {
+            activateGroup[0] = new PicButton(117,9 + 328 + 100,257,100,42,false);
             break;
         }
         case 20:
@@ -841,6 +876,161 @@ bool AskDialog::canActivate(int skill)
         default:
         {
             return true;
+            break;
+        }
+    }
+}
+void AskDialog::sendMessageSpe()
+{
+    std::vector<int> tempMes;
+    if(cancel->isClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSpeSig(tempMes);
+        return;
+    }
+    else
+    {
+        if(attributeGroup[0]->isClicked)
+        {
+            tempMes.push_back(1);
+            for(int i = 0;i < actNum;i++)
+            {
+                if(activateGroup[i]->isClicked)
+                {
+                    tempMes.push_back(i);
+                    emit sendMessageSpeSig(tempMes);
+                    return;
+                }
+            }
+        }
+        if(attributeGroup[1]->isClicked)
+        {
+            tempMes.push_back(2);
+            if(refineGroup[0]->isClicked)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(0);
+            }
+            if(refineGroup[1]->isClicked)
+            {
+                tempMes.push_back(0);
+                tempMes.push_back(1);
+            }
+            if(refineGroup[2]->isClicked)
+            {
+                tempMes.push_back(2);
+                tempMes.push_back(0);
+            }
+            if(refineGroup[3]->isClicked)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(1);
+            }
+            if(refineGroup[4]->isClicked)
+            {
+                tempMes.push_back(0);
+                tempMes.push_back(2);
+            }
+            emit sendMessageSpeSig(tempMes);
+            return;
+        }
+        if(attributeGroup[2]->isClicked)
+        {
+            tempMes.push_back(3);
+            if(buyGroup[0]->isClicked)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(0);
+            }
+            if(buyGroup[1]->isClicked)
+            {
+                tempMes.push_back(0);
+                tempMes.push_back(1);
+            }
+            if(buyGroup[2]->isClicked)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(1);
+            }
+            emit sendMessageSpeSig(tempMes);
+            return;
+        }
+        if(attributeGroup[3]->isClicked)
+        {
+            tempMes.push_back(4);
+            bool find = false;
+            if(composeGroup[0]->isClicked)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(2);
+                find = true;
+            }
+            if(composeGroup[1]->isClicked)
+            {
+                tempMes.push_back(2);
+                tempMes.push_back(1);
+                find = true;
+            }
+            if(composeGroup[2]->isClicked)
+            {
+                tempMes.push_back(3);
+                tempMes.push_back(0);
+                find = true;
+            }
+            if(!find)
+            {
+                tempMes.push_back(0);
+                tempMes.push_back(3);
+            }
+            emit sendMessageSpeSig(tempMes);
+            return;
+        }
+    }
+}
+void AskDialog::sendMessageWeak()
+{
+    std::vector<int> tempMes;
+    if(ensure->isClicked)
+    {
+        tempMes.push_back(1);
+    }
+    else
+    {
+        tempMes.push_back(0);
+    }
+    emit sendMessageWeakSig(tempMes);
+}
+void AskDialog::sendMessageCure()
+{
+    std::vector<int> tempMes;
+    for(int i = 0;i < 5;i++)
+    {
+        if(number[i]->isClicked)
+        {
+            tempMes.push_back(i);
+            emit sendMessageCureSig(tempMes);
+            return;
+        }
+    }
+}
+void AskDialog::sendMessageAskDialog()
+{
+    switch(informationKind)
+    {
+        case 4:
+        {
+            sendMessageWeak();
+            break;
+        }
+        case 6:
+        {
+            sendMessageSpe();
+            break;
+        }
+        case 12:
+        {
+            sendMessageCure();
             break;
         }
     }

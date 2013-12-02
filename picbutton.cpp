@@ -5,6 +5,7 @@
 PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canBe)
 {
     QString s;
+    kind = buttonKind;
     canBeClicked = canBe;
     s.sprintf(":/button/buttonNotClicked%d.png",buttonKind);
     notClickedMap = new QPixmap();

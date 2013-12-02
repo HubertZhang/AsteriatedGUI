@@ -37,7 +37,16 @@ void ChooseCharacter::paint(QPaintEvent *event, QPainter *painter)
     ensure->paint(event,painter);
     cancel->paint(event,painter);
 }
-//void ChooseCharacter::sendMessage()
-//{
-
-//}
+void ChooseCharacter::sendMessageChoose()
+{
+    std::vector<int> tempMes;
+    for(int i = 0;i < 3;i++)
+    {
+        if(character[i]->isClicked)
+        {
+            tempMes.push_back(character[i]->kind);
+            break;
+        }
+    }
+    emit sendMessageChooseSig(tempMes);
+}

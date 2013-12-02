@@ -17,7 +17,9 @@ public:
     explicit ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *parent = 0);
     void paint(QPaintEvent* event,QPainter* painter);
 signals:
+    void sendMessageChooseSig(std::vector<int>);
 public slots:
+    void sendMessageChoose();
     //void sendMessage();
 };
 

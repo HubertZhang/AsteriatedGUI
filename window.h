@@ -30,6 +30,7 @@
 #include "necromancer.h"
 #include "arbitrationmaid.h"
 #include "priestmaid.h"
+#include "praymaid.h"
 class Window : public QWidget
 {
     Q_OBJECT
@@ -67,6 +68,7 @@ public slots:
     void changeXPhase();
     void changeYPhase();
     void changeZPhase();
+    void sendMessageWindow(std::vector<int>);
 signals:
     void mouseClicked(int x,int y);
 };

@@ -22,7 +22,7 @@ public:
 signals:
 
 public slots:
-
+    void sendMessageSelf();
 };
 
 #endif // SWORDMASTER_H

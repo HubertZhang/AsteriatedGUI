@@ -133,6 +133,12 @@ void Window::messageProcess(std::vector<int> m)
     {
         cardAttack->destroyPic();
     }
+    QString s = "";
+    for(int i = 0;i < 15;i++)
+    {
+        s = s + QString::number(information[i]) + " ";
+    }
+    chatBrowser->append(s);
     switch(information[0])
     {
         case 0:
@@ -176,6 +182,8 @@ void Window::messageProcess(std::vector<int> m)
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[2],SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->cancel,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->ensure,SLOT(isThisClicked(int,int)));
+            connect(chooseCharacter->ensure,SIGNAL(changeClicked()),chooseCharacter,SLOT(sendMessageChoose()));
+            connect(chooseCharacter,SIGNAL(sendMessageChooseSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(chooseCharacter->ensure,SIGNAL(changeClicked()),this,SLOT(changeWPhase()));
             this->phase = 2;
             break;
@@ -204,7 +212,7 @@ void Window::messageProcess(std::vector<int> m)
                 tempOne[i] = information[tempOne[i] + 1];
 
             }
-            paintStruct = new PaintStruct(tempOne,this);
+            paintStruct = new PaintStruct(tempOne,this,paintStructInit[1]);
             for(int i = 0;i < 6;i++)
             {
                 connect(this,SIGNAL(mouseClicked(int,int)),paintStruct->gameCharacter[i]->characterPic,SLOT(isThisClicked(int,int)));
@@ -228,11 +236,15 @@ void Window::messageProcess(std::vector<int> m)
                 case 13:cardAndSkill = new Necromancer(paintStruct,this,this);break;
                 case 14:cardAndSkill = new ArbitrationMaid(paintStruct,this);break;
                 case 15:cardAndSkill = new PriestMaid(paintStruct,this,this);break;
+                case 16:cardAndSkill = new PrayMaid(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->ensure,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->cancel,SLOT(isThisClicked(int,int)));
+            connect(cardAndSkill,SIGNAL(sendMessageDisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+            connect(cardAndSkill,SIGNAL(sendMessageInSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+            connect(cardAndSkill,SIGNAL(sendMessageSelfSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill->cancel,SIGNAL(changeClicked()),this,SLOT(changeXPhase()));
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(send(int,int)));
             //connect(cardAndSkill,SIGNAL(paintAnime(int[15])),this,SLOT(informationSelf(int[15])));
@@ -248,8 +260,10 @@ void Window::messageProcess(std::vector<int> m)
         {
             int info[3] = {0,0,0};
             askDialog = new AskDialog(info,this,paintStruct);
+            askDialog->informationKind = 4;
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
+            connect(askDialog,SIGNAL(sendMessageWeakSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             this->phase = 5;
@@ -284,9 +298,11 @@ void Window::messageProcess(std::vector<int> m)
         case 6:
         {
             int info[3] = {1,0,0};
-            askDialog = new AskDialog(info,this,paintStruct);            
+            askDialog = new AskDialog(info,this,paintStruct);
+            askDialog->informationKind = 6;
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
+            connect(askDialog,SIGNAL(sendMessageSpeSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             this->phase = 5;
@@ -295,6 +311,7 @@ void Window::messageProcess(std::vector<int> m)
         case 7:
         {
             int info[3] = {0,0,0};
+            cardAndSkill->informationKind = 7;
             cardAndSkill->linkReset();
             cardAndSkill->changePaintMode(2,info);
             break;
@@ -303,17 +320,17 @@ void Window::messageProcess(std::vector<int> m)
         {
             if(information[1])
             {
-                paintStruct->gemBlue += information[2];
-                paintStruct->crystalBlue += information[3];
-                paintStruct->grailBlue += information[4];
-                paintStruct->moraleBlue += information[5];
+                paintStruct->gemBlue = information[2];
+                paintStruct->crystalBlue = information[3];
+                paintStruct->grailBlue = information[4];
+                paintStruct->moraleBlue = information[5];
             }
             else
             {
-                paintStruct->gemRed += information[2];
-                paintStruct->crystalRed += information[3];
-                paintStruct->grailRed += information[4];
-                paintStruct->moraleRed += information[5];
+                paintStruct->gemRed = information[2];
+                paintStruct->crystalRed = information[3];
+                paintStruct->grailRed = information[4];
+                paintStruct->moraleRed = information[5];
             }
             break;
         }
@@ -350,6 +367,7 @@ void Window::messageProcess(std::vector<int> m)
             info[1] = information[1];
             int site = ((-information[3] + 5 + paintStructInit[1]) % 6);
             info[2] = site;
+            cardAndSkill->informationKind = 11;
             cardAndSkill->linkReset();
             cardAndSkill->changePaintMode(1,info);
             break;
@@ -358,6 +376,8 @@ void Window::messageProcess(std::vector<int> m)
         {
             int info[3] = {2,information[1],0};
             askDialog = new AskDialog(info,this,paintStruct);
+            askDialog->informationKind = 12;
+            connect(askDialog,SIGNAL(sendMessageCureSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
             this->phase = 5;
@@ -410,6 +430,7 @@ void Window::messageProcess(std::vector<int> m)
         }
         case 17://弃牌函数
         {
+            cardAndSkill->informationKind = 17;
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->discard(information[1]);
@@ -491,4 +512,21 @@ void Window::changeZPhase()
 void Window::mousePressEvent(QMouseEvent *event)
 {
     emit mouseClicked(event->x(),event->y());
+}
+void Window::sendMessageWindow(std::vector<int> messageSend)
+{
+    int information[15];
+    for(int i = 0; i<15; i++)
+    {
+        if(i < messageSend.size()) information[i] = messageSend[i];
+        else information[i] = 0;
+    }
+    QString s = "";
+    for(int i = 0;i < 15;i++)
+    {
+        s = s + QString::number(information[i]) + " ";
+    }
+    chatBrowser->append(s);
+    chatBrowser->append(QString::number(-100));
+    networkSocket.sendMessage(messageSend);
 }

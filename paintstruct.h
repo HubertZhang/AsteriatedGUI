@@ -59,6 +59,7 @@ private:
     CardList* cardList;
 public:
     character* gameCharacter[6];
+    int yourSite;
     int arrowNum;
     int paintArrow;
     int arrowX[6];
@@ -82,7 +83,7 @@ public:
     int getEnergyLimit(int characterNum);
     bool ifActivated(int characterNum);
     void paint(QPaintEvent*,QPainter*);
-    explicit PaintStruct(int information[15],QWidget* parent);
+    explicit PaintStruct(int information[15],QWidget* parent,int yourX);
 };
 
 #endif // PAINTSTRUCT_H

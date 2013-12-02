@@ -15,6 +15,7 @@ public:
     bool canBeClicked;
     int xp;
     int yp;
+    int kind;
     int width;
     int height;
     explicit PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canbe);//buttonKind decide the pic to load

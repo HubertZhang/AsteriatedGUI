@@ -6,6 +6,7 @@
 using namespace std;
 CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent)
 {
+    informationKind = 0;
     cancelClick = false;
     frame = false;
     paintStructX = paintStruct;
@@ -16,6 +17,8 @@ CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent)
     ensure = new PicButton(32,775,559,100,42,false);
     cancel = new PicButton(33,878,559,100,42,false);
     frameLabel = new FrameLabel(windowX);
+    connect(ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
+    connect(cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     connect(this,SIGNAL(resetSignal()),this,SLOT(reset()));
     connect(ensure,SIGNAL(changeClicked()),this,SLOT(cardDis()));
     connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
@@ -306,7 +309,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                     break;
                                 }
                                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                                connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
+                                connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                                 break;
                             }
                         }
@@ -653,4 +656,114 @@ void CardAndSkill::missileAttack()
 void CardAndSkill::priestAct()
 {
 
+}
+void CardAndSkill::sendMessageIn()
+{
+    //system("pause");
+    std::vector<int> tempMes;
+    switch(informationKind)
+    {
+        case 7:
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    if(cardList->getType(card[i]) == attack)
+                    {
+                        //system("pause");
+                        tempMes.push_back(0);
+                    }
+                    else
+                    {
+                        tempMes.push_back(1);
+                        tempMes.push_back(0);
+                    }
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            system("pause");
+                            int site = ((-j + 5 + paintStructX->yourSite) % 6);
+                            tempMes.push_back(site);
+                        }
+                    }
+                    tempMes.push_back(card[i]);
+                    emit sendMessageInSig(tempMes);
+                    return;
+                }
+            }
+            break;
+        }
+        case 11:
+        {
+            system("pause");
+            if(cancel->isClicked)
+            {
+                tempMes.push_back(0);
+                emit sendMessageInSig(tempMes);
+                return;
+            }
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    if(cardList->getName(card[i]) == holyLight)
+                    {
+                        tempMes.push_back(2);
+                        tempMes.push_back(card[i]);
+                        emit sendMessageInSig(tempMes);
+                        return;
+                    }
+                    else
+                    {
+                        system("pause");
+                        tempMes.push_back(1);
+                        for(int j = 0;j < 6;j++)
+                        {
+                            if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                            {
+                                int site = ((-j + 5 + paintStructX->yourSite) % 6);
+                                tempMes.push_back(site);
+                                break;
+                            }
+                        }
+                        tempMes.push_back(card[i]);
+                        emit sendMessageInSig(tempMes);
+                        return;
+                    }
+                }
+            }
+            break;
+        }
+    }
+}
+void CardAndSkill::sendMessageDis()
+{
+    std::vector<int> tempMes;
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardButton[i]->isClicked)
+        {
+            tempMes.push_back(card[i]);
+        }
+    }
+    emit sendMessageDisSig(tempMes);
+    return;
+}
+
+void CardAndSkill::sendMessageSelf()
+{
+
+}
+void CardAndSkill::sendMessageCardAndSkill()
+{
+    if(informationKind == 17)
+    {
+        sendMessageDis();
+    }
+    else
+    {
+        sendMessageSelf();
+    }
 }

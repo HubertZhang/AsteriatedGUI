@@ -26,6 +26,7 @@ public:
     PicButton* cancel;
     int card[15];
     int cardNum;
+    int informationKind;
     explicit CardAndSkill(PaintStruct* paintStruct,QWidget *parent);
     virtual void paint(QPaintEvent*,QPainter*);
     void buttonFixed();
@@ -50,6 +51,9 @@ signals:
     void resetSignal();
     void mouseClick(int x,int y);
     void skillSetSig();
+    void sendMessageInSig(std::vector<int>);
+    void sendMessageSelfSig(std::vector<int>);
+    void sendMessageDisSig(std::vector<int>);
     //void paintAnime(int info[15]);
 public slots:
     void cardClicked(int x,int y);
@@ -63,6 +67,10 @@ public slots:
     virtual void magicSetTwo();
     void discardPlus();
     void discardMinus();
+    void sendMessageIn();
+    void sendMessageDis();
+    void sendMessageCardAndSkill();
+    virtual void sendMessageSelf();
 };
 
 #endif // CARDANDSKILL_H

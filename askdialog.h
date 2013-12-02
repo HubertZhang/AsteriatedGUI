@@ -27,10 +27,11 @@ public:
     PicButton* attributeGroup[4];
     PicButton* activateGroup[2];
     PicButton* refineGroup[5];
-    PicButton* buyGroup[3];
+    PicButton* buyGroup[4];
     PicButton* composeGroup[3];
     PicButton* number[5];
     int actNum;
+    int informationKind;
     int getActivatedNum(int characterNum);
     void activeInit(int characterNum);
     void paint(QPaintEvent*,QPainter*);
@@ -39,9 +40,15 @@ public:
     ~AskDialog();
     int kind[3];
 signals:
-
+    void sendMessageSpeSig(std::vector<int>);
+    void sendMessageWeakSig(std::vector<int>);
+    void sendMessageCureSig(std::vector<int>);
 public slots:
     void destroyLabel();
+    void sendMessageSpe();
+    void sendMessageWeak();
+    void sendMessageCure();
+    void sendMessageAskDialog();
 };
 
 #endif // ASKDIALOG_H

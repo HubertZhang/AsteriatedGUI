@@ -142,3 +142,64 @@ void SwordMaster::dialogReset()
         dialog->skillGroup[i]->isClicked = false;
     }
 }
+void SwordMaster::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 101://烈风技响应阶段
+        {
+            tempMes.push_back(2);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 100://连续技响应阶段
+        case 102://疾风技响应阶段
+        case 103://剑影响应阶段
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+            tempMes.push_back(informationKind - 100 + 1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}

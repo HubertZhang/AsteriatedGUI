@@ -80,7 +80,30 @@ void ArrowMaid::changeSelfMode(int mode)
             //disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
         }
-        case 4:
+        case 4://贯穿射击响应阶段
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardList->getType(card[i]) == magic)
+                {
+                    cardButton[i]->canBeClicked = true;
+                    connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                    connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                }
+            }
+            for(int i = 0;i < cardNum;i++)
+            {
+                for(int j = 0;j < 6;j++)
+                {
+                    if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+                    {
+                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                    }
+                }
+            }
+            break;
+        }
         case 5://精准射击响应阶段
         {
             emit resetSignal();
@@ -195,4 +218,79 @@ void ArrowMaid::skillClear()
     int info[3] = {0,0,0};
     linkReset();
     changePaintMode(2,info);
+}
+void ArrowMaid::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(kiraTrap->isClicked)
+    {
+        informationKind = 200;
+    }
+    if(snipe->isClicked)
+    {
+        informationKind = 201;
+    }
+    switch(informationKind)
+    {
+        case 101://精准射击响应阶段
+        {
+            tempMes.push_back(1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 100://贯穿射击响应阶段
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(2);
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+            tempMes.push_back(1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 201://狙击响应阶段
+        {
+            for(int i = 0;i < 6;i++)
+            {
+                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                {
+                    int site = (-i + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
 }

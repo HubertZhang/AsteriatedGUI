@@ -1,25 +1,20 @@
-#ifndef PRIESTMAID_H
-#define PRIESTMAID_H
+#ifndef PRAYMAID_H
+#define PRAYMAID_H
 
 #include <QWidget>
 #include "cardandskill.h"
 #include "picbutton.h"
 #include "newdialog.h"
-#include "askdialog.h"
-class Window;
-class PriestMaid : public CardAndSkill
+
+class PrayMaid : public CardAndSkill
 {
     Q_OBJECT
 public:
-    explicit PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX);
+    explicit PrayMaid(PaintStruct* paintStruct,QWidget *parent);
     PicButton* magicGroup[4];
     bool ask;
     NewDialog* dialog;
-    AskDialog* sacredContract;
-    bool sacredContractPaint;
-    int magicCount;
-    int cureCount;
-    int sacredZoneCount;
+    int lightCount;
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
@@ -27,7 +22,6 @@ public:
     void dialogSet(bool canX[10]);
     void dialogReset();
     void selfReset();
-    void priestAct();
     //void skillReset();
 signals:
 public slots:
@@ -37,15 +31,8 @@ public slots:
     void magicSetThree();
     void skillset();
     void skillClear();
-    void magicPlus();
-    void magicMinus();
-    void zonePlus();
-    void zoneMinus();
-    void waterPhase();
-    void contractSet();
-    void contractReset();
-    void curePlus();
-    void cureMinus();
+    void lightPlus();
+    void lightMinus();
 };
 
-#endif // PRIESTMAID_H
+#endif // PRAYMAID_H

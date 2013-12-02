@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     adventurer.cpp \
     necromancer.cpp \
     arbitrationmaid.cpp \
-    priestmaid.cpp
+    priestmaid.cpp \
+    praymaid.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -79,7 +80,12 @@ HEADERS  += widget.h \
     adventurer.h \
     necromancer.h \
     arbitrationmaid.h \
-    priestmaid.h
+    priestmaid.h \
+    praymaid.h
 
 RESOURCES += \
     resource/Image.qrc
+
+OTHER_FILES += \
+    InformtionX.txt \
+    InformationNew.txt

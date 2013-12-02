@@ -1,6 +1,6 @@
 #include "priestmaid.h"
 
-PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* deathX) :
+PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX) :
     CardAndSkill(paintStruct,parent)
 {
     ask = false;
@@ -11,7 +11,7 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* deathX) 
     dialog = new NewDialog(windowX);
     dialog->init(15);//神圣启示
     int info[3] = {2,0,0};
-    sacredContract = new AskDialog(info,deathX,paintStruct);
+    sacredContract = new AskDialog(info,sacredX,paintStruct);
     sacredContract->cancel->canBeClicked = false;
     for(int i = 0;i < 5;i++)
     {

@@ -3,8 +3,9 @@
 #include <QPainter>
 #include <cstdlib>
 #include <iostream>
-PaintStruct::PaintStruct(int information[15],QWidget* parent)
+PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
 {
+    yourSite = yourX;
     QString s;
     for(int i = 0;i < 6;i ++)
     {
@@ -35,8 +36,8 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent)
     gameCharacter[5]->xp = 194; gameCharacter[5]->yp = 541;
     for(int i = 0;i < 6;i++)
     {
-        gameCharacter[i]->yellow = 2;
-        gameCharacter[i]->blue = 3;
+        gameCharacter[i]->yellow = 0;
+        gameCharacter[i]->blue = 0;
         gameCharacter[i]->blueExist = getBlue(gameCharacter[i]->characterNum);
         gameCharacter[i]->characterNum = information[i];
         gameCharacter[i]->blueExist = getBlue(gameCharacter[i]->characterNum);
@@ -47,17 +48,14 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent)
         gameCharacter[i]->choosenFrame->load(s);
         gameCharacter[i]->color = information[i+6];
         gameCharacter[i]->crystal = getCrystal(gameCharacter[i]->characterNum);
-        gameCharacter[i]->cure = 3;
+        gameCharacter[i]->cure = 0;
         gameCharacter[i]->cureLimit = getCureLimit(gameCharacter[i]->characterNum);
         gameCharacter[i]->energeLimit = getEnergyLimit(gameCharacter[i]->characterNum);
-        gameCharacter[i]->gem = 1;
-        gameCharacter[i]->statusNum = 3;
-        gameCharacter[i]->status[0] = 76;
-        gameCharacter[i]->status[1] = 129;
-        gameCharacter[i]->status[2] = 106;
+        gameCharacter[i]->gem = 0;
+        gameCharacter[i]->statusNum = 0;
         gameCharacter[i]->activated = false;
         gameCharacter[i]->canBeActivated = ifActivated(gameCharacter[i]->characterNum);
-        gameCharacter[i]->cardNum = 3;
+        gameCharacter[i]->cardNum = 0;
         gameCharacter[i]->cardLimit = 6;
         gameCharacter[i]->blue = getBlue(gameCharacter[i]->characterNum);
         if(gameCharacter[i]->canBeActivated)
@@ -124,14 +122,14 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent)
     arrowY[5] = gameCharacter[5]->yp - 2 - 10 - 36;
     paintArrow = false;
     arrowNum = 0;
-    grailRed = 2;
-    grailBlue = 3;
-    gemRed = 2;
-    gemBlue = 1;
-    crystalRed = 3;
-    crystalBlue = 2;
+    grailRed = 0;
+    grailBlue = 0;
+    gemRed = 0;
+    gemBlue = 0;
+    crystalRed = 0;
+    crystalBlue = 0;
     moraleRed = 15;
-    moraleBlue = 8;
+    moraleBlue = 15;
     gem = new QPixmap();
     crystal = new QPixmap();
     grail = new QPixmap();
