@@ -117,7 +117,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             refine[0] = true;
             refine[1] = true;
-            refine[2] = true;
+            refine[3] = true;
         }
         if(gemExist == 2 && crystalExist == 1)
         {

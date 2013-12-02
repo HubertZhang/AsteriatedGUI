@@ -18,6 +18,7 @@ public:
     void dialogReset();
     void setFrame();
     void selfReset();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 

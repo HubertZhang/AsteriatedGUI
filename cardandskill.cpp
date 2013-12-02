@@ -679,14 +679,20 @@ void CardAndSkill::sendMessageIn()
                         tempMes.push_back(1);
                         tempMes.push_back(0);
                     }
+                    bool missileFind = false;
                     for(int j = 0;j < 6;j++)
                     {
                         if(paintStructX->gameCharacter[j]->characterPic->isClicked)
                         {
-                            system("pause");
+                            missileFind = true;
+                            //system("pause");
                             int site = ((-j + 5 + paintStructX->yourSite) % 6);
                             tempMes.push_back(site);
                         }
+                    }
+                    if(!missileFind)
+                    {
+                        tempMes.push_back(7);
                     }
                     tempMes.push_back(card[i]);
                     emit sendMessageInSig(tempMes);
