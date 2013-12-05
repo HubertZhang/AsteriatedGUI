@@ -199,7 +199,7 @@ void PureMaid::paint(QPaintEvent *event, QPainter *painter)
 {
     if(frame)
     {
-        system("pause");
+        //system("pause");
         pureCureFrame->paint(event,painter);
     }
     for(int i = 0;i < 3;i++)
@@ -323,7 +323,7 @@ void PureMaid::pureCurePlus()
         //system("pause");
         linkReset();
         pureCureFrame->reset();
-        disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+        connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
     }
 }
 void PureMaid::icePoetry()

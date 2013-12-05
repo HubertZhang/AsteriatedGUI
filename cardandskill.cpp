@@ -589,7 +589,7 @@ void CardAndSkill::discardMinus()
         cardButton[i]->canBeClicked = true;
     }
 }
-void CardAndSkill::append(bool appKind)
+void CardAndSkill::append(int appKind)
 {
     int info[3] = {0,0,0};
     informationKind = 7;

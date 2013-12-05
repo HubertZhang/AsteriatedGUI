@@ -41,7 +41,7 @@ public:
     virtual void skillCancel();
     virtual void magicSwordSet();
     void discard(int count);
-    void append(bool);
+    void append(int);
     int discardCount;
     int allCount;
     void missileAttack();
