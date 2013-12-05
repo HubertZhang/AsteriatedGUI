@@ -49,5 +49,14 @@ void ChooseCharacter::sendMessageChoose()
         }
     }
     emit sendMessageChooseSig(tempMes);
-    delete this;
+}
+ChooseCharacter::~ChooseCharacter()
+{
+    delete ensure;
+    delete cancel;
+    delete bg;
+    for(int i = 0;i < 3;i++)
+    {
+        delete character[i];
+    }
 }

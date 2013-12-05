@@ -16,6 +16,7 @@ public:
     QPixmap* choose;
     explicit ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *parent = 0);
     void paint(QPaintEvent* event,QPainter* painter);
+    ~ ChooseCharacter();
 signals:
     void sendMessageChooseSig(std::vector<int>);
 public slots:

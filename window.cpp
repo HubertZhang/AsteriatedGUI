@@ -81,6 +81,7 @@ void Window::paintEvent(QPaintEvent *event)
         }
         case 2:
         {
+            //system("pause");
             starBG->paint(event,painter);
             wColor->paint(event,painter);
             chooseCharacter->paint(event,painter);
@@ -489,6 +490,8 @@ void Window::informationGet()
 }*/
 void Window::changeWPhase()
 {
+    delete chooseCharacter;
+    system("pause");
     phase = 1;
 }
 void Window::changeXPhase()

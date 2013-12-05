@@ -258,7 +258,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             stone = storeData->gemRed;
             fixCrystal = storeData->crystalRed;
         }
-        if(store > 2)
+        if(stone > 2)
         {
             compose[2] = true;
         }
