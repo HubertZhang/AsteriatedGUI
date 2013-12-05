@@ -402,9 +402,14 @@ void PureMaid::sendMessageSelf()
                 }
             }
             tempMes.push_back(messageCount);
-            tempMes.push_back(select[0]);
-            tempMes.push_back(select[1]);
-            tempMes.push_back(select[2]);
+            for(int j = 0;j < 6;j++)
+            {
+                if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                {
+                    int site = (-j + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                }
+            }
             emit sendMessageSelfSig(tempMes);
             return;
         }
@@ -414,14 +419,9 @@ void PureMaid::sendMessageSelf()
             {
                 tempMes.push_back(1);
                 tempMes.push_back(4);
-                for(int j = 0;j < 6;j++)
-                {
-                    if(paintStructX->gameCharacter[j]->characterPic->isClicked)
-                    {
-                        int site = (-j + paintStructX->yourSite + 5) % 6;
-                        tempMes.push_back(site);
-                    }
-                }
+                tempMes.push_back(select[0]);
+                tempMes.push_back(select[1]);
+                tempMes.push_back(select[2]);
                 emit sendMessageSelfSig(tempMes);
                 return;
             }
