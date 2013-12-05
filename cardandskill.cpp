@@ -62,6 +62,8 @@ void CardAndSkill::linkReset()
     if(frame)
     {
         //system("pause");
+        frameLabel->labelOne->hide();
+        frameLabel->labelTwo->hide();
         frame = false;
     }
     skillCancel();
@@ -648,10 +650,13 @@ void CardAndSkill::missileAttack()
         {
             cardButton[i]->canBeClicked = true;
             connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));            
             for(int j = 0;j < cardNum;j++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                if(i != j)
+                {
+                    connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                }
             }
         }
     }
@@ -712,10 +717,8 @@ void CardAndSkill::sendMessageIn()
         }
         case 11:
         {
-            //system("pause");
             if(cancel->isClicked)
             {
-                system("pause");
                 tempMes.push_back(0);
                 emit sendMessageInSig(tempMes);
                 return;

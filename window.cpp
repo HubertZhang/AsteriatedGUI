@@ -491,7 +491,6 @@ void Window::informationGet()
 void Window::changeWPhase()
 {
     delete chooseCharacter;
-    system("pause");
     phase = 1;
 }
 void Window::changeXPhase()

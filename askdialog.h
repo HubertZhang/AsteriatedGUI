@@ -28,7 +28,7 @@ public:
     PicButton* activateGroup[2];
     PicButton* refineGroup[5];
     PicButton* buyGroup[4];
-    PicButton* composeGroup[3];
+    PicButton* composeGroup[4];
     PicButton* number[5];
     int actNum;
     int informationKind;

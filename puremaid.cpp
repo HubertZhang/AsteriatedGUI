@@ -60,9 +60,8 @@ void PureMaid::magicSetTwo()
 {
     linkReset();
     skillset();
-    //system("pause");
     changeSelfMode(7);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->isClicked = true;;
 }
 void PureMaid::changeSelfMode(int mode)
 {
@@ -199,7 +198,6 @@ void PureMaid::paint(QPaintEvent *event, QPainter *painter)
 {
     if(frame)
     {
-        //system("pause");
         pureCureFrame->paint(event,painter);
     }
     for(int i = 0;i < 3;i++)
@@ -320,9 +318,10 @@ void PureMaid::pureCurePlus()
     if(pureCureCount == 3)
     {
         sendMessageCardAndSkill();
+        pureCureFrame->labelOne->hide();
+        pureCureFrame->labelTwo->hide();
         //system("pause");
         linkReset();
-        pureCureFrame->reset();
         connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
     }
 }

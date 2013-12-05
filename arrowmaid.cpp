@@ -72,7 +72,7 @@ void ArrowMaid::changeSelfMode(int mode)
             //system("pause");
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardList->getSkillTwo(card[i]) == 32)
+                if(cardList->getSkillTwo(card[i]) == 31)
                 {
                     cardButton[i]->canBeClicked = true;
                 }
@@ -181,7 +181,7 @@ void ArrowMaid::skillset()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardList->getSkillTwo(card[i]) == 32)
+        if(cardList->getSkillTwo(card[i]) == 31)
         {
             kiraTrap->canBeClicked = true;
         }
@@ -239,6 +239,12 @@ void ArrowMaid::sendMessageSelf()
     std::vector<int> tempMes;
     if(cancel->isClicked && informationKind < 100)
     {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
         return;

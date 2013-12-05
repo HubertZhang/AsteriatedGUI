@@ -242,8 +242,8 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 composeAllow = true;
             }
         }
-        bool compose[3];
-        for(int i = 0;i < 3;i++)
+        bool compose[4];
+        for(int i = 0;i < 4;i++)
         {
             compose[i] = false;
         }
@@ -270,9 +270,13 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             compose[0] = true;
         }
+        if(fixCrystal > 2)
+        {
+            compose[3] = true;
+        }
         if(storeData->gameCharacter[5]->cardLimit - storeData->gameCharacter[5]->cardNum < 3)
         {
-            for(int i = 0;i < 3;i++)
+            for(int i = 0;i < 4;i++)
             {
                 compose[i] = false;
             }
@@ -303,6 +307,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         composeGroup[0] = new PicButton(43,9 + 328 + 100 + offsetX * 2,257 + offsetY * 3,50,42,compose[0]);
         composeGroup[1] = new PicButton(46,9 + 328 + 100 + 50 + offsetX * 3,257 + offsetY * 3,100,42,compose[1]);
         composeGroup[2] = new PicButton(47,9 + 328 + 100 * 2 + 50 + offsetX * 4,257 +offsetY * 3,100,42,compose[2]);
+        composeGroup[3] = new PicButton(44,9 + 328 + 100 * 3 + 50 + offsetX * 5,257 + offsetY * 3,50,42,compose[3]);
         for(int i = 0;i < actNum;i ++)
         {
             connect(activateGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
@@ -313,12 +318,12 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             connect(refineGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
             connect(storeWindow,SIGNAL(mouseClicked(int,int)),refineGroup[i],SLOT(isThisClicked(int,int)));
         }
-        for(int i = 0;i < 3;i++)
+        for(int i = 0;i < 4;i++)
         {
             connect(buyGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
             connect(storeWindow,SIGNAL(mouseClicked(int,int)),buyGroup[i],SLOT(isThisClicked(int,int)));
         }
-        for(int i = 0;i < 3;i++)
+        for(int i = 0;i < 4;i++)
         {
             connect(composeGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
             connect(storeWindow,SIGNAL(mouseClicked(int,int)),composeGroup[i],SLOT(isThisClicked(int,int)));
@@ -336,12 +341,6 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             else
             {
                 stone = storeData->gemRed;
-            }
-            if(stone == 0)
-            {
-                connect(attributeGroup[3],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                system("pause");
-                connect(attributeGroup[3],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
             }
         }
         for(int i = 0; i < 4;i++)
@@ -367,14 +366,14 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                         connect(attributeGroup[i],SIGNAL(changeClicked()),refineGroup[k],SLOT(cancelX()));
                     }
                 }
-                for(int k = 0;k < 3;k++)
+                for(int k = 0;k < 4;k++)
                 {
                     if(i != 2)
                     {
                         connect(attributeGroup[i],SIGNAL(changeClicked()),buyGroup[k],SLOT(cancelX()));
                     }
                 }
-                for(int k = 0;k < 3;k++)
+                for(int k = 0;k < 4;k++)
                 {
                     if(i != 3)
                     {
@@ -409,7 +408,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             {
                 connect(activateGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
             }
-            for(int j = 0;j < 3;j++)
+            for(int j = 0;j < 4;j++)
             {
                 connect(activateGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
                 connect(activateGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
@@ -436,7 +435,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                     connect(refineGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
                 }
             }
-            for(int j = 0;j < 3;j++)
+            for(int j = 0;j < 4;j++)
             {
                 connect(refineGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
                 connect(refineGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
@@ -446,7 +445,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 connect(refineGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
             }
         }
-        for(int i = 0;i < 3;i++)
+        for(int i = 0;i < 4;i++)
         {
             connect(buyGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
             for(int j = 0;j < 4;j++)
@@ -464,7 +463,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             {
                 connect(buyGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
             }
-            for(int j = 0;j < 3;j++)
+            for(int j = 0;j < 4;j++)
             {
                 if(i != j)
                 {
@@ -477,7 +476,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 connect(buyGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
             }
         }
-        for(int i = 0;i < 3;i++)
+        for(int i = 0;i < 4;i++)
         {
             connect(composeGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
             for(int j = 0;j < 4;j++)
@@ -495,7 +494,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             {
                 connect(composeGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
             }
-            for(int j = 0;j < 3;j++)
+            for(int j = 0;j < 4;j++)
             {
                 if(i != j)
                 {
@@ -577,7 +576,7 @@ AskDialog::~AskDialog()
         {
             delete refineGroup[i];
         }
-        for(int i = 0;i < 3;i++)
+        for(int i = 0;i < 4;i++)
         {
             delete buyGroup[i];
             delete composeGroup[i];
@@ -639,7 +638,7 @@ void AskDialog::paint(QPaintEvent* event, QPainter* painter)
             {
                 buyGroup[i]->paint(event,painter);
             }
-            for(int i = 0;i < 3;i++)
+            for(int i = 0;i < 4;i++)
             {
                 composeGroup[i]->paint(event,painter);
             }
@@ -967,26 +966,22 @@ void AskDialog::sendMessageSpe()
         if(attributeGroup[3]->isClicked)
         {
             tempMes.push_back(4);
-            bool find = false;
             if(composeGroup[0]->isClicked)
             {
                 tempMes.push_back(1);
                 tempMes.push_back(2);
-                find = true;
             }
             if(composeGroup[1]->isClicked)
             {
                 tempMes.push_back(2);
                 tempMes.push_back(1);
-                find = true;
             }
             if(composeGroup[2]->isClicked)
             {
                 tempMes.push_back(3);
                 tempMes.push_back(0);
-                find = true;
             }
-            if(!find)
+            if(composeGroup[3]->isClicked)
             {
                 tempMes.push_back(0);
                 tempMes.push_back(3);

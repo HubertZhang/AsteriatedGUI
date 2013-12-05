@@ -125,6 +125,12 @@ void DarkKiller::sendMessageSelf()
     std::vector<int> tempMes;
     if(cancel->isClicked && informationKind < 100)
     {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
         return;
@@ -149,7 +155,6 @@ void DarkKiller::sendMessageSelf()
             }
             if(!messageCount)
             {
-                system("pause");
                 tempMes.push_back(informationKind - 100 + 1);
                 emit sendMessageSelfSig(tempMes);
                 return;

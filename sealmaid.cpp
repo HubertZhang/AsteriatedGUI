@@ -82,7 +82,6 @@ void SealMaid::magicSetTwo()
     linkReset();
     skillset();
     sealBreak->label->hide();
-    //system("pause");
     changeSelfMode(7);
     reminiscenceReset();
     magicGroup[2]->isClicked = true;
@@ -284,6 +283,11 @@ void SealMaid::skillCancel()
         disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(reminiscenceSet()));
         disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(reminiscenceReset()));
     }
+    for(int i = 0;i < 10;i++)
+    {
+        sealBreak->skillGroup[i]->canBeClicked = false;
+        sealBreak->skillGroup[i]->isClicked = false;
+    }
     //system("pause");
 }
 void SealMaid::skillClear()
@@ -351,13 +355,18 @@ void SealMaid::sendMessageSelf()
     {
         if(magicGroup[i]->isClicked)
         {
-            system("pause");
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
     if(cancel->isClicked && informationKind < 100)
     {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
         return;
@@ -372,7 +381,6 @@ void SealMaid::sendMessageSelf()
     {
         case 100://法术激荡响应阶段
         {
-            system("pause");
             tempMes.push_back(1);
             emit sendMessageSelfSig(tempMes);
             return;
@@ -393,7 +401,6 @@ void SealMaid::sendMessageSelf()
                             int site = (-j + paintStructX->yourSite + 5) % 6;
                             tempMes.push_back(site);
                             tempMes.push_back(card[i]);
-                            system("pause");
                             emit sendMessageSelfSig(tempMes);
                             return;
                         }
@@ -423,7 +430,7 @@ void SealMaid::sendMessageSelf()
             tempMes.push_back(4);
             for(int i = 0;i < 10;i++)
             {
-                if(dialog->skillGroup[i]->isClicked)
+                if(sealBreak->skillGroup[i]->isClicked)
                 {
                     int cardAttribute = getCardName(i);
                     for(int j = 0;j < 6;j++)
@@ -434,7 +441,7 @@ void SealMaid::sendMessageSelf()
                             tempMes.push_back(site);
                             for(int k = 0;k < paintStructX->gameCharacter[j]->statusNum;k++)
                             {
-                                if(cardList->getName(paintStructX->gameCharacter[j]->status[k] == cardAttribute) || cardList->getSkillOne(paintStructX->gameCharacter[j]->status[k]) == cardAttribute)
+                                if(cardList->getName(paintStructX->gameCharacter[j]->status[k]) == cardAttribute || cardList->getSkillOne(paintStructX->gameCharacter[j]->status[k]) == cardAttribute)
                                 {
                                     tempMes.push_back(paintStructX->gameCharacter[j]->status[k]);
                                     emit sendMessageSelfSig(tempMes);
