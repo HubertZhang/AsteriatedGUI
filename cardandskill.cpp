@@ -61,8 +61,8 @@ void CardAndSkill::linkReset()
     //system("pause");
     if(frame)
     {
+        //system("pause");
         frame = false;
-        frameLabel->reset();
     }
     skillCancel();
     for(int j = 0;j < 6;j++)
@@ -594,7 +594,8 @@ void CardAndSkill::append(bool appKind)
     int info[3] = {0,0,0};
     informationKind = 7;
     changePaintMode(2,info);
-    if(appKind)
+    cancel->canBeClicked = true;
+    if(appKind == 1)
     {
         for(int i = 0;i < cardNum;i++)
         {
@@ -603,8 +604,9 @@ void CardAndSkill::append(bool appKind)
                 cardButton[i]->canBeClicked = false;
             }
         }
+        skillset();
     }
-    else
+    else if(!appKind)
     {
         for(int i = 0;i < cardNum;i++)
         {
@@ -666,6 +668,12 @@ void CardAndSkill::sendMessageIn()
     {
         case 7:
         {
+            if(cancel->isClicked)
+            {
+                tempMes.push_back(-1);
+                emit sendMessageInSig(tempMes);
+                return;
+            }
             for(int i = 0;i < cardNum;i++)
             {
                 if(cardButton[i]->isClicked)

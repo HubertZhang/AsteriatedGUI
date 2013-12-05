@@ -372,6 +372,7 @@ void SealMaid::sendMessageSelf()
     {
         case 100://法术激荡响应阶段
         {
+            system("pause");
             tempMes.push_back(1);
             emit sendMessageSelfSig(tempMes);
             return;

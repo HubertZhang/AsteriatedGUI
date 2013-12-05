@@ -171,7 +171,7 @@ void PureMaid::changeSelfMode(int mode)
         }
         case 7://圣疗响应阶段
         {
-        //  system("pause");
+            //system("pause");
             cancel->canBeClicked = false;
             for(int i = 0;i < 6;i++)
             {
@@ -199,6 +199,7 @@ void PureMaid::paint(QPaintEvent *event, QPainter *painter)
 {
     if(frame)
     {
+        system("pause");
         pureCureFrame->paint(event,painter);
     }
     for(int i = 0;i < 3;i++)
@@ -226,6 +227,7 @@ void PureMaid::setFrame()
 }*/
 void PureMaid::skillset()
 {
+    //system("pause");
     for(int i = 0;i < cardNum;i++)
     {
         if(cardList->getSkillOne(card[i]) == 61)
@@ -244,6 +246,7 @@ void PureMaid::skillset()
 }
 void PureMaid::skillCancel()
 {
+    //system("pause");
     pureLightCount = 0;
     frame = false;
     pureCureCount = 0;

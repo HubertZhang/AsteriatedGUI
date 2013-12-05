@@ -103,12 +103,12 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             refine[1] = true;
         }
-        if(!crystalExist && gemExist > 2)
+        if(!crystalExist && gemExist > 1)
         {
             refine[0] = true;
             refine[2] = true;
         }
-        if(!gemExist && crystalExist > 2)
+        if(!gemExist && crystalExist > 1)
         {
             refine[1] = true;
             refine[4] = true;
@@ -258,10 +258,12 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         if(stone >= 3)
         {
             compose[2] = true;
+            compose[1] = true;
         }
         if(stone == 2)
         {
             compose[1] = true;
+            compose[0] = true;
         }
         if(stone == 1)
         {
@@ -1009,6 +1011,12 @@ void AskDialog::sendMessageWeak()
 void AskDialog::sendMessageCure()
 {
     std::vector<int> tempMes;
+    if(cancel->isClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageCureSig(tempMes);
+        return;
+    }
     for(int i = 0;i < 5;i++)
     {
         if(number[i]->isClicked)
