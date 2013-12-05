@@ -49,4 +49,5 @@ void ChooseCharacter::sendMessageChoose()
         }
     }
     emit sendMessageChooseSig(tempMes);
+    delete this;
 }

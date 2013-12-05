@@ -113,3 +113,61 @@ void DarkKiller::skillCancel()
         disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
     }
 }
+void DarkKiller::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://水影响应阶段
+        {
+            int messageCount = 0;
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    messageCount ++;
+                }
+            }
+            if(!messageCount)
+            {
+                system("pause");
+                tempMes.push_back(informationKind - 100 + 1);
+                emit sendMessageSelfSig(tempMes);
+                return;
+            }
+            tempMes.push_back(messageCount);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                }
+            }
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}

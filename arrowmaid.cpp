@@ -228,13 +228,6 @@ void ArrowMaid::sendMessageSelf()
             informationKind = 100 + i;
         }
     }
-    std::vector<int> tempMes;
-    if(cancel->isClicked)
-    {
-        tempMes.push_back(0);
-        emit sendMessageSelfSig(tempMes);
-        return;
-    }
     if(kiraTrap->isClicked)
     {
         informationKind = 200;
@@ -243,16 +236,40 @@ void ArrowMaid::sendMessageSelf()
     {
         informationKind = 201;
     }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
     switch(informationKind)
     {
-        case 101://精准射击响应阶段
+        case 100://贯穿射击响应阶段
         {
-            tempMes.push_back(1);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+            tempMes.push_back(informationKind - 100 + 1);
             emit sendMessageSelfSig(tempMes);
             return;
         }
-        case 100://贯穿射击响应阶段
+        case 200://闪光陷阱响应阶段
         {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
             for(int i = 0;i < cardNum;i++)
             {
                 if(cardButton[i]->isClicked)
@@ -262,7 +279,6 @@ void ArrowMaid::sendMessageSelf()
                         if(paintStructX->gameCharacter[j]->characterPic->isClicked)
                         {
                             int site = (-j + paintStructX->yourSite + 5) % 6;
-                            tempMes.push_back(2);
                             tempMes.push_back(site);
                             tempMes.push_back(card[i]);
                             emit sendMessageSelfSig(tempMes);
@@ -271,21 +287,27 @@ void ArrowMaid::sendMessageSelf()
                     }
                 }
             }
-            tempMes.push_back(1);
+        }
+        case 101://精准射击响应阶段
+        {
+            tempMes.push_back(3);
             emit sendMessageSelfSig(tempMes);
             return;
         }
         case 201://狙击响应阶段
         {
-            for(int i = 0;i < 6;i++)
+            tempMes.push_back(1);
+            tempMes.push_back(4);
+            for(int j = 0;j < 6;j++)
             {
-                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                if(paintStructX->gameCharacter[j]->characterPic->isClicked)
                 {
-                    int site = (-i + paintStructX->yourSite + 5) % 6;
+                    int site = (-j + paintStructX->yourSite + 5) % 6;
                     tempMes.push_back(site);
                     emit sendMessageSelfSig(tempMes);
                     return;
                 }
+
             }
         }
         default:

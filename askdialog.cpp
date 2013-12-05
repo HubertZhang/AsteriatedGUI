@@ -103,12 +103,12 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             refine[1] = true;
         }
-        if(!crystalExist && gemExist == 2)
+        if(!crystalExist && gemExist > 2)
         {
             refine[0] = true;
             refine[2] = true;
         }
-        if(!gemExist && crystalExist == 2)
+        if(!gemExist && crystalExist > 2)
         {
             refine[1] = true;
             refine[4] = true;
@@ -119,14 +119,14 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             refine[1] = true;
             refine[3] = true;
         }
-        if(gemExist == 2 && crystalExist == 1)
+        if(gemExist > 1 && crystalExist == 1)
         {
             refine[0] = true;
             refine[1] = true;
             refine[2] = true;
             refine[3] = true;
         }
-        if(gemExist == 1 && crystalExist == 2)
+        if(gemExist == 1 && crystalExist > 1)
         {
             refine[0] = true;
             refine[1] = true;
@@ -255,13 +255,17 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             stone = storeData->gemRed;
         }
-        if(stone > 3)
+        if(stone >= 3)
         {
-            stone = 3;
+            compose[2] = true;
         }
-        for(int i = 0;i < stone;i++)
+        if(stone == 2)
         {
-            compose[i] = true;
+            compose[1] = true;
+        }
+        if(stone == 1)
+        {
+            compose[0] = true;
         }
         if(storeData->gameCharacter[5]->cardLimit - storeData->gameCharacter[5]->cardNum < 3)
         {
@@ -286,22 +290,6 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
             }
         }
         attributeGroup[3] = new PicButton(37,9 + 328 + offsetX,257 + offsetY * 3,100,42,composeAllow);
-        if(stone > 2)
-        {
-            if(color)
-            {
-                stone = storeData->gemBlue;
-            }
-            else
-            {
-                stone = storeData->gemRed;
-            }
-            if(stone == 0)
-            {
-                connect(attributeGroup[3],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(attributeGroup[3],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
-            }
-        }
         if(!composeAllow)
         {
             for(int i = 0;i < 3;i++)
@@ -335,6 +323,23 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         for(int i = 0;i < 4;i++)
         {
             connect(attributeGroup[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
+        }
+        if(stone > 2)
+        {
+            if(color)
+            {
+                stone = storeData->gemBlue;
+            }
+            else
+            {
+                stone = storeData->gemRed;
+            }
+            if(stone == 0)
+            {
+                connect(attributeGroup[3],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                system("pause");
+                connect(attributeGroup[3],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            }
         }
         for(int i = 0; i < 4;i++)
         {
@@ -993,11 +998,11 @@ void AskDialog::sendMessageWeak()
     std::vector<int> tempMes;
     if(ensure->isClicked)
     {
-        tempMes.push_back(1);
+        tempMes.push_back(0);
     }
     else
     {
-        tempMes.push_back(0);
+        tempMes.push_back(1);
     }
     emit sendMessageWeakSig(tempMes);
 }
@@ -1008,7 +1013,7 @@ void AskDialog::sendMessageCure()
     {
         if(number[i]->isClicked)
         {
-            tempMes.push_back(i);
+            tempMes.push_back(i + 1);
             emit sendMessageCureSig(tempMes);
             return;
         }

@@ -445,10 +445,17 @@ void Window::messageProcess(std::vector<int> m)
         }
         case 20://魔蛋响应
         {
+            cardAndSkill->informationKind = 11;
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->missileAttack();
             break;
+        }
+        case 21://圣女的冰霜祷言
+        {
+            cardAndSkill->linkReset();
+            cardAndSkill->dialogReset();
+            cardAndSkill->icePoetry();
         }
     }
 }

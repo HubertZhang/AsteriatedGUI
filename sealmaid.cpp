@@ -145,6 +145,20 @@ void SealMaid::changeSelfMode(int mode)
                 {
                     cardButton[i]->canBeClicked = true;
                 }
+                for(int j = 0;j < 6;j++)
+                {
+                    if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+                    {
+                        for(int k = 0;k < paintStructX->gameCharacter[j]->statusNum;k++)
+                        {
+                            if(cardList->getSkillOne(paintStructX->gameCharacter[j]->status[k]) == cardList->getSkillOne(card[i]))
+                            {
+                                disconnect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                                disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                            }
+                        }
+                    }
+                }
             }
             break;
         }
@@ -323,4 +337,133 @@ void SealMaid::reminiscenceReset()
         sealBreak->skillGroup[i]->canBeClicked = false;
     }
     ensure->canBeClicked = false;
+}
+void SealMaid::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            system("pause");
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://法术激荡响应阶段
+        {
+            tempMes.push_back(1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://元素封印响应阶段
+        {
+        //system("pause");
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            system("pause");
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        case 201://五系束缚响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            for(int j = 0;j < 6;j++)
+            {
+                if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                {
+                    int site = (-j + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+
+        }
+        case 202://封印破碎响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(4);
+            for(int i = 0;i < 10;i++)
+            {
+                if(dialog->skillGroup[i]->isClicked)
+                {
+                    int cardAttribute = getCardName(i);
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            for(int k = 0;k < paintStructX->gameCharacter[j]->statusNum;k++)
+                            {
+                                if(cardList->getName(paintStructX->gameCharacter[j]->status[k] == cardAttribute) || cardList->getSkillOne(paintStructX->gameCharacter[j]->status[k]) == cardAttribute)
+                                {
+                                    tempMes.push_back(paintStructX->gameCharacter[j]->status[k]);
+                                    emit sendMessageSelfSig(tempMes);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}
+int SealMaid::getCardName(int i)
+{
+    switch(i)
+    {
+        case 0:return poison;
+        case 1:return weak;
+        case 2:return shield;
+        case 3:return 41;
+        case 4:return 42;
+        case 5:return 43;
+        case 6:return 44;
+        case 7:return 45;
+        case 8:return 161;
+        case 9:return 162;
+    }
 }

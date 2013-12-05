@@ -46,6 +46,7 @@ public:
     int allCount;
     void missileAttack();
     virtual void priestAct();
+    virtual void icePoetry();
 signals:
     void isClicked(int x,int y);
     void resetSignal();

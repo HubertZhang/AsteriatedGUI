@@ -20,6 +20,9 @@ public:
     int pureLightCount;
     FrameLabel* pureCureFrame;
     bool frame;
+    void icePoetry();
+    void sendMessageSelf();
+    int select[3];
     //void skillReset();
 signals:
 public slots:

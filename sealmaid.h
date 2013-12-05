@@ -22,6 +22,8 @@ public:
     void setFrame();
     void selfReset();
     void skillCancel();
+    int getCardName(int);
+    void sendMessageSelf();
     //void skillReset();
 signals:
 public slots:

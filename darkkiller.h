@@ -21,6 +21,7 @@ public:
     void setFrame();
     void selfReset();
     void skillCancel();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 

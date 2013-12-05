@@ -13,6 +13,10 @@ PureMaid::PureMaid(PaintStruct* paintStruct,QWidget *parent) :
     magicGroup[2] = new PicButton(74,568,559,100,42,false);
     for(int i = 0;i < 3;i++)
     {
+        select[i] = 0;
+    }
+    for(int i = 0;i < 3;i++)
+    {
         connect(this,SIGNAL(mouseClick(int,int)),magicGroup[i],SLOT(isThisClicked(int,int)));
     }
     for(int i = 0;i < 3;i++)
@@ -180,6 +184,15 @@ void PureMaid::changeSelfMode(int mode)
             //system("pause");
             break;
         }
+        case 8://冰霜祷言响应阶段
+        {
+            cancel->canBeClicked  = false;
+            for(int i = 0;i < 6;i++)
+            {
+                paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            }
+            break;
+        }
     }
 }
 void PureMaid::paint(QPaintEvent *event, QPainter *painter)
@@ -291,13 +304,131 @@ void PureMaid::pureCurePlus()
     ensure->canBeClicked = false;
     for(int i = 0;i < 6;i++)
     {
+        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        {
+            int site = (-i + paintStructX->yourSite + 5) % 6;
+            select[pureCureCount - 1] = site;
+        }
+    }
+    for(int i = 0;i < 6;i++)
+    {
         paintStructX->gameCharacter[i]->characterPic->isClicked = false;
     }
     if(pureCureCount == 3)
     {
+        sendMessageCardAndSkill();
         //system("pause");
         linkReset();
         pureCureFrame->reset();
         disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+    }
+}
+void PureMaid::icePoetry()
+{
+    informationKind = 200;
+    changeSelfMode(8);
+}
+void PureMaid::sendMessageSelf()
+{
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 201 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 200://冰霜祷言响应阶段
+        {
+            for(int j = 0;j < 6;j++)
+            {
+                if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                {
+                    int site = (-j + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+        }
+        case 201://治疗术响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        case 202://治愈之光响应阶段
+        {
+            //system("pause");
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            int messageCount = 0;
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                }
+            }
+            for(int j = 0;j < 6;j++)
+            {
+                if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                {
+                    messageCount ++;
+                }
+            }
+            tempMes.push_back(messageCount);
+            tempMes.push_back(select[0]);
+            tempMes.push_back(select[1]);
+            tempMes.push_back(select[2]);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 203://圣疗响应阶段
+        {
+            if(pureCureCount == 3)
+            {
+                tempMes.push_back(1);
+                tempMes.push_back(4);
+                for(int j = 0;j < 6;j++)
+                {
+                    if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                    {
+                        int site = (-j + paintStructX->yourSite + 5) % 6;
+                        tempMes.push_back(site);
+                    }
+                }
+                emit sendMessageSelfSig(tempMes);
+                return;
+            }
+        }
+        default:
+        {
+            sendMessageIn();
+        }
     }
 }

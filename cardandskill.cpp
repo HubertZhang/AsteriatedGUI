@@ -174,7 +174,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                 }
                 else
                 {
-                    if(cardList->getName(card[i]) == cardList->getName(information[1]))
+                    if(cardList->getName(card[i]) == cardList->getName(information[1]) || cardList->getName(card[i]) == darkAttack)
                     {
                         cardButton[i]->canBeClicked = true;
                         connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
@@ -250,7 +250,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                     connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[k]->characterPic,SLOT(cancelX()));
                                 }
                             }
-                            if(paintStructX->gameCharacter[j]->color != paintStructX->gameCharacter[5]->color)
+                            if(paintStructX->gameCharacter[j]->color != paintStructX->gameCharacter[5]->color && !(paintStructX->gameCharacter[j]->characterNum == 5 && paintStructX->gameCharacter[j]->activated))
                             {
                                 connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
                                 connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
@@ -592,6 +592,7 @@ void CardAndSkill::discardMinus()
 void CardAndSkill::append(bool appKind)
 {
     int info[3] = {0,0,0};
+    informationKind = 7;
     changePaintMode(2,info);
     if(appKind)
     {
@@ -607,7 +608,7 @@ void CardAndSkill::append(bool appKind)
     {
         for(int i = 0;i < cardNum;i++)
         {
-            if(cardList->getType(card[i]) == magic)
+            if(cardList->getType(card[i]) == magic && cardList->getName(card[i]) != holyLight)
             {
                 cardButton[i]->canBeClicked = false;
             }
@@ -641,7 +642,7 @@ void CardAndSkill::missileAttack()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardList->getName(card[i]) == missile)
+        if(cardList->getName(card[i]) == missile || cardList->getName(card[i]) == holyLight)
         {
             cardButton[i]->canBeClicked = true;
             connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
@@ -703,9 +704,10 @@ void CardAndSkill::sendMessageIn()
         }
         case 11:
         {
-            system("pause");
+            //system("pause");
             if(cancel->isClicked)
             {
+                system("pause");
                 tempMes.push_back(0);
                 emit sendMessageInSig(tempMes);
                 return;
@@ -723,7 +725,7 @@ void CardAndSkill::sendMessageIn()
                     }
                     else
                     {
-                        system("pause");
+                        //system("pause");
                         tempMes.push_back(1);
                         for(int j = 0;j < 6;j++)
                         {
@@ -772,4 +774,8 @@ void CardAndSkill::sendMessageCardAndSkill()
     {
         sendMessageSelf();
     }
+}
+void CardAndSkill::icePoetry()
+{
+
 }
