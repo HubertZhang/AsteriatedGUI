@@ -371,9 +371,15 @@ void SealMaid::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99)
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
     {
         tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
         return;
     }

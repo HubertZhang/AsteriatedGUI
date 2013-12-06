@@ -627,6 +627,7 @@ void CardAndSkill::magicSwordSet()
 void CardAndSkill::missileAttack()
 {
     cancel->canBeClicked = true;
+    informationKind = 20;
     if(paintStructX->gameCharacter[5]->characterNum == 8)
     {
         for(int i = 0;i < cardNum;i++)
@@ -638,7 +639,10 @@ void CardAndSkill::missileAttack()
                 connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                 for(int j = 0;j < cardNum;j++)
                 {
-                    connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                    if(i != j)
+                    {
+                        connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                    }
                 }
             }
         }
@@ -781,11 +785,62 @@ void CardAndSkill::sendMessageCardAndSkill()
     {
         sendMessageDis();
     }
+    else if(informationKind == 20)
+    {
+        sendMessageMis();
+    }
+    else if(informationKind == 21)
+    {
+        sendMessageIce();
+    }
     else
     {
         sendMessageSelf();
     }
 }
+void CardAndSkill::sendMessageIce()
+{
+    std::vector <int> tempMes;
+    for(int i = 0;i < 6;i++)
+    {
+        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        {
+            int site = (-i + paintStructX->yourSite + 5) % 6;
+            tempMes.push_back(site);
+            emit sendMessageIceSig(tempMes);
+            return;
+        }
+    }
+}
+void CardAndSkill::sendMessageMis()
+{
+    std::vector <int> tempMes;
+    if(cancel->isClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageMisSig(tempMes);
+        return;
+    }
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardButton[i]->isClicked)
+        {
+            if(cardList->getName(card[i]) == holyLight)
+            {
+                tempMes.push_back(2);
+            }
+            else
+            {
+                tempMes.push_back(1);
+            }
+            tempMes.push_back(card[i]);
+            emit sendMessageMisSig(tempMes);
+            return;
+        }
+    }
+
+}
+
 void CardAndSkill::icePoetry()
 {
 

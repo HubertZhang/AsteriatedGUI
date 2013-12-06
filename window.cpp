@@ -246,6 +246,8 @@ void Window::messageProcess(std::vector<int> m)
             connect(cardAndSkill,SIGNAL(sendMessageDisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageInSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageSelfSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+            connect(cardAndSkill,SIGNAL(sendMessageIceSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+            connect(cardAndSkill,SIGNAL(sendMessageMisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill->cancel,SIGNAL(changeClicked()),this,SLOT(changeXPhase()));
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(send(int,int)));
             //connect(cardAndSkill,SIGNAL(paintAnime(int[15])),this,SLOT(informationSelf(int[15])));
@@ -396,7 +398,7 @@ void Window::messageProcess(std::vector<int> m)
             this->phase = 4;
             break;
         }
-        case 14:
+        case 14://SHOULE BE ADD
         {
             int info[3] = {information[1],information[2],0};
             cardAndSkill->linkReset();
@@ -421,6 +423,7 @@ void Window::messageProcess(std::vector<int> m)
             }
             cardAndSkill->dialogSet(canX);
             cardAndSkill->cancel->canBeClicked = true;
+            cardAndSkill->informationKind = 39;//THANK YOU.
             break;
         }
         case 16:
@@ -446,7 +449,6 @@ void Window::messageProcess(std::vector<int> m)
         }
         case 20://魔蛋响应
         {
-            cardAndSkill->informationKind = 11;
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->missileAttack();
@@ -457,6 +459,7 @@ void Window::messageProcess(std::vector<int> m)
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->icePoetry();
+            cardAndSkill->informationKind = 21;
         }
     }
 }

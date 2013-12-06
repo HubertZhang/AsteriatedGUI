@@ -13,14 +13,13 @@ public:
     PicButton* magicGroup[3];
     NewDialog* dialog;
     int stormCount;
-    bool ask;
+    //bool ask;
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
-    void setFrame();
     void skillCancel();
-    void dialogSet(bool canX[10]);
-    void dialogReset();
-    void selfReset();
+    //void dialogSet(bool canX[10]);
+    //void dialogReset();
+    //void selfReset();
     //void skillReset();
 signals:
 public slots:

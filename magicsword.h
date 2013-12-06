@@ -22,6 +22,7 @@ public:
     void dialogReset();
     void selfReset();
     void magicSwordSet();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 public slots:

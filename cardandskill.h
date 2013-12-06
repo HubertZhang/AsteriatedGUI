@@ -55,6 +55,8 @@ signals:
     void sendMessageInSig(std::vector<int>);
     void sendMessageSelfSig(std::vector<int>);
     void sendMessageDisSig(std::vector<int>);
+    void sendMessageMisSig(std::vector<int>);
+    void sendMessageIceSig(std::vector<int>);
     //void paintAnime(int info[15]);
 public slots:
     void cardClicked(int x,int y);
@@ -70,6 +72,8 @@ public slots:
     void discardMinus();
     void sendMessageIn();
     void sendMessageDis();
+    void sendMessageMis();
+    void sendMessageIce();
     void sendMessageCardAndSkill();
     virtual void sendMessageSelf();
 };

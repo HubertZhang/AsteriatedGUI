@@ -245,3 +245,110 @@ void MagicSword::magicSwordSet()
         }
     }
 }
+void MagicSword::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    if(darkMeteor->isClicked)
+    {
+        informationKind = 200;
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://修罗连斩响应阶段
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+            tempMes.push_back(informationKind - 100 + 1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://暗影流星响应阶段
+        {
+            //system("pause");
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            bool findOne = false;
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked && !findOne)
+                {
+                    //system("pause");
+                    findOne = true;
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            i++;
+                            break;
+                        }
+                    }
+                }
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+        }
+        case 101://黑暗震颤响应阶段
+        {
+            tempMes.push_back(3);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}

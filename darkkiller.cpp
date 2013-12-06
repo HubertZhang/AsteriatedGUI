@@ -135,9 +135,15 @@ void DarkKiller::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99)
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
     {
         tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
         return;
     }
@@ -167,6 +173,7 @@ void DarkKiller::sendMessageSelf()
                     tempMes.push_back(card[i]);
                 }
             }
+            tempMes.push_back(1);
             emit sendMessageSelfSig(tempMes);
             return;
         }

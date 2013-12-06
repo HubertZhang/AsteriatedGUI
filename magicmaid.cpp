@@ -3,19 +3,19 @@
 MagicMaid::MagicMaid(PaintStruct* paintStruct,QWidget *parent) :
     CardAndSkill(paintStruct,parent)
 {
-    ask = false;
+    //ask = false;
     stormCount = 0;
-    dialog = new NewDialog(windowX);
-    dialog->init(8);//魔弹融合
+    //dialog = new NewDialog(windowX);
+    //dialog->init(8);//魔弹融合
     magicGroup[0] = new PicButton(80,362,559,100,42,false);
     magicGroup[1] = new PicButton(81,465,559,100,42,false);
     magicGroup[2] = new PicButton(82,568,559,100,42,false);
-    for(int i = 0;i < dialog->skillCount;i++)
+    /*for(int i = 0;i < dialog->skillCount;i++)
     {
         connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
         connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
-    }
+    }*/
     for(int i = 0;i < 3;i++)
     {
         connect(this,SIGNAL(mouseClick(int,int)),magicGroup[i],SLOT(isThisClicked(int,int)));
@@ -121,7 +121,7 @@ void MagicMaid::changeSelfMode(int mode)
             }
             break;
         }
-        case 5://魔弹融合响应阶段
+        /*case 5://魔弹融合响应阶段
         {
             for(int i = 0;i < cardNum;i++)
             {
@@ -142,7 +142,7 @@ void MagicMaid::changeSelfMode(int mode)
             }
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             break;
-        }
+        }*/
         case 6://魔弹融合法术响应阶段
         {
             cancel->canBeClicked = false;
@@ -217,10 +217,10 @@ void MagicMaid::changeSelfMode(int mode)
 }
 void MagicMaid::paint(QPaintEvent *event, QPainter *painter)
 {
-    if(ask)
+    /*if(ask)
     {
         dialog->paint(event,painter);
-    }
+    }*/
     for(int i = 0;i < 3;i++)
     {
         magicGroup[i]->paint(event,painter);
@@ -232,10 +232,10 @@ void MagicMaid::paint(QPaintEvent *event, QPainter *painter)
         cardButton[i]->paint(event,painter);
     }
 }
-void  MagicMaid::setFrame()
+/*void  MagicMaid::setFrame()
 {
     ask = true;
-}
+}*/
 /*void SwordMaster::skillReset()
 {
     cancelClick = false;
@@ -265,7 +265,7 @@ void MagicMaid::skillset()
 void MagicMaid::skillCancel()
 {
     stormCount = 0;
-    ask = false;
+    //ask = false;
     for(int i = 0;i < 6;i++)
     {
         disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(countPlus()));
@@ -314,7 +314,7 @@ void MagicMaid::countMinus()
     ensure->canBeClicked = false;
     stormCount --;
 }
-void MagicMaid::selfReset()
+/*void MagicMaid::selfReset()
 {
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
@@ -339,4 +339,4 @@ void MagicMaid::dialogReset()
 void MagicMaid::dialogSet(bool canX[])
 {
     dialog->set(canX);
-}
+}*/
