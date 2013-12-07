@@ -651,7 +651,7 @@ void CardAndSkill::missileAttack()
     {
         for(int i = 0;i < cardNum;i++)
         {
-            if(cardList->getName(card[i]) == missile || cardList->getNature(card[i]) == fire || cardList->getNature(card[i]) == ground)
+            if(cardList->getName(card[i]) == missile || cardList->getNature(card[i]) == fire || cardList->getNature(card[i]) == ground ||cardList->getName(card[i]) == holyLight)
             {
                 cardButton[i]->canBeClicked = true;
                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
