@@ -248,6 +248,7 @@ void Window::messageProcess(std::vector<int> m)
             connect(cardAndSkill,SIGNAL(sendMessageSelfSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageIceSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageMisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+            connect(cardAndSkill,SIGNAL(sendMessageOneSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill->cancel,SIGNAL(changeClicked()),this,SLOT(changeXPhase()));
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(send(int,int)));
             //connect(cardAndSkill,SIGNAL(paintAnime(int[15])),this,SLOT(informationSelf(int[15])));
@@ -403,6 +404,7 @@ void Window::messageProcess(std::vector<int> m)
             int info[3] = {information[1],information[2],0};
             cardAndSkill->linkReset();
             cardAndSkill->changePaintMode(3,info);
+            cardAndSkill->informationKind = 14;
             break;
         }
         case 15:

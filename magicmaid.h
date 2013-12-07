@@ -11,12 +11,13 @@ class MagicMaid : public CardAndSkill
 public:
     explicit MagicMaid(PaintStruct* paintStruct,QWidget *parent);
     PicButton* magicGroup[3];
-    NewDialog* dialog;
+    //NewDialog* dialog;
     int stormCount;
     //bool ask;
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
+    void sendMessageSelf();
     //void dialogSet(bool canX[10]);
     //void dialogReset();
     //void selfReset();

@@ -340,3 +340,93 @@ void MagicMaid::dialogSet(bool canX[])
 {
     dialog->set(canX);
 }*/
+void MagicMaid::sendMessageSelf()
+{
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 200://魔爆冲击响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(1);
+            for(int i = 0;i < 6;i++)
+            {
+                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                {
+                    int site = (-i + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                }
+            }
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+        }
+        case 201://魔蛋融合响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        case 202://毁灭风暴响应阶段
+        {
+            //system("pause");
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            for(int i = 0;i < 6;i++)
+            {
+                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                {
+                    int site = (-i + paintStructX->yourSite + 5) % 6;
+                    tempMes.push_back(site);
+                }
+            }
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}

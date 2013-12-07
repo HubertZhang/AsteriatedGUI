@@ -307,7 +307,30 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                             {
                                 if(paintStructX->gameCharacter[5]->characterNum == 8)
                                 {
-                                    magicSetTwo();
+                                    int siteCount = 0;
+                                    int left = 0;
+                                    int right = 0;
+                                    int k = 0;
+                                    while(siteCount != 3)
+                                    {
+                                        if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[k]->color)
+                                        {
+                                            if(siteCount == 0)
+                                            {
+                                                left = k;
+                                            }
+                                            if(siteCount == 2)
+                                            {
+                                                right = k;
+                                            }
+                                            siteCount ++;
+                                        }
+                                        k++;
+                                    }
+                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[left]->characterPic,SLOT(recoverClick()));
+                                    connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[left]->characterPic,SLOT(cancelClick()));
+                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[right]->characterPic,SLOT(recoverClick()));
+                                    connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[right]->characterPic,SLOT(cancelClick()));
                                     break;
                                 }
                                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
@@ -317,10 +340,6 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                         }
                     }
                 }
-            }
-            if(paintStructX->gameCharacter[5]->characterNum == 9)
-            {
-                magicSwordSet();
             }
             //system("pause");
             emit skillSetSig();
@@ -335,6 +354,10 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
             if(information[1])
             {
                 cancel->canBeClicked = true;
+            }
+            else
+            {
+                cancel->canBeClicked = false;
             }
             frame = true;
             frameLabel->labelOne->setText(QString::fromUtf8("请弃掉一张牌"));
@@ -551,10 +574,6 @@ void CardAndSkill::setResPara(int para)
 {
 
 }
-void CardAndSkill::magicSetTwo()
-{
-
-}
 void CardAndSkill::discard(int count)
 {
     discardCount = 0;
@@ -687,6 +706,22 @@ void CardAndSkill::sendMessageIn()
             {
                 if(cardButton[i]->isClicked)
                 {
+                    if(paintStructX->gameCharacter[5]->characterNum == 8 && cardList->getName(card[i]) == missile)
+                    {
+                        tempMes.push_back(1);
+                        tempMes.push_back(2);
+                        for(int j = 0;j < 6;j++)
+                        {
+                            if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                            {
+                                int site = (-j + paintStructX->yourSite + 5) % 6;
+                                tempMes.push_back(site);
+                                tempMes.push_back(card[i]);
+                                emit sendMessageInSig(tempMes);
+                                return;
+                            }
+                        }
+                    }
                     if(cardList->getType(card[i]) == attack)
                     {
                         //system("pause");
@@ -793,6 +828,10 @@ void CardAndSkill::sendMessageCardAndSkill()
     {
         sendMessageIce();
     }
+    else if(informationKind == 14)
+    {
+        sendMessageOne();
+    }
     else
     {
         sendMessageSelf();
@@ -835,6 +874,26 @@ void CardAndSkill::sendMessageMis()
             }
             tempMes.push_back(card[i]);
             emit sendMessageMisSig(tempMes);
+            return;
+        }
+    }
+
+}
+void CardAndSkill::sendMessageOne()
+{
+    std::vector <int> tempMes;
+    if(cancel->isClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageOneSig(tempMes);
+        return;
+    }
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardButton[i]->isClicked)
+        {
+            tempMes.push_back(card[i]);
+            emit sendMessageOneSig(tempMes);
             return;
         }
     }
