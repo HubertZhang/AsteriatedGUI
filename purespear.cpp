@@ -9,6 +9,8 @@ PureSpear::PureSpear(PaintStruct* paintStruct,QWidget *parent,Window* groundX) :
     dialog->init(10);//天枪,地枪
     int info[3] = {2,0,0};
     groundSpear = new AskDialog(info,groundX,paintStructX);
+    connect(groundSpear->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
+    connect(groundSpear->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     disconnect(groundSpear->ensure,SIGNAL(changeClicked()),groundSpear,SLOT(destroyLabel()));
     disconnect(groundSpear->cancel,SIGNAL(changeClicked()),groundSpear,SLOT(destroyLabel()));
     connect(groundSpear->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
@@ -137,7 +139,7 @@ void PureSpear::changeSelfMode(int mode)
             cancel->canBeClicked = false;
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardList->getNature(card[i]) == magic)
+                if(cardList->getType(card[i]) == magic)
                 {
                     cardButton[i]->canBeClicked = true;
                 }
@@ -169,6 +171,7 @@ void PureSpear::changeSelfMode(int mode)
         case 7://地枪响应阶段
         {
             spearAsk = true;
+            groundSpear->ensure->canBeClicked = false;
             int cureUse = 4;
             if(cureUse > paintStructX->gameCharacter[5]->cure)
             {
@@ -252,6 +255,12 @@ void PureSpear::skillCancel()
         magicGroup[i]->canBeClicked = false;
         magicGroup[i]->isClicked = false;
     }
+    groundSpear->ensure->isClicked = false;
+    groundSpear->cancel->isClicked = false;
+    for(int i = 0;i < 5;i++)
+    {
+        groundSpear->number[i]->isClicked = false;
+    }
 }
 void PureSpear::skillClear()
 {
@@ -284,4 +293,123 @@ void PureSpear::dialogReset()
 void PureSpear::dialogSet(bool canX[])
 {
     dialog->set(canX);
+}
+void PureSpear::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://天枪响应阶段
+        {
+            tempMes.push_back(3);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 101://地枪响应阶段
+        {
+        //system("pause");
+            if(groundSpear->cancel->isClicked)
+            {
+                tempMes.push_back(-1);
+                emit sendMessageSelfSig(tempMes);
+                return;
+            }
+            for(int i = 0;i < 5;i++)
+            {
+                if(groundSpear->number[i]->isClicked)
+                {
+                    tempMes.push_back(i + 1);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+            tempMes.push_back(4);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://辉耀响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(1);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+           }
+        }
+        case 201://惩戒响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    for(int j = 0;j < 6;j++)
+                    {
+                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        {
+                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            tempMes.push_back(site);
+                            tempMes.push_back(card[i]);
+                            emit sendMessageSelfSig(tempMes);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        case 202://圣光祈愈响应阶段
+        {
+            tempMes.push_back(5);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
 }
