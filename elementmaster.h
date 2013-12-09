@@ -24,5 +24,6 @@ public slots:
     void skillClear();
     void countPlus();
     void countMinus();
+    void sendMessageSelf();
 };
 #endif // ELEMENTMASTER_H

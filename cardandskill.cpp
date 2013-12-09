@@ -1,4 +1,4 @@
-#include "cardandskill.h"
+    #include "cardandskill.h"
 #include <QString>
 #include <QLabel>
 #include <cstdlib>

@@ -260,6 +260,7 @@ void PureSpear::skillCancel()
     for(int i = 0;i < 5;i++)
     {
         groundSpear->number[i]->isClicked = false;
+        groundSpear->number[i]->canBeClicked = false;
     }
 }
 void PureSpear::skillClear()
@@ -403,6 +404,7 @@ void PureSpear::sendMessageSelf()
         }
         case 202://圣光祈愈响应阶段
         {
+            tempMes.push_back(1);
             tempMes.push_back(5);
             emit sendMessageSelfSig(tempMes);
             return;
