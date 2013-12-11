@@ -18,6 +18,7 @@ public:
     void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 public slots:

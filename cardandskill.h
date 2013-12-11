@@ -40,6 +40,9 @@ public:
     virtual void changeSelfMode(int);
     virtual void skillCancel();
     virtual void magicSwordSet();
+    void putCharacter(std::vector<int> &);
+    void putCard(std::vector<int> &);
+    void putCardCount(std::vector<int> &);
     void discard(int count);
     void append(int);
     int discardCount;

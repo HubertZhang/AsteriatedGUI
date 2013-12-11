@@ -252,6 +252,7 @@ void Necromancer::skillCancel()
     for(int i = 0;i < 5;i++)
     {
         deathTouch->number[i]->isClicked = false;
+        deathTouch->number[i]->canBeClicked = false;
     }
     deathTouch->ensure->isClicked = false;
     deathTouch->cancel->isClicked = false;
@@ -368,6 +369,94 @@ void Necromancer::deathReset()
         if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
         {
             paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+        }
+    }
+}
+void Necromancer::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://不朽响应阶段
+        {
+            tempMes.push_back(1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://瘟疫响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 201://死亡之触响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            putCharacter(tempMes);
+            for(int i = 0;i < 5;i++)
+            {
+                if(deathTouch->number[i]->isClicked)
+                {
+                    tempMes.push_back(i + 1);
+                }
+            }
+            putCardCount(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+
+        }
+        case 202://墓碑陨落响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(4);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
         }
     }
 }

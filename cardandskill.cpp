@@ -899,6 +899,39 @@ void CardAndSkill::sendMessageOne()
     }
 
 }
+void CardAndSkill::putCard(std::vector<int> &m)
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardButton[i]->isClicked)
+        {
+            m.push_back(card[i]);
+        }
+    }
+}
+void CardAndSkill::putCharacter(std::vector<int> &m)
+{
+    for(int i = 0;i < 6;i++)
+    {
+        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        {
+            int site = (-i + 5 + paintStructX->yourSite) % 6;
+            m.push_back(site);
+        }
+    }
+}
+void CardAndSkill::putCardCount(std::vector<int> &m)
+{
+    int cardCount = 0;
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(cardButton[i]->isClicked)
+        {
+            cardCount ++;
+        }
+    }
+    m.push_back(cardCount);
+}
 
 void CardAndSkill::icePoetry()
 {

@@ -310,3 +310,92 @@ void Adventurer::cheatReset()
         }
     }
 }
+void Adventurer::sendMessageSelf()
+{
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 200://欺诈响应阶段
+        {
+            tempMes.push_back(0);
+            tempMes.push_back(6);
+            for(int i = 0;i < 6;i++)
+            {
+                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                {
+                    int site = (-i + 5 + paintStructX->yourSite) % 6;
+                    tempMes.push_back(site);
+                }
+            }
+            int cardCount = 0;
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    cardCount ++;
+                }
+            }
+            tempMes.push_back(cardCount);
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardButton[i]->isClicked)
+                {
+                    tempMes.push_back(card[i]);
+                }
+            }
+            for(int i = 0;i < 5;i++)
+            {
+                if(cheat->number[i]->isClicked)
+                {
+                    tempMes.push_back(i);
+                }
+            }
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 202://偷天换日响应阶段
+        case 201://特殊加工响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(informationKind - 200);
+            emit sendMessageSelfSig(tempMes);
+            return;
+
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}

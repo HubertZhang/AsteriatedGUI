@@ -195,7 +195,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         {
             buy[0] = true;
             buy[1] = true;
-            if(storeData->gameCharacter[5]->characterNum == 9)
+            if(storeData->gameCharacter[5]->characterNum == 12)
             {
                 buy[1] = false;
             }
@@ -203,7 +203,7 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         if(stone < 4)
         {
             buy[2] = true;
-            if(storeData->gameCharacter[5]->characterNum == 9)
+            if(storeData->gameCharacter[5]->characterNum == 12)
             {
                 buy[2] = false;
                 buy[3] = true;
@@ -939,6 +939,19 @@ void AskDialog::sendMessageSpe()
                 tempMes.push_back(0);
                 tempMes.push_back(2);
             }
+            if(storeData->gameCharacter[5]->characterNum == 12)
+            {
+                for(int i = 0;i < 6;i++)
+                {
+                    if(storeData->gameCharacter[i]->characterPic->isClicked)
+                    {
+                        int site = (-i + storeData->yourSite + 5) % 6;
+                        tempMes.push_back(site);
+                        emit sendMessageSpeSig(tempMes);
+                        return;
+                    }
+                }
+            }
             emit sendMessageSpeSig(tempMes);
             return;
         }
@@ -959,6 +972,11 @@ void AskDialog::sendMessageSpe()
             {
                 tempMes.push_back(1);
                 tempMes.push_back(1);
+            }
+            if(buyGroup[3]->isClicked)
+            {
+                tempMes.push_back(2);
+                tempMes.push_back(0);
             }
             emit sendMessageSpeSig(tempMes);
             return;
