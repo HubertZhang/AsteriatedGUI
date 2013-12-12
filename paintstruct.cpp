@@ -47,7 +47,8 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
         s.sprintf(":/character/choosenFrame.png");
         gameCharacter[i]->choosenFrame->load(s);
         gameCharacter[i]->color = information[i+6];
-        gameCharacter[i]->crystal = getCrystal(gameCharacter[i]->characterNum);
+        gameCharacter[i]->crystal = 0;
+        //gameCharacter[i]->crystal = getCrystal(gameCharacter[i]->characterNum);
         gameCharacter[i]->cure = 0;
         gameCharacter[i]->cureLimit = getCureLimit(gameCharacter[i]->characterNum);
         gameCharacter[i]->energeLimit = getEnergyLimit(gameCharacter[i]->characterNum);

@@ -143,3 +143,73 @@ void ArbitrationMaid::skillClear()
     linkReset();
     changePaintMode(2,info);
 }
+void ArbitrationMaid::sendMessageSelf()
+{
+    for(int i = 0;i < 3;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 200://末日审判响应阶段
+        {
+            tempMes.push_back(1);
+            putCharacter(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 201://天平1响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 202://天平2响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            emit sendMessageSelfSig(tempMes);
+            return;
+
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
+}
+void ArbitrationMaid::arbitrationEnd()
+{
+    magicSetZero();
+    magicGroup[0]->isClicked = false;
+    cancel->canBeClicked = false;
+}

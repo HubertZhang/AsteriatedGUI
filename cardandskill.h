@@ -50,6 +50,7 @@ public:
     void missileAttack();
     virtual void priestAct();
     virtual void icePoetry();
+    virtual void arbitrationEnd();
 signals:
     void isClicked(int x,int y);
     void resetSignal();

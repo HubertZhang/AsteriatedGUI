@@ -219,6 +219,14 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
         }
         case 2://回合内
         {
+            if(paintStructX->gameCharacter[5]->characterNum == 14)
+            {
+                if(paintStructX->gameCharacter[5]->yellow == 4)
+                {
+                    arbitrationEnd();
+                    return;
+                }
+            }
             for(int i = 0;i < cardNum;i++)
             {
                 for(int j = 0;j < cardNum;j++)
@@ -934,6 +942,10 @@ void CardAndSkill::putCardCount(std::vector<int> &m)
 }
 
 void CardAndSkill::icePoetry()
+{
+
+}
+void CardAndSkill::arbitrationEnd()
 {
 
 }
