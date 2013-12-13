@@ -58,7 +58,6 @@ void CardAndSkill::paint(QPaintEvent* event, QPainter* painter)
 }
 void CardAndSkill::linkReset()
 {
-    //system("pause");
     if(frame)
     {
         //system("pause");
@@ -76,7 +75,6 @@ void CardAndSkill::linkReset()
     ensure->canBeClicked = false;
     cancel->isClicked = false;
     ensure->isClicked = false;
-    //system("pause");
     for(int i = 0;i < cardNum;i++)
     {
         cardButton[i]->canBeClicked = false;
@@ -116,7 +114,6 @@ void CardAndSkill::linkReset()
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(discardPlus()));
         disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(discardMinus()));
     }
-    //system("pause");
 }
 void CardAndSkill::changePaintMode(int mode,int information[3])
 {

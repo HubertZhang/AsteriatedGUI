@@ -36,6 +36,12 @@ void ArbitrationMaid::magicSetZero()
     skillset();
     changeSelfMode(4);
     magicGroup[0]->isClicked = true;
+    if(paintStructX->gameCharacter[5]->yellow == 4)
+    {
+        magicGroup[1]->canBeClicked = false;
+        magicGroup[2]->canBeClicked = false;
+        cancel->canBeClicked = false;
+    }
 }
 void ArbitrationMaid::magicSetOne()
 {
@@ -182,6 +188,7 @@ void ArbitrationMaid::sendMessageSelf()
         case 200://末日审判响应阶段
         {
             tempMes.push_back(1);
+            tempMes.push_back(1);
             putCharacter(tempMes);
             emit sendMessageSelfSig(tempMes);
             return;
@@ -190,6 +197,7 @@ void ArbitrationMaid::sendMessageSelf()
         {
             tempMes.push_back(1);
             tempMes.push_back(2);
+            discardAll();
             emit sendMessageSelfSig(tempMes);
             return;
         }
@@ -211,5 +219,15 @@ void ArbitrationMaid::arbitrationEnd()
 {
     magicSetZero();
     magicGroup[0]->isClicked = false;
+    magicGroup[1]->canBeClicked = false;
+    magicGroup[2]->canBeClicked = false;
     cancel->canBeClicked = false;
+}
+void ArbitrationMaid::discardAll()
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        delete cardButton[i];
+    }
+    cardNum = 0;
 }

@@ -325,7 +325,7 @@ void PrayMaid::lightPlus()
                 cardButton[i]->canBeClicked = false;
             }
         }
-        for(int i = 0;i < 6;i++)
+        for(int i = 0;i < 5;i++)
         {
             if(paintStructX->gameCharacter[i]->color == paintStructX->gameCharacter[5]->color)
             {
@@ -382,4 +382,96 @@ void PrayMaid::dialogReset()
 void PrayMaid::dialogSet(bool canX[])
 {
     dialog->set(canX);
+}
+void PrayMaid::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://法力潮汐响应阶段
+        {
+            tempMes.push_back(5);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://光辉响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(1);
+            putCharacter(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 201://漆黑信仰响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            putCharacter(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+
+        }
+        case 202://威力赐福响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(3);
+            putCharacter(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 203://迅捷赐福响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(4);
+            putCharacter(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
 }

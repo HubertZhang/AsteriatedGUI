@@ -10,6 +10,14 @@ Adventurer::Adventurer(PaintStruct* paintStruct,QWidget *parent,Window* advenX) 
     cheat = new AskDialog(info,advenX,paintStruct);
     for(int i = 0;i < 5;i++)
     {
+        cheat->number[i]->isClicked = false;
+    }
+    cheat->ensure->canBeClicked = false;
+    cheat->cancel->canBeClicked = false;
+    cheat->ensure->isClicked = false;
+    cheat->cancel->isClicked = false;
+    for(int i = 0;i < 5;i++)
+    {
         disconnect(cheat->number[i],SIGNAL(changeClicked()),cheat->ensure,SLOT(recoverClick()));
         connect(cheat->number[i],SIGNAL(changeClicked()),this,SLOT(cheatSet()));
         connect(cheat->number[i],SIGNAL(notClicked()),this,SLOT(cheatReset()));
@@ -195,6 +203,8 @@ void Adventurer::skillCancel()
     {
         cheat->number[i]->isClicked = false;
     }
+    cheat->ensure->canBeClicked = false;
+    cheat->cancel->canBeClicked = false;
     cheat->ensure->isClicked = false;
     cheat->cancel->isClicked = false;
     cheatPaint = false;

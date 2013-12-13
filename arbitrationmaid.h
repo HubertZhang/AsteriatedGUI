@@ -15,6 +15,7 @@ public:
     void skillCancel();
     void sendMessageSelf();
     void arbitrationEnd();
+    void discardAll();
     //void skillReset();
 signals:
 public slots:

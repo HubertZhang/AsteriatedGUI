@@ -9,7 +9,6 @@
 #include "cardList.h"
 #include "card.h"
 #include "framelabel.h"
-
 class CardAndSkill : public QWidget
 {
     Q_OBJECT

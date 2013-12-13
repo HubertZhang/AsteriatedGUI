@@ -304,6 +304,7 @@ void Window::messageProcess(std::vector<int> m)
             int info[3] = {1,0,0};
             askDialog = new AskDialog(info,this,paintStruct);
             askDialog->informationKind = 6;
+            //cardAndSkill->linkReset();
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
             connect(askDialog,SIGNAL(sendMessageSpeSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
@@ -440,6 +441,43 @@ void Window::messageProcess(std::vector<int> m)
             cardAndSkill->linkReset();
             cardAndSkill->dialogReset();
             cardAndSkill->discard(information[1]);
+            break;
+        }
+        case 18://特殊对话框
+        {
+            switch(information[1])
+            {
+                case 4:
+                {
+                    int info[3] = {0,0,0};
+                    askDialog = new AskDialog(info,this,paintStruct);
+                    askDialog->labelOne->setText("威力赐福");
+                    askDialog->labelTwo->setText("");
+                    askDialog->informationKind = 4;
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
+                    connect(askDialog,SIGNAL(sendMessageWeakSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+                    connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    this->phase = 5;
+                    break;
+                }
+                case 5:
+                {
+                    int info[3] = {0,0,0};
+                    askDialog = new AskDialog(info,this,paintStruct);
+                    askDialog->labelOne->setText("迅捷赐福");
+                    askDialog->labelTwo->setText("");
+                    askDialog->informationKind = 4;
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
+                    connect(askDialog,SIGNAL(sendMessageWeakSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+                    connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    this->phase = 5;
+                    break;
+                }
+            }
             break;
         }
         case 19://增加一次行动

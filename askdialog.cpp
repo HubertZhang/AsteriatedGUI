@@ -27,6 +27,23 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
     font->setBold(true);
     palette = new QPalette();
     palette->setColor(QPalette::WindowText,Qt::yellow);
+    if(kind[0] == 0)
+    {
+        ensure->canBeClicked = true;
+        QString* s = new QString(QString::fromUtf8("询问虚弱: 确定跳过回合,"));
+        labelOne->setText(*s);
+        labelOne->setFont(*font);
+        labelOne->setPalette(*palette);
+        labelOne->move(328 + 25,247 + 20);
+        labelOne->show();
+        s = new QString(QString::fromUtf8("取消接三张牌."));
+        labelTwo->setText(*s);
+        labelTwo->setFont(*font);
+        labelTwo->setPalette(*palette);
+        labelTwo->move(328 + 25,247 + 60);
+        labelTwo->show();
+        delete s;
+    }
     if(kind[0] == 1)
     {
         ensure->canBeClicked = false;
@@ -594,7 +611,6 @@ AskDialog::~AskDialog()
         }
     }
 }
-
 void AskDialog::paint(QPaintEvent* event, QPainter* painter)
 {
     painter->drawPixmap(328,247,bg->width(),bg->height(),*bg);
@@ -604,21 +620,7 @@ void AskDialog::paint(QPaintEvent* event, QPainter* painter)
     {
         case 0:
         {
-            ensure->canBeClicked = true;
-            QString* s = new QString(QString::fromUtf8("询问虚弱: 确定跳过回合,"));
-            labelOne->setText(*s);
-            labelOne->setFont(*font);
-            labelOne->setPalette(*palette);
-            labelOne->move(328 + 25,247 + 20);
-            labelOne->show();
-            s = new QString(QString::fromUtf8("取消接三张牌."));
-            labelTwo->setText(*s);
-            labelTwo->setFont(*font);
-            labelTwo->setPalette(*palette);
-            labelTwo->move(328 + 25,247 + 60);
-            labelTwo->show();
-            delete s;
-            break;
+             break;
         }
         case 1:
         {

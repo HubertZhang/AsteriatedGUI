@@ -9,6 +9,15 @@ PureSpear::PureSpear(PaintStruct* paintStruct,QWidget *parent,Window* groundX) :
     dialog->init(10);//天枪,地枪
     int info[3] = {2,0,0};
     groundSpear = new AskDialog(info,groundX,paintStructX);
+    groundSpear->ensure->canBeClicked = false;
+    groundSpear->cancel->canBeClicked = false;
+    groundSpear->ensure->isClicked = false;
+    groundSpear->cancel->isClicked = false;
+    for(int i = 0;i < 5;i++)
+    {
+        groundSpear->number[i]->isClicked = false;
+        groundSpear->number[i]->canBeClicked = false;
+    }
     connect(groundSpear->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     connect(groundSpear->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     disconnect(groundSpear->ensure,SIGNAL(changeClicked()),groundSpear,SLOT(destroyLabel()));
@@ -255,6 +264,8 @@ void PureSpear::skillCancel()
         magicGroup[i]->canBeClicked = false;
         magicGroup[i]->isClicked = false;
     }
+    groundSpear->ensure->canBeClicked = false;
+    groundSpear->cancel->canBeClicked = false;
     groundSpear->ensure->isClicked = false;
     groundSpear->cancel->isClicked = false;
     for(int i = 0;i < 5;i++)

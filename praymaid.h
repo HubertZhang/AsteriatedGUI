@@ -22,6 +22,7 @@ public:
     void dialogSet(bool canX[10]);
     void dialogReset();
     void selfReset();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 public slots:
