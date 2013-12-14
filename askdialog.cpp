@@ -578,6 +578,13 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
                 }
             }
         }
+        if(paintStruct->gameCharacter[5]->characterNum == 15)
+        {
+            for(int i = 1;i < 5;i++)
+            {
+                number[i]->canBeClicked = false;
+            }
+        }
     }
     //font->setPointSize();
 }
