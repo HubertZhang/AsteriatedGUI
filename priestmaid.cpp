@@ -12,6 +12,14 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX)
     dialog->init(15);//神圣启示
     int info[3] = {2,0,0};
     sacredContract = new AskDialog(info,sacredX,paintStruct);
+    for(int i = 0;i < 5;i++)
+    {
+        sacredContract->number[i]->isClicked = false;
+        sacredContract->number[i]->canBeClicked = false;
+    }
+    sacredContract->ensure->isClicked = false;
+    sacredContract->ensure->canBeClicked = false;
+    sacredContract->cancel->isClicked = false;
     sacredContract->cancel->canBeClicked = false;
     for(int i = 0;i < 5;i++)
     {
@@ -396,9 +404,15 @@ void PriestMaid::skillCancel()
     sacredZoneCount = 0;
     cureCount = 0;
     magicCount = 0;
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        dialog->skillGroup[i]->canBeClicked = false;
+        dialog->skillGroup[i]->isClicked = false;
+    }
     for(int i = 0;i < 5;i++)
     {
         sacredContract->number[i]->isClicked = false;
+        sacredContract->number[i]->canBeClicked = false;
     }
     sacredContract->ensure->isClicked = false;
     sacredContract->ensure->canBeClicked = false;
@@ -618,6 +632,7 @@ void PriestMaid::contractReset()
 }
 void PriestMaid::priestAct()
 {
+    system("pause");
     linkReset();
     skillset();
     changeSelfMode(7);

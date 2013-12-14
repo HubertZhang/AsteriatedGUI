@@ -546,7 +546,7 @@ void Window::changeYPhase()
 }
 void Window::changeZPhase()
 {
-    if(paintStruct->gameCharacter[5]->characterNum == 15)
+    if(paintStruct->gameCharacter[5]->characterNum == 15 && askDialog->kind[0] == 1)
     {
         if(askDialog->activateGroup[0]->isClicked)
         {
