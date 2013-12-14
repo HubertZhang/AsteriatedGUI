@@ -28,6 +28,7 @@ public:
     void dialogReset();
     void selfReset();
     void priestAct();
+    void sendMessageSelf();
     //void skillReset();
 signals:
 public slots:

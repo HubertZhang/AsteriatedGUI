@@ -232,7 +232,7 @@ void PrayMaid::changeSelfMode(int mode)
         case 8://法力潮汐响应阶段
         {
             cancel->canBeClicked = true;
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
             emit resetSignal();
             break;
         }

@@ -558,6 +558,17 @@ void Window::changeZPhase()
         paintStruct->gameCharacter[i]->characterPic->isClicked = false;
         paintStruct->gameCharacter[i]->characterPic->canBeClicked = false;
     }
+    if(paintStruct->gameCharacter[5]->characterNum == 12)
+    {
+        for(int i = 0;i < 6;i++)
+        {
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),askDialog,SLOT(adventureRefine()));
+            for(int j = 0;j < 6;j++)
+            {
+                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+            }
+        }
+    }
     delete askDialog;
     phase = 4;
 }

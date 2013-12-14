@@ -526,26 +526,24 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
         }
         if(paintStruct->gameCharacter[5]->characterNum == 12)
         {
+            attributeGroup[1]->canBeClicked = false;
             for(int i = 0;i < 5;i++)
             {
-                disconnect(refineGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                disconnect(refineGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
-                for(int j = 0;j < 6;j++)
+                refineGroup[i]->canBeClicked = false;
+            }
+            for(int j = 0;j < 6;j++)
+            {
+                if(paintStruct->gameCharacter[j]->color == paintStruct->gameCharacter[5]->color)
                 {
-                    if(paintStruct->gameCharacter[j]->color == paintStruct->gameCharacter[5]->color)
+                    paintStruct->gameCharacter[j]->characterPic->canBeClicked = true;
+                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),this,SLOT(adventureRefine()));
+                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),this,SLOT(adventureReset()));
+                }
+                for(int k = 0;k < 6;k++)
+                {
+                    if(j != k)
                     {
-                        connect(refineGroup[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        connect(refineGroup[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
-                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
-                        for(int k = 0;k < 6;k++)
-                        {
-                            if(j == k)
-                            {
-                                continue;
-                            }
-                            connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
-                        }
+                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
                     }
                 }
             }
@@ -1063,4 +1061,129 @@ void AskDialog::sendMessageAskDialog()
             break;
         }
     }
+}
+void AskDialog::adventureRefine()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        if(storeData->gameCharacter[i]->characterPic->isClicked)
+        {
+            bool adRefine[5];
+            bool refineAllow = false;
+            int color = storeData->gameCharacter[5]->color;
+            int stone = 0;
+            if(color)
+            {
+                stone = storeData->crystalBlue + storeData->gemBlue;
+            }
+            else
+            {
+                stone = storeData->crystalRed + storeData->gemRed;
+            }
+            if(stone && (storeData->gameCharacter[i]->gem + storeData->gameCharacter[i]->crystal != storeData->gameCharacter[i]->energeLimit))
+            {
+                refineAllow = true;
+                attributeGroup[1]->canBeClicked = refineAllow;
+            }
+            int crystalExist = 0;
+            int gemExist = 0;
+            if(color)
+            {
+                crystalExist = storeData->crystalBlue;
+                gemExist = storeData->gemBlue;
+            }
+            else
+            {
+                crystalExist = storeData->crystalRed;
+                gemExist = storeData->gemRed;
+            }
+            for(int j = 0;j < 5;j++)
+            {
+                adRefine[j] = false;
+            }
+            if(!crystalExist && !gemExist)
+            {
+            }
+            if(!crystalExist && gemExist == 1)
+            {
+                adRefine[0] = true;
+            }
+            if(!gemExist && crystalExist == 1)
+            {
+                adRefine[1] = true;
+            }
+            if(!crystalExist && gemExist > 1)
+            {
+                adRefine[0] = true;
+                adRefine[2] = true;
+            }
+            if(!gemExist && crystalExist > 1)
+            {
+                adRefine[1] = true;
+                adRefine[4] = true;
+            }
+            if(gemExist == 1 && crystalExist == 1)
+            {
+                adRefine[0] = true;
+                adRefine[1] = true;
+                adRefine[3] = true;
+            }
+            if(gemExist > 1 && crystalExist == 1)
+            {
+                adRefine[0] = true;
+                adRefine[1] = true;
+                adRefine[2] = true;
+                adRefine[3] = true;
+            }
+            if(gemExist == 1 && crystalExist > 1)
+            {
+                adRefine[0] = true;
+                adRefine[1] = true;
+                adRefine[3] = true;
+                adRefine[4] = true;
+            }
+            if(gemExist > 1 && crystalExist > 1)
+            {
+                for(int j = 0;j < 5;j++)
+                {
+                    adRefine[j] = true;
+                }
+            }
+            stone = storeData->gameCharacter[i]->crystal + storeData->gameCharacter[i]->gem;
+            if(storeData->gameCharacter[i]->energeLimit == stone)
+            {
+                for(int j = 0;j < 5;j++)
+                {
+                    adRefine[j] = false;
+                }
+            }
+            if(storeData->gameCharacter[5]->energeLimit == stone + 1)
+            {
+                for(int j = 2;j < 5;j++)
+                {
+                    adRefine[j] = false;
+                }
+            }
+            if(!refineAllow)
+            {
+                for(int j = 0;j < 5;j++)
+                {
+                    adRefine[j] = false;
+                }
+            }
+            for(int j = 0;j < 5;j++)
+            {
+                refineGroup[j]->canBeClicked = adRefine[j];
+            }
+            break;
+        }
+    }
+}
+void AskDialog::adventureReset()
+{
+    for(int i = 0;i < 5;i++)
+    {
+        refineGroup[i]->canBeClicked = false;
+    }
+    attributeGroup[1]->canBeClicked = false;
 }

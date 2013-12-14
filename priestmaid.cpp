@@ -186,6 +186,7 @@ void PriestMaid::changeSelfMode(int mode)
         }
         case 7://神圣契约响应阶段
         {
+            informationKind = 300;
             for(int i = 0;i < 4;i++)
             {
                 magicGroup[i]->canBeClicked = false;
@@ -400,7 +401,9 @@ void PriestMaid::skillCancel()
         sacredContract->number[i]->isClicked = false;
     }
     sacredContract->ensure->isClicked = false;
+    sacredContract->ensure->canBeClicked = false;
     sacredContract->cancel->isClicked = false;
+    sacredContract->cancel->canBeClicked = false;
     for(int i = 0;i < cardNum;i++)
     {
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(curePlus()));
@@ -618,4 +621,106 @@ void PriestMaid::priestAct()
     linkReset();
     skillset();
     changeSelfMode(7);
+}
+void PriestMaid::sendMessageSelf()
+{
+    for(int i = 0;i < dialog->skillCount;i++)
+    {
+        if(dialog->skillGroup[i]->isClicked)
+        {
+            informationKind = 100 + i;
+        }
+    }
+    for(int i = 0;i < 4;i++)
+    {
+        if(magicGroup[i]->isClicked)
+        {
+            informationKind = 200 + i;
+        }
+    }
+    std::vector<int> tempMes;
+    if(cancel->isClicked && informationKind < 100)
+    {
+        if(informationKind == 7)
+        {
+            tempMes.push_back(-1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    {
+        tempMes.push_back(-1);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    {
+        tempMes.push_back(0);
+        emit sendMessageSelfSig(tempMes);
+        return;
+    }
+    switch(informationKind)
+    {
+        case 100://神圣启示响应阶段
+        {
+            tempMes.push_back(1);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 200://神圣祈福响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(2);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 201://水之神力响应阶段
+        {
+            tempMes.push_back(1);
+            if(magicGroup[1]->canBeClicked)//一阶段
+            {
+                tempMes.push_back(3);
+            }
+            else//二阶段
+            {
+                tempMes.push_back(4);
+                putCharacter(tempMes);
+            }
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 202://神圣领域（1）响应阶段
+        case 203://神圣领域（2）响应阶段
+        {
+            tempMes.push_back(1);
+            tempMes.push_back(informationKind - 197);
+            putCharacter(tempMes);
+            putCard(tempMes);
+            emit sendMessageSelfSig(tempMes);
+            return;
+        }
+        case 300://神圣契约响应阶段
+        {
+            putCharacter(tempMes);
+            for(int i = 0;i < 5;i++)
+            {
+                if(sacredContract->number[i]->isClicked)
+                {
+                    tempMes.push_back(i + 1);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
+        }
+        default:
+        {
+            sendMessageIn();
+        }
+    }
 }

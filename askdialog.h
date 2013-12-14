@@ -49,6 +49,8 @@ public slots:
     void sendMessageWeak();
     void sendMessageCure();
     void sendMessageAskDialog();
+    void adventureRefine();
+    void adventureReset();
 };
 
 #endif // ASKDIALOG_H

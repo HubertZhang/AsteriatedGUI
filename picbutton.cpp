@@ -69,7 +69,6 @@ void PicButton::isThisClicked(int x,int y)
             if(y > yp && y < (yp + height))
             {
                 isClicked = !isClicked;
-                //system("pause");
                 if(isClicked)
                 {
                     emit changeClicked();
