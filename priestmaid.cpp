@@ -199,7 +199,7 @@ void PriestMaid::changeSelfMode(int mode)
             {
                 magicGroup[i]->canBeClicked = false;
             }
-            for(int i = 0;i < paintStructX->gameCharacter[5]->cure;i++)
+            for(int i = 0;i < paintStructX->gameCharacter[5]->cure && i < 5;i++)
             {
                 sacredContract->number[i]->canBeClicked = true;
             }
@@ -418,6 +418,7 @@ void PriestMaid::skillCancel()
     sacredContract->ensure->canBeClicked = false;
     sacredContract->cancel->isClicked = false;
     sacredContract->cancel->canBeClicked = false;
+    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(waterPhase()));
     for(int i = 0;i < cardNum;i++)
     {
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(curePlus()));
@@ -632,7 +633,6 @@ void PriestMaid::contractReset()
 }
 void PriestMaid::priestAct()
 {
-    system("pause");
     linkReset();
     skillset();
     changeSelfMode(7);
