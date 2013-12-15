@@ -41,6 +41,7 @@ public:
     virtual void magicSwordSet();
     void putCharacter(std::vector<int> &);
     void putCard(std::vector<int> &);
+    void putCharacterCount(std::vector<int> &);
     void putCardCount(std::vector<int> &);
     void discard(int count);
     void append(int);

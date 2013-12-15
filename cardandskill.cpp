@@ -937,7 +937,18 @@ void CardAndSkill::putCardCount(std::vector<int> &m)
     }
     m.push_back(cardCount);
 }
-
+void CardAndSkill::putCharacterCount(std::vector<int> &m)
+{
+    int characterCount = 0;
+    for(int i = 0;i < 6;i++)
+    {
+        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        {
+            characterCount ++;
+        }
+    }
+    m.push_back(characterCount);
+}
 void CardAndSkill::icePoetry()
 {
 

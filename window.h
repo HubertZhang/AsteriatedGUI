@@ -31,6 +31,7 @@
 #include "arbitrationmaid.h"
 #include "priestmaid.h"
 #include "praymaid.h"
+#include "kamishirasawakeine.h"
 class Window : public QWidget
 {
     Q_OBJECT

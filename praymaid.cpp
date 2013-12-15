@@ -7,7 +7,6 @@ PrayMaid::PrayMaid(PaintStruct* paintStruct,QWidget *parent) :
     lightCount = 0;
     dialog = new NewDialog(windowX);
     dialog->init(16);//法力潮汐
-
     magicGroup[0] = new PicButton(113,362,559,100,42,false);
     magicGroup[1] = new PicButton(114,465,559,100,42,false);
     magicGroup[2] = new PicButton(115,568,559,100,42,false);
