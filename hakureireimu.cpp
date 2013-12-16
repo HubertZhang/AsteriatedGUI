@@ -666,6 +666,7 @@ void HakureiReimu::fireChoose()
 void HakureiReimu::fireNotChoose()
 {
     showRecord = false;
+    showFirePaint = false;
     showFire->ensure->canBeClicked = false;
     showFire->cancel->canBeClicked = false;
     showFire->labelOne->hide();
