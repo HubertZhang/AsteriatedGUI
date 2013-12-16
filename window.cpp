@@ -239,6 +239,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 15:cardAndSkill = new PriestMaid(paintStruct,this,this);break;
                 case 16:cardAndSkill = new PrayMaid(paintStruct,this);break;
                 case 17:cardAndSkill = new KamishirasawaKeine(paintStruct,this);break;
+                case 18:cardAndSkill = new HakureiReimu(paintStruct,this,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
