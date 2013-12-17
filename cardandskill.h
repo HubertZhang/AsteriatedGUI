@@ -51,6 +51,7 @@ public:
     virtual void priestAct();
     virtual void icePoetry();
     virtual void arbitrationEnd();
+    virtual void lastAttackSet(int);
 signals:
     void isClicked(int x,int y);
     void resetSignal();

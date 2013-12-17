@@ -33,6 +33,7 @@
 #include "praymaid.h"
 #include "kamishirasawakeine.h"
 #include "hakureireimu.h"
+#include "swordking.h"
 class Window : public QWidget
 {
     Q_OBJECT

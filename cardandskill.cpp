@@ -746,6 +746,7 @@ void CardAndSkill::sendMessageIn()
                             //system("pause");
                             int site = ((-j + 5 + paintStructX->yourSite) % 6);
                             tempMes.push_back(site);
+                            lastAttackSet(j);
                         }
                     }
                     if(!missileFind)
@@ -954,6 +955,10 @@ void CardAndSkill::icePoetry()
 
 }
 void CardAndSkill::arbitrationEnd()
+{
+
+}
+void CardAndSkill::lastAttackSet(int m)
 {
 
 }
