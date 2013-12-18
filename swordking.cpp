@@ -121,6 +121,7 @@ void SwordKing::skillCancel()
     swordCut->cancel->canBeClicked = false;
     swordCut->ensure->isClicked = false;
     swordCut->cancel->isClicked = false;
+    dialog->label->hide();
     for(int i = 0;i < 5;i++)
     {
         swordCut->number[i]->isClicked = false;
@@ -198,7 +199,7 @@ void SwordKing::sendMessageSelf()
             emit sendMessageSelfSig(tempMes);
             return;
         }
-        case 101:
+        case 101://剑气斩
         {
             for(int i = 0;i < 3;i++)
             {
@@ -210,6 +211,9 @@ void SwordKing::sendMessageSelf()
                     return;
                 }
             }
+            tempMes.push_back(2);
+            emit sendMessageSelfSig(tempMes);
+            return;
         }
         default:
         {
@@ -228,14 +232,11 @@ void SwordKing::attackSet()
                 connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
+        if(i != lastAttack)
         {
-            if(i != lastAttack)
-            {
-                paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
-            }
+            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         }
     }
     ensure->isClicked = false;

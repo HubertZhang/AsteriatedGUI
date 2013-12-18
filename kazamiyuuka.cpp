@@ -95,6 +95,7 @@ void KazamiYuuka::skillCancel()
 {
     ask = false;
     YuukaTwoCount = 0;
+    dialog->label->hide();
     for(int i = 0;i < cardNum;i++)
     {
         cardButton[i]->canBeClicked = true;
@@ -173,8 +174,16 @@ void KazamiYuuka::sendMessageSelf()
         }
         case 101:
         {
+            for(int i = 0;i < 6;i++)
+            {
+                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                {
+                    putCharacter(tempMes);
+                    emit sendMessageSelfSig(tempMes);
+                    return;
+                }
+            }
             tempMes.push_back(2);
-            putCharacter(tempMes);
             emit sendMessageSelfSig(tempMes);
             return;
         }
