@@ -745,6 +745,11 @@ void AskDialog::activeInit(int characterNum)
             break;
         }
         case 20:
+        {
+            activateGroup[0] = new PicButton(135,9 + 328 + 100,257,100,42,false);
+            activateGroup[1] = new PicButton(137,9 + 328 + 200,257,100,42,false);
+            break;
+        }
         case 22:
         case 23:
         {

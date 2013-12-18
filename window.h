@@ -34,6 +34,7 @@
 #include "kamishirasawakeine.h"
 #include "hakureireimu.h"
 #include "swordking.h"
+#include "kazamiyuuka.h"
 class Window : public QWidget
 {
     Q_OBJECT

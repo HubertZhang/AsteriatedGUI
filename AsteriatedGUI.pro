@@ -49,7 +49,8 @@ SOURCES += main.cpp\
     praymaid.cpp \
     kamishirasawakeine.cpp \
     hakureireimu.cpp \
-    swordking.cpp
+    swordking.cpp \
+    kazamiyuuka.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -87,7 +88,8 @@ HEADERS  += widget.h \
     praymaid.h \
     kamishirasawakeine.h \
     hakureireimu.h \
-    swordking.h
+    swordking.h \
+    kazamiyuuka.h
 
 RESOURCES += \
     resource/Image.qrc

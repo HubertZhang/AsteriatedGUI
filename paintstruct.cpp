@@ -226,6 +226,7 @@ bool PaintStruct::getBlue(int characterNum)
 {
     switch(characterNum)
     {
+        case 19:
         case 21:
         case 22:
         {

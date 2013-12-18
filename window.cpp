@@ -241,6 +241,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 17:cardAndSkill = new KamishirasawaKeine(paintStruct,this);break;
                 case 18:cardAndSkill = new HakureiReimu(paintStruct,this,this);break;
                 case 19:cardAndSkill = new SwordKing(paintStruct,this,this);break;
+                case 20:cardAndSkill = new KazamiYuuka(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -556,10 +557,24 @@ void Window::changeZPhase()
             cardAndSkill->priestAct();
         }
     }
+    if(paintStruct->gameCharacter[5]->characterNum == 20 && askDialog->kind[0] == 1)
+    {
+        if(askDialog->activateGroup[1]->isClicked)
+        {
+            cardAndSkill->YuukaTwo();
+        }
+    }
     for(int i = 0;i < 6;i++)
     {
         paintStruct->gameCharacter[i]->characterPic->isClicked = false;
         paintStruct->gameCharacter[i]->characterPic->canBeClicked = false;
+    }
+    if(paintStruct->gameCharacter[5]->characterNum == 20 && askDialog->kind[0] == 1)
+    {
+        if(askDialog->activateGroup[0]->isClicked)
+        {
+            cardAndSkill->YuukaOne();
+        }
     }
     if(paintStruct->gameCharacter[5]->characterNum == 12)
     {

@@ -962,3 +962,30 @@ void CardAndSkill::lastAttackSet(int m)
 {
 
 }
+void CardAndSkill::clickRivalSet()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        for(int j = 0;j < 6;j++)
+        {
+            if(i != j)
+            {
+                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+            }
+        }
+        if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
+        {
+            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        }
+    }
+}
+void CardAndSkill::YuukaOne()
+{
+
+}
+void CardAndSkill::YuukaTwo()
+{
+
+}

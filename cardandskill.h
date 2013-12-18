@@ -52,6 +52,9 @@ public:
     virtual void icePoetry();
     virtual void arbitrationEnd();
     virtual void lastAttackSet(int);
+    virtual void YuukaOne();
+    virtual void YuukaTwo();
+    void clickRivalSet();
 signals:
     void isClicked(int x,int y);
     void resetSignal();
