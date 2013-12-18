@@ -124,6 +124,10 @@ void HakureiReimu::changeSelfMode(int mode)
                     }
                 }
             }
+            for(int i = 0;i < cardNum;i++)
+            {
+                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicReset()));
+            }
             for(int i = 0;i < 6;i++)
             {
                 connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(elementPlus()));
@@ -671,4 +675,9 @@ void HakureiReimu::fireNotChoose()
     showFire->cancel->canBeClicked = false;
     showFire->labelOne->hide();
     changeSelfMode(9);
+}
+void HakureiReimu::magicReset()
+{
+    elementCount = 0;
+    ensure->canBeClicked = false;
 }

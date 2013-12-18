@@ -51,6 +51,7 @@ public slots:
     void tokenReset();
     void fireChoose();
     void fireNotChoose();
+    void magicReset();
 };
 
 #endif // HAKUREIREIMU_H

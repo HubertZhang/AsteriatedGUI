@@ -38,7 +38,6 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
     {
         gameCharacter[i]->yellow = 0;
         gameCharacter[i]->blue = 0;
-        gameCharacter[i]->blueExist = getBlue(gameCharacter[i]->characterNum);
         gameCharacter[i]->characterNum = information[i];
         gameCharacter[i]->blueExist = getBlue(gameCharacter[i]->characterNum);
         gameCharacter[i]->yellowExist = getYellow(gameCharacter[i]->characterNum);
@@ -58,7 +57,6 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
         gameCharacter[i]->canBeActivated = ifActivated(gameCharacter[i]->characterNum);
         gameCharacter[i]->cardNum = 0;
         gameCharacter[i]->cardLimit = 6;
-        gameCharacter[i]->blue = getBlue(gameCharacter[i]->characterNum);
         if(gameCharacter[i]->canBeActivated)
         {
             gameCharacter[i]->isActivated = new QPixmap();
