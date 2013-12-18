@@ -292,6 +292,10 @@ void HakureiReimu::skillset()
 }
 void HakureiReimu::skillCancel()
 {
+    for(int i = 0;i < cardNum;i++)
+    {
+        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicReset()));
+    }
     tokenPaint = false;
     for(int i = 0;i < tokenNum;i++)
     {
