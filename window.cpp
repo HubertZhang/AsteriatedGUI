@@ -4,10 +4,14 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+
 using namespace std;
 Window::Window(QWidget *parent) :
     QWidget(parent)
 {
+    attackOver = true;
+    haveDestroyed = true;
+    paintCardDestroy = false;
     paint = false;
     mySource = new MessageSource();
     connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
@@ -31,7 +35,7 @@ Window::Window(QWidget *parent) :
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
     timer->start(17);
     cardAttack = new CardAttack(this);
-    connect(cardAttack,SIGNAL(paintOver()),this,SLOT(changeYPhase()));
+    connect(cardAttack,SIGNAL(paintOver()),this,SLOT(queuePop()));
     connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
 }
 void Window::chatReady(int id)
@@ -132,6 +136,21 @@ void Window::messageProcess(std::vector<int> m)
     }
     if(phase == 6)
     {
+        if(attackOver)
+        {
+            phase = 4;
+            paintCardDestroy = true;
+        }
+        else
+        {
+            informationQueue.push(m);
+            return;
+        }
+    }
+    if(paintCardDestroy)
+    {
+        paintCardDestroy = false;
+        haveDestroyed = true;
         cardAttack->destroyPic();
     }
     QString s = "";
@@ -358,14 +377,13 @@ void Window::messageProcess(std::vector<int> m)
         }
         case 10:
         {
-            //if(information[14] != -1)
-            //{
-                information[1] = ((-information[1] + 5 + paintStructInit[1]) % 6);
-                for(int i = 4;i < 4 + information[2];i ++)
-                {
-                    information[i] = ((-information[i] + 5 + paintStructInit[1]) % 6);
-                }
-            //}
+            attackOver = false;
+            haveDestroyed = false;
+            information[1] = ((-information[1] + 5 + paintStructInit[1]) % 6);
+            for(int i = 4;i < 4 + information[2];i ++)
+            {
+                information[i] = ((-information[i] + 5 + paintStructInit[1]) % 6);
+            }
             cardAttack->set(information);
             this->phase = 6;
             break;
@@ -545,10 +563,6 @@ void Window::changeXPhase()
 {
     phase = 4;
 }
-void Window::changeYPhase()
-{
-    phase = 4;
-}
 void Window::changeZPhase()
 {
     if(paintStruct->gameCharacter[5]->characterNum == 15 && askDialog->kind[0] == 1)
@@ -611,4 +625,41 @@ void Window::sendMessageWindow(std::vector<int> messageSend)
     chatBrowser->append(s);
     chatBrowser->append(QString::number(-100));
     networkSocket.sendMessage(messageSend);
+}
+void Window::queuePop()
+{
+    attackOver = true;
+    //system("pause");
+    while(!informationQueue.empty())
+    {
+        phase = 4;
+        if(!haveDestroyed)
+        {
+            paintCardDestroy = true;
+        }
+        std::vector<int> m = informationQueue.front();
+        int information[15];
+        for(int i = 0; i<15; i++)
+        {
+            if(i<m.size())
+            {
+                information[i] = m[i];
+            }
+            else
+            {
+                information[i] = 0;
+            }
+        }
+        if(information[0] == 10)
+        {
+            messageProcess(m);
+            informationQueue.pop();
+            return;
+        }
+        else
+        {
+            messageProcess(m);
+            informationQueue.pop();
+        }
+    }
 }

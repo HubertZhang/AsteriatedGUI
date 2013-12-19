@@ -3,12 +3,15 @@
 #include <QMatrix>
 #include <QTransform>
 #include <iostream>
+#include <cstdlib>
+#include <QString>
 using namespace std;
 CardAttack::CardAttack(QWidget *parent) :
     QWidget(parent)
 {
+    cardList = new CardList();
+    paintEnd = false;
     card = new QPixmap();
-    card->load(":/card/blueCard.png");
     window = parent;
     cardCount = 0;
     cardDiscardCount = 0;
@@ -20,6 +23,7 @@ void CardAttack::set(int information[])
     {
         over[i] = false;
     }
+    paintEnd = false;
     paintOverX = false;
     self = false;
     onlyself = false;
@@ -29,10 +33,25 @@ void CardAttack::set(int information[])
     cardDiscardCount = information[3];
     discardXp = 587 - 50 * cardDiscardCount;
     discardYp = 319;
+    int firstRecord = 0;
     for(int i = 0;i < information[3];i ++)
     {
         cardDiscardNum[i] = information[i + 4 + information[2]];
+        if(!i)
+        {
+            firstRecord = cardList->getNature(cardDiscardNum[i]);
+        }
+        else
+        {
+            if(cardList->getNature(cardDiscardNum[i]) != firstRecord)
+            {
+                firstRecord = 7;
+            }
+        }
     }
+    QString s("");
+    s.sprintf(":/card/card%d",firstRecord);
+    card->load(s);
     for(int i = 0;i < cardDiscardCount;i ++)
     {
         cardDiscard[i] = new CardButton(48,discardXp + i * 100,discardYp,99,143,false,cardDiscardNum[i],window);
@@ -125,8 +144,14 @@ void CardAttack::paint(QPaintEvent *event, QPainter *painter)
         {
             cardDiscard[i]->paint(event,painter);
         }
+        if(paintEnd)
+        {
+            return;
+        }
         if(paintOverX)
         {
+            paintEnd = true;
+            emit paintOver();
             return;
         }
         for(int i = 0;i < cardCount;i++)
@@ -204,5 +229,4 @@ void CardAttack::destroyPic()
     {
         delete cardDiscard[i];
     }
-    emit paintOver();
 }

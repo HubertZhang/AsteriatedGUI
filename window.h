@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <queue>
+#include <vector>
 #include "starbg.h"
 #include "paintstruct.h"
 #include "messagesource.h"
@@ -51,8 +53,12 @@ private:
     CardAndSkill* cardAndSkill;
     CardAttack* cardAttack;
     int paintStructInit[15];
+    bool paintCardDestroy;
+    bool haveDestroyed;
     int phase;//To decide the paint function
     bool paint;
+    bool attackOver;
+    std::queue<std::vector <int>> informationQueue;
 public:
     QLineEdit* chatLine;
     QTextBrowser* chatBrowser;
@@ -71,9 +77,9 @@ public slots:
     void displayMessage(int id,QString message);
     void changeWPhase();
     void changeXPhase();
-    void changeYPhase();
     void changeZPhase();
     void sendMessageWindow(std::vector<int>);
+    void queuePop();
 signals:
     void mouseClicked(int x,int y);
 };
