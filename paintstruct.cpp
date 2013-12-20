@@ -209,6 +209,7 @@ bool PaintStruct::ifActivated(int characterNum)
         case 9:
         case 14:
         case 16:
+        case 21:
         case 23:
         case 24:
         case 26:

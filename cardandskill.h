@@ -54,7 +54,7 @@ public:
     virtual void lastAttackSet(int);
     virtual void YuukaOne();
     virtual void YuukaTwo();
-    void clickRivalSet();
+    virtual void damageSet(int);
 signals:
     void isClicked(int x,int y);
     void resetSignal();
@@ -85,6 +85,16 @@ public slots:
     void sendMessageOne();
     void sendMessageCardAndSkill();
     virtual void sendMessageSelf();
+    void clickRivalSet();
+    void clickAllSet();
+    void singleToEnsure();
+    void cardSingleSet(int);
+    void cardSingle();
+    void allReset();
+    void cardResetOne();
+    void cardSetOne();
+    void clickFriendSet();
+
 };
 
 #endif // CARDANDSKILL_H

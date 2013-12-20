@@ -981,6 +981,31 @@ void CardAndSkill::clickRivalSet()
         }
     }
 }
+void CardAndSkill::clickAllSet()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        for(int j = 0;j < 6;j++)
+        {
+            if(i != j)
+            {
+                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+            }
+        }
+        paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+    }
+}
+void CardAndSkill::singleToEnsure()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+    }
+}
+
 void CardAndSkill::YuukaOne()
 {
 
@@ -988,4 +1013,116 @@ void CardAndSkill::YuukaOne()
 void CardAndSkill::YuukaTwo()
 {
 
+}
+void CardAndSkill::damageSet(int x)
+{
+
+}
+void CardAndSkill::cardSingleSet(int attribute)
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        for(int j = 0;j < cardNum;j++)
+        {
+            if(i != j)
+            {
+                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+            }
+        }
+    }
+    if(attribute > 10)
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(cardList->getSkillOne(card[i]) == attribute||cardList->getSkillTwo(card[i]) == attribute)
+            {
+                cardButton[i]->canBeClicked = true;
+            }
+        }
+    }
+    else if(attribute < 7)
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            if(cardList->getNature(card[i]) == attribute)
+            {
+                cardButton[i]->canBeClicked = true;
+            }
+        }
+    }
+    else
+    {
+        if(attribute == 8)//attack
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardList->getType(card[i]) == attack)
+                {
+                    cardButton[i]->canBeClicked = true;
+                }
+            }
+        }
+        if(attribute == 9)//magic
+        {
+            for(int i = 0;i < cardNum;i++)
+            {
+                if(cardList->getType(card[i]) == magic)
+                {
+                    cardButton[i]->canBeClicked = true;
+                }
+            }
+        }
+    }
+}
+void CardAndSkill::cardSingle()
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+    }
+}
+void CardAndSkill::allReset()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+        paintStructX->gameCharacter[i]->characterPic->isClicked = false;
+    }
+}
+void CardAndSkill::cardResetOne()
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        if(!cardButton[i]->isClicked)
+        {
+            cardButton[i]->canBeClicked = false;
+        }
+    }
+}
+void CardAndSkill::cardSetOne()
+{
+    for(int i = 0;i < cardNum;i++)
+    {
+        cardButton[i]->canBeClicked = true;
+    }
+}
+void CardAndSkill::clickFriendSet()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        for(int j = 0;j < 6;j++)
+        {
+            if(i != j)
+            {
+                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+            }
+        }
+        if(paintStructX->gameCharacter[i]->color == paintStructX->gameCharacter[5]->color && i < 5)
+        {
+            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        }
+    }
 }

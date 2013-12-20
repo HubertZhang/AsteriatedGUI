@@ -38,6 +38,7 @@
 #include "swordking.h"
 #include "kazamiyuuka.h"
 #include "hoshigumayugi.h"
+#include "uuz.h"
 class Window : public QWidget
 {
     Q_OBJECT

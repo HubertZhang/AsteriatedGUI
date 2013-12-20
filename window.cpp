@@ -262,6 +262,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 19:cardAndSkill = new SwordKing(paintStruct,this,this);break;
                 case 20:cardAndSkill = new KazamiYuuka(paintStruct,this);break;
                 case 21:cardAndSkill = new HoshigumaYugi(paintStruct,this);break;
+                case 22:cardAndSkill = new UUZ(paintStruct,this,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -447,6 +448,10 @@ void Window::messageProcess(std::vector<int> m)
             {
                 canX[information[2 + i]] = true;
             }
+            if(paintStruct->gameCharacter[5]->characterNum == 22 && canX[2])
+            {
+                cardAndSkill->damageSet(information[3]);
+            }
             cardAndSkill->dialogSet(canX);
             cardAndSkill->cancel->canBeClicked = true;
             cardAndSkill->informationKind = 39;//THANK YOU.
@@ -589,6 +594,14 @@ void Window::changeZPhase()
         if(askDialog->activateGroup[0]->isClicked)
         {
             cardAndSkill->YuukaOne();
+        }
+    }
+    if(paintStruct->gameCharacter[5]->characterNum == 22 && askDialog->kind[0] == 1)
+    {
+        if(askDialog->activateGroup[0]->isClicked)
+        {
+            cardAndSkill->clickFriendSet();
+            cardAndSkill->singleToEnsure();
         }
     }
     if(paintStruct->gameCharacter[5]->characterNum == 12)

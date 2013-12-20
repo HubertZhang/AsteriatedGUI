@@ -1,7 +1,5 @@
 #include "kazamiyuuka.h"
 
-#include "swordking.h"
-
 KazamiYuuka::KazamiYuuka(PaintStruct* paintStruct,QWidget *parent) :
     CardAndSkill(paintStruct,parent)
 {
