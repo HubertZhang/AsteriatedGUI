@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     swordking.cpp \
     kazamiyuuka.cpp \
     hoshigumayugi.cpp \
-    uuz.cpp
+    uuz.cpp \
+    redwhite.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -93,7 +94,8 @@ HEADERS  += widget.h \
     swordking.h \
     kazamiyuuka.h \
     hoshigumayugi.h \
-    uuz.h
+    uuz.h \
+    redwhite.h
 
 RESOURCES += \
     resource/Image.qrc

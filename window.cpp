@@ -263,6 +263,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 20:cardAndSkill = new KazamiYuuka(paintStruct,this);break;
                 case 21:cardAndSkill = new HoshigumaYugi(paintStruct,this);break;
                 case 22:cardAndSkill = new UUZ(paintStruct,this,this);break;
+                case 23:cardAndSkill = new RedWhite(paintStruct,this,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -288,7 +289,7 @@ void Window::messageProcess(std::vector<int> m)
         case 4:
         {
             int info[3] = {0,0,0};
-            askDialog = new AskDialog(info,this,paintStruct);
+            askDialog = new AskDialog(info,this,paintStruct,false);
             askDialog->informationKind = 4;
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
@@ -327,7 +328,7 @@ void Window::messageProcess(std::vector<int> m)
         case 6:
         {
             int info[3] = {1,0,0};
-            askDialog = new AskDialog(info,this,paintStruct);
+            askDialog = new AskDialog(info,this,paintStruct,cardAndSkill->redWhiteLink());
             askDialog->informationKind = 6;
             //cardAndSkill->linkReset();
             connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
@@ -404,7 +405,7 @@ void Window::messageProcess(std::vector<int> m)
         case 12:
         {
             int info[3] = {2,information[1],0};
-            askDialog = new AskDialog(info,this,paintStruct);
+            askDialog = new AskDialog(info,this,paintStruct,false);
             askDialog->informationKind = 12;
             connect(askDialog,SIGNAL(sendMessageCureSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
@@ -478,7 +479,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 4:
                 {
                     int info[3] = {0,0,0};
-                    askDialog = new AskDialog(info,this,paintStruct);
+                    askDialog = new AskDialog(info,this,paintStruct,false);
                     askDialog->labelOne->setText("威力赐福");
                     askDialog->labelTwo->setText("");
                     askDialog->informationKind = 4;
@@ -493,7 +494,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 5:
                 {
                     int info[3] = {0,0,0};
-                    askDialog = new AskDialog(info,this,paintStruct);
+                    askDialog = new AskDialog(info,this,paintStruct,false);
                     askDialog->labelOne->setText("迅捷赐福");
                     askDialog->labelTwo->setText("");
                     askDialog->informationKind = 4;
@@ -602,6 +603,21 @@ void Window::changeZPhase()
         {
             cardAndSkill->clickFriendSet();
             cardAndSkill->singleToEnsure();
+        }
+    }
+    if(paintStruct->gameCharacter[5]->characterNum == 23 && askDialog->kind[0] == 1)
+    {
+        if(askDialog->activateGroup[0]->isClicked)
+        {
+            cardAndSkill->clickRedWhiteSet();
+            cardAndSkill->singleToEnsure();
+        }
+    }
+    if(paintStruct->gameCharacter[5]->characterNum == 23 && askDialog->kind[0] == 1)
+    {
+        if(askDialog->activateGroup[1]->isClicked)
+        {
+            cardAndSkill->lifeLinkOver();
         }
     }
     if(paintStruct->gameCharacter[5]->characterNum == 12)

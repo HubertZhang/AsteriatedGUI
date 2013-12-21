@@ -12,7 +12,7 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
     soulCount = 0;
     mirrorCount = 0;
     mirrorLine = 0;
-    soulLink = new AskDialog(info,soulX,paintStructX);
+    soulLink = new AskDialog(info,soulX,paintStructX,false);
     soulLink->ensure->canBeClicked = false;
     soulLink->cancel->canBeClicked = false;
     soulLink->ensure->isClicked = false;

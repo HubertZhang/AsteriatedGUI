@@ -31,12 +31,13 @@ public:
     PicButton* composeGroup[4];
     PicButton* number[5];
     int actNum;
+    bool redWhite;
     int informationKind;
     int getActivatedNum(int characterNum);
     void activeInit(int characterNum);
     void paint(QPaintEvent*,QPainter*);
     bool canActivate(int skillNum);
-    explicit AskDialog(int information[3],Window *parent,PaintStruct*);
+    explicit AskDialog(int information[3],Window *parent,PaintStruct*,bool redWhiteLink);
     ~AskDialog();
     int kind[3];
 signals:

@@ -55,6 +55,9 @@ public:
     virtual void YuukaOne();
     virtual void YuukaTwo();
     virtual void damageSet(int);
+    virtual bool redWhiteLink();
+    virtual void lifeLinkOver();
+    virtual void clickRedWhiteSet();
 signals:
     void isClicked(int x,int y);
     void resetSignal();
@@ -94,7 +97,6 @@ public slots:
     void cardResetOne();
     void cardSetOne();
     void clickFriendSet();
-
 };
 
 #endif // CARDANDSKILL_H

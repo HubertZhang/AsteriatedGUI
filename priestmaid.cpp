@@ -11,7 +11,7 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX)
     dialog = new NewDialog(windowX);
     dialog->init(15);//神圣启示
     int info[3] = {2,0,0};
-    sacredContract = new AskDialog(info,sacredX,paintStruct);
+    sacredContract = new AskDialog(info,sacredX,paintStruct,false);
     for(int i = 0;i < 5;i++)
     {
         sacredContract->number[i]->isClicked = false;

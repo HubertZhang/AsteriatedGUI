@@ -12,7 +12,7 @@ Angel::Angel(PaintStruct* paintStruct,QWidget *parent,Window* windowAngel) :
     dialog = new NewDialog(windowX);
     windClear = new NewDialog(windowX);
     int info[3] = {2,0,0};
-    kamiPro = new AskDialog(info,windowAngel,paintStructX);
+    kamiPro = new AskDialog(info,windowAngel,paintStructX,false);
     dialog->init(7);//天使之歌,神之庇护
     windClear->init(101);
     connect(kamiPro->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));

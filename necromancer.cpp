@@ -9,7 +9,7 @@ Necromancer::Necromancer(PaintStruct* paintStruct,QWidget *parent,Window* deathX
     dialog = new NewDialog(windowX);
     dialog->init(13);//不朽
     int info[3] = {2,0,0};
-    deathTouch = new AskDialog(info,deathX,paintStruct);
+    deathTouch = new AskDialog(info,deathX,paintStruct,false);
     deathTouch->cancel->canBeClicked = false;
     for(int i = 0;i < 5;i++)
     {

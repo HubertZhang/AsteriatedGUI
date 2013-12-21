@@ -3,8 +3,9 @@
 #include <cstdlib>
 #include <iostream>
 using namespace std;
-AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct)
+AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct,bool redWhiteLink)
 {
+    redWhite = redWhiteLink;
     informationKind = 0;
     storeData = paintStruct;
     storeWindow = parent;
@@ -758,6 +759,8 @@ void AskDialog::activeInit(int characterNum)
         }
         case 23:
         {
+            activateGroup[0] = new PicButton(152,9 + 328 + 100,257,100,42,false);
+            activateGroup[1] = new PicButton(153,9 + 328 + 200,257,100,42,false);
             break;
         }
         default:
@@ -888,6 +891,19 @@ bool AskDialog::canActivate(int skill)
         case 222:
         {
             if(storeData->gameCharacter[5]->gem != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            break;
+        }
+        case 231:
+        case 232:
+        {
+            if(redWhite)
             {
                 return true;
             }

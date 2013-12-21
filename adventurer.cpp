@@ -7,7 +7,7 @@ Adventurer::Adventurer(PaintStruct* paintStruct,QWidget *parent,Window* advenX) 
     cheatPaint = false;
     //dialog->init(12);//魔弹融合
     int info[3] = {2,0,0};
-    cheat = new AskDialog(info,advenX,paintStruct);
+    cheat = new AskDialog(info,advenX,paintStruct,false);
     for(int i = 0;i < 5;i++)
     {
         cheat->number[i]->isClicked = false;

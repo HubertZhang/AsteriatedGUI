@@ -9,7 +9,7 @@ SwordKing::SwordKing(PaintStruct* paintStruct,QWidget *parent,Window* swordX) :
     dialog = new NewDialog(windowX);
     dialog->init(19);//剑魂守护,剑气斩,天使之魂,恶魔之魂,不屈意志
     int info[3] = {2,0,0};
-    swordCut = new AskDialog(info,swordX,paintStructX);
+    swordCut = new AskDialog(info,swordX,paintStructX,false);
     swordCut->ensure->canBeClicked = false;
     swordCut->cancel->canBeClicked = false;
     swordCut->ensure->isClicked = false;

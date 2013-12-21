@@ -8,7 +8,7 @@ PureSpear::PureSpear(PaintStruct* paintStruct,QWidget *parent,Window* groundX) :
     dialog = new NewDialog(windowX);
     dialog->init(10);//天枪,地枪
     int info[3] = {2,0,0};
-    groundSpear = new AskDialog(info,groundX,paintStructX);
+    groundSpear = new AskDialog(info,groundX,paintStructX,false);
     groundSpear->ensure->canBeClicked = false;
     groundSpear->cancel->canBeClicked = false;
     groundSpear->ensure->isClicked = false;

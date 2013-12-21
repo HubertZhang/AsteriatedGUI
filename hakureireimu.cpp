@@ -13,7 +13,7 @@ HakureiReimu::HakureiReimu(PaintStruct* paintStruct,QWidget *parent,Window* show
     magicGroup[1] = new PicButton(123,465,559,100,42,false);
     int info[3] = {0,0,0};
     showFirePaint = false;
-    showFire = new AskDialog(info,showX,paintStruct);
+    showFire = new AskDialog(info,showX,paintStruct,false);
     showFire->labelOne->hide();
     showFire->labelOne->setText("展示火系");
     showFire->labelTwo->setText("");

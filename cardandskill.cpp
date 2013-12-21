@@ -1126,3 +1126,15 @@ void CardAndSkill::clickFriendSet()
         }
     }
 }
+bool CardAndSkill::redWhiteLink()
+{
+    return false;
+}
+void CardAndSkill::lifeLinkOver()
+{
+
+}
+void CardAndSkill::clickRedWhiteSet()
+{
+
+}
