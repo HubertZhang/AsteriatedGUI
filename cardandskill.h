@@ -58,6 +58,7 @@ public:
     virtual bool redWhiteLink();
     virtual void lifeLinkOver();
     virtual void clickRedWhiteSet();
+    virtual void butterflyTokenAdd(int tokenX[]);
 signals:
     void isClicked(int x,int y);
     void resetSignal();
@@ -97,6 +98,7 @@ public slots:
     void cardResetOne();
     void cardSetOne();
     void clickFriendSet();
+    void characterDisconnect();
 };
 
 #endif // CARDANDSKILL_H

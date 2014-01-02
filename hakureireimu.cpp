@@ -267,6 +267,8 @@ void HakureiReimu::paint(QPaintEvent *event, QPainter *painter)
 void HakureiReimu::setFrame()
 {
     ask = true;
+    tokenPic->isClicked = false;
+    tokenPaint = false;
 }
 /*void SwordMaster::skillReset()
 {

@@ -53,7 +53,8 @@ SOURCES += main.cpp\
     kazamiyuuka.cpp \
     hoshigumayugi.cpp \
     uuz.cpp \
-    redwhite.cpp
+    redwhite.cpp \
+    butterfly.cpp
 
 HEADERS  += widget.h \
     window.h \
@@ -95,7 +96,8 @@ HEADERS  += widget.h \
     kazamiyuuka.h \
     hoshigumayugi.h \
     uuz.h \
-    redwhite.h
+    redwhite.h \
+    butterfly.h
 
 RESOURCES += \
     resource/Image.qrc

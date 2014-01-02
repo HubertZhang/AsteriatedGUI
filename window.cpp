@@ -264,6 +264,7 @@ void Window::messageProcess(std::vector<int> m)
                 case 21:cardAndSkill = new HoshigumaYugi(paintStruct,this);break;
                 case 22:cardAndSkill = new UUZ(paintStruct,this,this);break;
                 case 23:cardAndSkill = new RedWhite(paintStruct,this,this);break;
+                case 24:cardAndSkill = new Butterfly(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
             connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
@@ -529,6 +530,12 @@ void Window::messageProcess(std::vector<int> m)
             cardAndSkill->dialogReset();
             cardAndSkill->icePoetry();
             cardAndSkill->informationKind = 21;
+            break;
+        }
+        case 22://蝶舞的茧信息
+        {
+            cardAndSkill->butterflyTokenAdd(information);
+            break;
         }
     }
 }

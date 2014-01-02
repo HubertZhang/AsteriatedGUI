@@ -80,6 +80,7 @@ void CardAndSkill::linkReset()
         cardButton[i]->canBeClicked = false;
         cardButton[i]->isClicked = false;
         disconnect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        disconnect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
         disconnect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         for(int j = 0;j < cardNum;j++)
         {
@@ -1005,7 +1006,6 @@ void CardAndSkill::singleToEnsure()
         connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
 }
-
 void CardAndSkill::YuukaOne()
 {
 
@@ -1040,7 +1040,7 @@ void CardAndSkill::cardSingleSet(int attribute)
             }
         }
     }
-    else if(attribute < 7)
+    else if(attribute < 7 && attribute != -1)
     {
         for(int i = 0;i < cardNum;i++)
         {
@@ -1071,6 +1071,13 @@ void CardAndSkill::cardSingleSet(int attribute)
                     cardButton[i]->canBeClicked = true;
                 }
             }
+        }
+    }
+    if(attribute == -1)
+    {
+        for(int i = 0;i < cardNum;i++)
+        {
+            cardButton[i]->canBeClicked = true;
         }
     }
 }
@@ -1137,4 +1144,23 @@ void CardAndSkill::lifeLinkOver()
 void CardAndSkill::clickRedWhiteSet()
 {
 
+}
+void CardAndSkill::butterflyTokenAdd(int tokenX[])
+{
+
+}
+void CardAndSkill::characterDisconnect()
+{
+    for(int i = 0;i < 6;i++)
+    {
+        for(int j = 0;j < 6;j++)
+        {
+            if(i != j)
+            {
+                disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+            }
+        }
+        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+    }
 }

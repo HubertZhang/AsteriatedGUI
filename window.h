@@ -40,6 +40,7 @@
 #include "hoshigumayugi.h"
 #include "uuz.h"
 #include "redwhite.h"
+#include "butterfly.h"
 class Window : public QWidget
 {
     Q_OBJECT
