@@ -14,7 +14,6 @@ public:
     AskDialog* blood;
     PicButton* magicGroup[4];
     bool bloodAsk;
-    bool bloodRes;
     bool lifeLink;
     int bloodCount;
     int curseCount;

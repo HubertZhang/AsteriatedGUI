@@ -3,7 +3,6 @@
 RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
     CardAndSkill(paintStruct,parent)
 {
-    bloodRes = true;
     lifeLinkCha = -1;
     bloodAsk = false;
     bloodCount = 0;
@@ -113,7 +112,6 @@ void RedWhite::changeSelfMode(int mode)
                 connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
                 connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
             }
-            bloodRes = false;
             connect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
             break;
         }
@@ -197,7 +195,7 @@ void RedWhite::skillset()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardList->getSkillTwo(card[i]) == 231)
+        if(cardList->getSkillTwo(card[i]) == 231 && paintStructX->gameCharacter[5]->isActivated)
         {
             magicGroup[2]->canBeClicked = true;
         }
@@ -238,10 +236,7 @@ void RedWhite::skillCancel()
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(bloodPlus()));
         disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(bloodMinus()));
     }
-    if(bloodRes)
-    {
-        disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
-    }
+    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
 }
 void RedWhite::skillClear()
 {
@@ -330,7 +325,6 @@ void RedWhite::sendMessageSelf()
             }
             else
             {
-                bloodRes = true;
                 for(int i = 0;i < 5;i++)
                 {
                     if(blood->number[i]->isClicked)

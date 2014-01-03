@@ -11,6 +11,12 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
     {
         gameCharacter[i] = new character();
     }
+    for(int i = 0;i < 6;i++)
+    {
+        seal[i] = new QPixmap();
+        s.sprintf(":/character/seal%d.png",i);
+        seal[i]->load(s);
+    }
     for(int i = 0;i < 17;i ++)
     {
         redNum[i] = new QPixmap();
@@ -560,8 +566,14 @@ void PaintStruct::paint(QPaintEvent *event, QPainter *painter)
                         painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*sheildPic);
                         break;
                     }
-                    default:
+                    case fiveBound:
                     {
+                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[5]);
+                        break;
+                    }
+                    default://五系封印
+                    {
+                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[cardList->getSkillOne(gameCharacter[i]->status[j]) - 41]);
                         break;
                     }
                 }
@@ -585,8 +597,14 @@ void PaintStruct::paint(QPaintEvent *event, QPainter *painter)
                         painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*sheildPic);
                         break;
                     }
+                    case fiveBound:
+                    {
+                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[6]);
+                        break;
+                    }
                     default:
                     {
+                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[cardList->getSkillOne(gameCharacter[i]->status[j]) - 41]);
                         break;
                     }
                 }

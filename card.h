@@ -2,7 +2,7 @@
 #define CARD_H
 
 enum Kind{skill,blood,holy,magical,intone};
-enum Name{groundAttack,waterAttack,fireAttack,windAttack,thunderAttack,darkAttack,poison,weak,missile,shield,holyLight};
+enum Name{groundAttack,waterAttack,fireAttack,windAttack,thunderAttack,darkAttack,poison,weak,missile,shield,holyLight,fiveBound};
 enum Type{attack,magic};
 enum Nature{ground,water,fire,wind,thunder,dark,light};
 class Card

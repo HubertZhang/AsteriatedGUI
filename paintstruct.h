@@ -57,6 +57,7 @@ private:
     QPixmap* slash;
     QFont* font;
     CardList* cardList;
+    QPixmap* seal[6];
 public:
     character* gameCharacter[6];
     int yourSite;

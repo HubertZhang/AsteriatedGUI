@@ -138,8 +138,11 @@ void Window::messageProcess(std::vector<int> m)
     {
         if(attackOver)
         {
-            phase = 4;
-            paintCardDestroy = true;
+            if(information[1] != 9)
+            {
+                phase = 4;
+                paintCardDestroy = true;
+            }
         }
         else
         {
@@ -477,6 +480,21 @@ void Window::messageProcess(std::vector<int> m)
         {
             switch(information[1])
             {
+                case 2:
+                {
+                    int info[3] = {0,0,0};
+                    askDialog = new AskDialog(info,this,paintStruct,false);
+                    askDialog->labelOne->setText("五系束缚");
+                    askDialog->labelTwo->setText("");
+                    askDialog->informationKind = 4;
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->ensure,SLOT(isThisClicked(int,int)));
+                    connect(this,SIGNAL(mouseClicked(int,int)),askDialog->cancel,SLOT(isThisClicked(int,int)));
+                    connect(askDialog,SIGNAL(sendMessageWeakSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
+                    connect(askDialog->ensure,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    connect(askDialog->cancel,SIGNAL(changeClicked()),this,SLOT(changeZPhase()));
+                    this->phase = 5;
+                    break;
+                }
                 case 4:
                 {
                     int info[3] = {0,0,0};

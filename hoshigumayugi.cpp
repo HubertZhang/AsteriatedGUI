@@ -190,7 +190,6 @@ void HoshigumaYugi::sendMessageSelf()
         }
         case 102://禁断之力
         {
-            tempMes.push_back(1);
             tempMes.push_back(4);
             tempMes.push_back(cardNum);
             for(int i = 0;i < cardNum;i++)

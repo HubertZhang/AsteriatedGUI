@@ -308,6 +308,8 @@ void CardList::initCardList()
     cardList[148].ckind = magical;		cardList[148].cskillone = -1;		cardList[148].cskilltwo = -1;
     cardList[149].cnature = light;		cardList[149].ctype = magic;		cardList[149].cname = holyLight;
     cardList[149].ckind = magical;		cardList[149].cskillone = -1;		cardList[149].cskilltwo = -1;
+    //150:五系束缚
+    cardList[150].cname = fiveBound;
 }
 int CardList::getKind(int cardNum)
 {
