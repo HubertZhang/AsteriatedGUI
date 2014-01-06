@@ -61,7 +61,7 @@ private:
     int phase;//To decide the paint function
     bool paint;
     bool attackOver;
-    std::queue<std::vector <int>> informationQueue;
+    std::queue<std::vector <int> > informationQueue;
 public:
     QLineEdit* chatLine;
     QTextBrowser* chatBrowser;

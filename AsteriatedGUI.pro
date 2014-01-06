@@ -11,9 +11,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = AsteriatedGUI
 TEMPLATE = app
 
+INCLUDEPATH += . players network textgui
 
 SOURCES += main.cpp\
-        widget.cpp \
     window.cpp \
     starbg.cpp \
     paintstruct.cpp \
@@ -28,35 +28,35 @@ SOURCES += main.cpp\
     cardbutton.cpp \
     cardattack.cpp \
     framelabel.cpp \
-    swordmaster.cpp \
     newdialog.cpp \
-    agclient.cpp \
-    berserker.cpp \
-    arrowmaid.cpp \
-    sealmaid.cpp \
-    darkkiller.cpp \
-    puremaid.cpp \
-    agchatclient.cpp \
-    angel.cpp \
-    magicmaid.cpp \
-    magicsword.cpp \
-    purespear.cpp \
-    elementmaster.cpp \
-    adventurer.cpp \
-    necromancer.cpp \
-    arbitrationmaid.cpp \
-    priestmaid.cpp \
-    praymaid.cpp \
-    kamishirasawakeine.cpp \
-    hakureireimu.cpp \
-    swordking.cpp \
-    kazamiyuuka.cpp \
-    hoshigumayugi.cpp \
-    uuz.cpp \
-    redwhite.cpp \
-    butterfly.cpp
+    network/agclient.cpp \
+    network/agchatclient.cpp \
+    players/swordmaster.cpp \
+    players/berserker.cpp \
+    players/arrowmaid.cpp \
+    players/sealmaid.cpp \
+    players/darkkiller.cpp \
+    players/puremaid.cpp \
+    players/angel.cpp \
+    players/magicmaid.cpp \
+    players/magicsword.cpp \
+    players/purespear.cpp \
+    players/elementmaster.cpp \
+    players/adventurer.cpp \
+    players/necromancer.cpp \
+    players/arbitrationmaid.cpp \
+    players/priestmaid.cpp \
+    players/praymaid.cpp \
+    players/kamishirasawakeine.cpp \
+    players/hakureireimu.cpp \
+    players/swordking.cpp \
+    players/kazamiyuuka.cpp \
+    players/hoshigumayugi.cpp \
+    players/uuz.cpp \
+    players/redwhite.cpp \
+    players/butterfly.cpp
 
-HEADERS  += widget.h \
+HEADERS  += \
     window.h \
     starbg.h \
     paintstruct.h \
@@ -71,33 +71,33 @@ HEADERS  += widget.h \
     cardbutton.h \
     cardattack.h \
     framelabel.h \
-    swordmaster.h \
     newdialog.h \
-    agclient.h \
-    berserker.h \
-    arrowmaid.h \
-    sealmaid.h \
-    darkkiller.h \
-    puremaid.h \
-    agchatclient.h \
-    angel.h \
-    magicmaid.h \
-    magicsword.h \
-    purespear.h \
-    elementmaster.h \
-    adventurer.h \
-    necromancer.h \
-    arbitrationmaid.h \
-    priestmaid.h \
-    praymaid.h \
-    kamishirasawakeine.h \
-    hakureireimu.h \
-    swordking.h \
-    kazamiyuuka.h \
-    hoshigumayugi.h \
-    uuz.h \
-    redwhite.h \
-    butterfly.h
+    network/agclient.h \
+    network/agchatclient.h \
+    players/swordmaster.h \
+    players/berserker.h \
+    players/arrowmaid.h \
+    players/sealmaid.h \
+    players/darkkiller.h \
+    players/puremaid.h \
+    players/angel.h \
+    players/magicmaid.h \
+    players/magicsword.h \
+    players/purespear.h \
+    players/elementmaster.h \
+    players/adventurer.h \
+    players/necromancer.h \
+    players/arbitrationmaid.h \
+    players/priestmaid.h \
+    players/praymaid.h \
+    players/kamishirasawakeine.h \
+    players/hakureireimu.h \
+    players/swordking.h \
+    players/kazamiyuuka.h \
+    players/hoshigumayugi.h \
+    players/uuz.h \
+    players/redwhite.h \
+    players/butterfly.h
 
 RESOURCES += \
     resource/Image.qrc
