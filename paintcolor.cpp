@@ -1,8 +1,8 @@
 #include "paintcolor.h"
 #include <cstdlib>
-PaintColor::PaintColor(int color[6],QWidget *parent) :
-    QWidget(parent)
+PaintColor::PaintColor(int color[6],QWidget* parent) : QWidget(parent)
 {
+    this->setMinimumSize(1366,768);
     width = 165;
     height = 231;
     xp[0] = 120; yp[0] = 269;
@@ -29,19 +29,19 @@ PaintColor::PaintColor(int color[6],QWidget *parent) :
         pColor[i] = color[i];
     }
 }
-void PaintColor::paint(QPaintEvent *event, QPainter *painter)
+void PaintColor::paintEvent(QPaintEvent* event)
 {
-    painter->drawPixmap(0,0,frame->width(),frame->height(),*frame);
+    Frame = new QPainter(this);
+    Frame->drawPixmap(0, 0, *frame);
     for(int i = 0;i < 6;i++)
     {
         if(pColor[i] == 0)
         {
-            painter->drawPixmap(xp[i],yp[i],width,height,*redFrame);
+            this->Frame->drawPixmap(xp[i],yp[i],*redFrame);
         }
         else
         {
-            painter->drawPixmap(xp[i],yp[i],width,height,*blueFrame);
+            Frame->drawPixmap(xp[i],yp[i],width,height,*blueFrame);
         }
     }
 }
-

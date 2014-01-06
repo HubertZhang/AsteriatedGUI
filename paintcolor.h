@@ -16,9 +16,11 @@ private:
     int width;
     int height;
     int pColor[6];
+    QPainter* Frame;
 public:
-    explicit PaintColor(int color[5],QWidget *parent = 0);
-    void paint(QPaintEvent *event,QPainter* painter);
+    explicit PaintColor(int color[6],QWidget* parent);
+protected:
+    void paintEvent(QPaintEvent* event);
 signals:
 
 public slots:

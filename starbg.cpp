@@ -1,36 +1,27 @@
 #include "starbg.h"
 #include <QString>
 StarBG::StarBG(QWidget *parent) :
-    QWidget(parent)
+QLabel(parent)
 {
-    QString s;
+    this->setMinimumSize(1366,768);
     sign = true;
     frame = 0;
     refreshSpeed = -1;
-    for(int i = 0;i < 40;i++)
-    {
-        if(i < 10)
-        {
-            s.sprintf(":/StarBG/StarBG_0000%d.png",i);
-            starBGArray[i] = new QPixmap();
-            starBGArray[i]->load(s);
-            continue;
-        }
-        s.sprintf(":/StarBG/StarBG_000%d.png",i);
-        starBGArray[i] = new QPixmap();
-        starBGArray[i]->load(s);
+    for (int i = 0; i<40; i ++) {
+        starBGArray[i].load(QString(":/StarBG/StarBG_000%1").arg(QString::number(i),2,QChar('0')));
     }
 }
-void StarBG::paint(QPaintEvent *event, QPainter *painter)
+void StarBG::update()
 {
     refreshSpeed ++;
     if(refreshSpeed % 2 != 0)
     {
+        this->setPixmap(starBGArray[frame]);
         refreshSpeed = 1;
-        painter->drawPixmap(0,0,1366,768,*starBGArray[frame]);
+        this->setPixmap(starBGArray[frame]);
         return ;
     }
-    painter->drawPixmap(0,0,1366,768,*starBGArray[frame]);
+    this->setPixmap(starBGArray[frame]);
     if(sign && frame == 39)
     {
         sign = false;

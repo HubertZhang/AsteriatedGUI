@@ -41,7 +41,7 @@
 #include "uuz.h"
 #include "redwhite.h"
 #include "butterfly.h"
-class Window : public QWidget
+class Window : public QMainWindow
 {
     Q_OBJECT
 private:

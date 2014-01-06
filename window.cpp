@@ -7,8 +7,9 @@
 
 using namespace std;
 Window::Window(QWidget *parent) :
-    QWidget(parent)
+     QMainWindow(parent)
 {
+    this->setMinimumSize(1366,768);
     attackOver = true;
     haveDestroyed = true;
     paintCardDestroy = false;
@@ -16,20 +17,7 @@ Window::Window(QWidget *parent) :
     mySource = new MessageSource();
     connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
     phase = 0;
-    starBG = new StarBG();
-    chatLine = new QLineEdit(this);
-    chatLine->setGeometry(1058,732,302,32);
-    QPalette temp = chatLine->palette();
-    temp.setBrush(QPalette::Background,QColor(0,0,0,0));
-    temp.setBrush(QPalette::Text,QColor(255,255,255,255));
-    chatLine->setPalette(QPalette(QColor(0,0,0,0)));
-    chatLine->setEnabled(false);
-    chatBrowser = new QTextBrowser(this);
-    temp = chatBrowser->palette();
-    temp.setBrush(QPalette::Base,QColor(0,0,0,0));
-    temp.setBrush(QPalette::Text,QColor(255,255,255,255));
-    chatBrowser->setPalette(temp);
-    chatBrowser->setGeometry(1058,410,302,312);
+    starBG = new StarBG(this);
     connect(&networkSocket,SIGNAL(idReceived(int)),this,SLOT(chatReady(int)));
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeOut()));
@@ -41,7 +29,21 @@ Window::Window(QWidget *parent) :
 void Window::chatReady(int id)
 {
     chatSocket.setup(id,(char*)networkSocket.peerAddress().toString().toStdString().c_str());
+    chatLine = new QLineEdit(this);
+    chatLine->setGeometry(1058,732,302,32);
+    QPalette temp = chatLine->palette();
+    temp.setBrush(QPalette::Background,QColor(0,0,0,0));
+    temp.setBrush(QPalette::Text,QColor(255,255,255,255));
+    chatLine->setPalette(QPalette(QColor(0,0,0,0)));
     chatLine->setEnabled(true);
+    chatLine->show();
+    chatBrowser = new QTextBrowser(this);
+    temp = chatBrowser->palette();
+    temp.setBrush(QPalette::Base,QColor(0,0,0,0));
+    temp.setBrush(QPalette::Text,QColor(255,255,255,255));
+    chatBrowser->setPalette(temp);
+    chatBrowser->setGeometry(1058,410,302,312);
+    chatBrowser->show();
     connect(chatLine,SIGNAL(returnPressed()),this,SLOT(sendChatMessage()));
     connect(&chatSocket,SIGNAL(readFinished(int,QString)),this,SLOT(displayMessage(int,QString)));
 }
@@ -65,6 +67,7 @@ void Window::timeOut()
     {
         return;
     }
+    starBG->update();
     repaint();
 }
 void Window::paintEvent(QPaintEvent *event)
@@ -74,42 +77,31 @@ void Window::paintEvent(QPaintEvent *event)
     {
         case 0:
         {
-            starBG->paint(event,painter);
             break;
         }
         case 1:
         {
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             break;
         }
         case 2:
         {
             //system("pause");
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             chooseCharacter->paint(event,painter);
             break;
         }
         case 3:
         {
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             break;
         }
         case 4:
         {
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             break;
         }
         case 5:
         {
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             askDialog->paint(event,painter);
@@ -117,8 +109,6 @@ void Window::paintEvent(QPaintEvent *event)
         }
         case 6:
         {
-            starBG->paint(event,painter);
-            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             cardAttack->paint(event,painter);
@@ -193,7 +183,8 @@ void Window::messageProcess(std::vector<int> m)
             {
                 this->paintStructInit[i] = information[i];
             }
-            wColor = new PaintColor(paraColor);
+            wColor = new PaintColor(paraColor,this);
+            wColor->show();
             this->phase = 1;
             break;
         }
