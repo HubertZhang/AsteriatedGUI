@@ -4,9 +4,17 @@
 #include <iostream>
 PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canBe)
 {
+    setCheckable(true);
+    setChecked(false);
+    setEnabled(canBe);
+    setGeometry(paraX, paraY, paraW, paraW);
+    clickedLabel.setGeometry(paraX, paraY, paraW, paraW);
+    notClickedLabel.setGeometry(paraX, paraY, paraW, paraW);
+    frameLabel.setGeometry(paraX, paraY, paraW, paraW);
+    this->setStyleSheet("border:none;");
+    
     QString s;
-    kind = buttonKind;
-    canBeClicked = canBe;
+    //kind = buttonKind;
     s.sprintf(":/button/buttonNotClicked%d.png",buttonKind);
     notClickedMap = new QPixmap();
     notClickedMap->load(s);
@@ -23,6 +31,7 @@ PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool
         s.sprintf(":/button/buttonClicked%d.png",buttonKind);
         clickedMap->load(s);
     }
+    
     switch(paraW)
     {
         case 100:
@@ -53,64 +62,54 @@ PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool
     }
     frame = new QPixmap();
     frame->load(s);
-    isClicked = false;
-    canBeClicked = canBe;
-    xp = paraX;
-    yp = paraY;
-    width =  paraW;
-    height = paraH;
+    clickedLabel.setPixmap(*clickedMap);
+    notClickedLabel.setPixmap(*notClickedMap);
+    frameLabel.setPixmap(*frame);
+    connect(this, SIGNAL(clicked()), this, SLOT(isThisClicked()));
 }//buttonKind from 1 to 31:For characterPic;
-void PicButton::isThisClicked(int x,int y)
+void PicButton::isThisClicked()
 {
-    if(canBeClicked)
+    if(isChecked())
     {
-        if(x > xp && x < (xp + width))
-        {
-            if(y > yp && y < (yp + height))
-            {
-                isClicked = !isClicked;
-                //system("pause");
-                if(isClicked)
-                {
-                    emit changeClicked();
-                }
-                else
-                {
-                    emit notClicked();
-                }
-            }
-        }
-    }
-}
-void PicButton::paint(QPaintEvent *event,QPainter* painter)
-{
-    if(!canBeClicked)
-    {
-        painter->drawPixmap(xp,yp,width,height,*notClickedMap);
+        emit changeClicked();
     }
     else
     {
-        painter->drawPixmap(xp,yp,width,height,*clickedMap);
+        emit notClicked();
     }
-    if(isClicked)
+}
+void PicButton::paintEvent(QPaintEvent *event)
+{
+    if(isChecked())
     {
-        painter->drawPixmap(xp,yp,width,height,*frame);
+        clickedLabel.setVisible(true);
+        notClickedLabel.setVisible(false);
+        frameLabel.setVisible(true);
+    }
+    else
+    {
+        clickedLabel.setVisible(false);
+        notClickedLabel.setVisible(true);
+        frameLabel.setVisible(false);
     }
 }
 void PicButton::cancelX()
 {
-    isClicked = false;
+    //isClicked = false;
 }
 void PicButton::recover()
 {
-    isClicked = true;
+    //isClicked = true;
 }
 void PicButton::cancelClick()
 {
-    canBeClicked = false;
-    isClicked  = false;
+    setEnabled(false);
+    //canBeClicked = false;
+    setChecked(false);
+    //isClicked  = false;
 }
 void PicButton::recoverClick()
 {
-    canBeClicked = true;
+    setEnabled(true);
+    //canBeClicked = true;
 }
