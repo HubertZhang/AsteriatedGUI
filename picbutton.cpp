@@ -2,19 +2,22 @@
 #include <cstdlib>
 #include <QString>
 #include <iostream>
-PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canBe)
+PicButton::PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canBe,QWidget* parent) : QPushButton(parent)
 {
     setCheckable(true);
     setChecked(false);
     setEnabled(canBe);
     setGeometry(paraX, paraY, paraW, paraW);
+    clickedLabel.setParent(this);
+    notClickedLabel.setParent(this);
+    frameLabel.setParent(this);
     clickedLabel.setGeometry(paraX, paraY, paraW, paraW);
     notClickedLabel.setGeometry(paraX, paraY, paraW, paraW);
     frameLabel.setGeometry(paraX, paraY, paraW, paraW);
     this->setStyleSheet("border:none;");
     
     QString s;
-    //kind = buttonKind;
+    kind = buttonKind;
     s.sprintf(":/button/buttonNotClicked%d.png",buttonKind);
     notClickedMap = new QPixmap();
     notClickedMap->load(s);
@@ -71,45 +74,41 @@ void PicButton::isThisClicked()
 {
     if(isChecked())
     {
-        emit changeClicked();
-    }
-    else
-    {
-        emit notClicked();
-    }
-}
-void PicButton::paintEvent(QPaintEvent *event)
-{
-    if(isChecked())
-    {
-        clickedLabel.setVisible(true);
+        frameLabel.setVisible(true);
         notClickedLabel.setVisible(false);
         frameLabel.setVisible(true);
+        emit beChecked();
     }
     else
     {
         clickedLabel.setVisible(false);
         notClickedLabel.setVisible(true);
         frameLabel.setVisible(false);
+        emit unChecked();
     }
 }
-void PicButton::cancelX()
+
+//void PicButton::cancelX()
+//{
+//    //setChecked(false);
+//}
+//void PicButton::recover()
+//{
+//    //setChecked(true);
+//}
+void PicButton::setState(bool state)
 {
-    //isClicked = false;
+    setEnabled(state);
 }
-void PicButton::recover()
-{
-    //isClicked = true;
-}
-void PicButton::cancelClick()
+void PicButton::disable()
 {
     setEnabled(false);
-    //canBeClicked = false;
-    setChecked(false);
+    //setCheckable(false);
+    //setChecked(false);
     //isClicked  = false;
 }
-void PicButton::recoverClick()
+void PicButton::enable()
 {
     setEnabled(true);
-    //canBeClicked = true;
+    //setCheckable(true);
 }

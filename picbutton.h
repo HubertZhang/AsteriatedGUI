@@ -15,22 +15,19 @@ public:
     QLabel frameLabel;
 //    bool isClicked;
 //    bool canBeClicked;
-//    int xp;
-//    int yp;
-//    int kind;
-//    int width;
-//    int height;
-    explicit PicButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canbe);//buttonKind decide the pic to load
-protected:
-    void paintEvent(QPaintEvent* event);
+    int xp;
+    int yp;
+    int kind;
+    int width;
+    int height;
+    explicit PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,bool canbe,QWidget* parent);//buttonKind decide the pic to load
 signals:
-    void changeClicked();
-    void notClicked();
+    void beChecked();
+    void unChecked();
 public slots:
     void isThisClicked();
-    void cancelX();
-    void recover();
-    void cancelClick();
-    void recoverClick();
+    void enable();
+    void disable();
+    void setState(bool);
 };
 #endif // PICBUTTON_H

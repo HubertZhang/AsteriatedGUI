@@ -4,7 +4,7 @@
 #include <string>
 
 CardButton::CardButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bool canBe,int cardNum, QWidget *parent)
-    :PicButton(buttonKind,paraX,paraY,paraW,paraH,canBe)
+    :PicButton(buttonKind,paraX,paraY,paraW,paraH,canBe,parent)
 {
     cardList = new CardList();
     isConnect = false;
@@ -32,12 +32,5 @@ CardButton::CardButton(int buttonKind,int paraX,int paraY,int paraW,int paraH,bo
     {
         label[i]->move(xp + 20,yp + yOffset * (i + 1));
         label[i]->show();
-    }
-}
-CardButton::~CardButton()
-{
-    for(int i = 0;i < 5;i++)
-    {
-        delete label[i];
     }
 }
