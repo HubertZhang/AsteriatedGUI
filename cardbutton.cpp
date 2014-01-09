@@ -7,6 +7,7 @@ CardButton::CardButton(int card,int paraX, QWidget *parent)
     :PicButton(paraX,GEO_CARD_Y,GEO_CARD_W,GEO_CARD_H,true,parent)
 {
     //isConnect = false;
+    frameLabel.setPixmap(QPixmap(":/character/cardFrameX.png"));
     QString s;
     for(int i = 0;i < 5;i ++)
     {

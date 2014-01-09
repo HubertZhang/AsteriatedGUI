@@ -5,12 +5,16 @@
 #include <QLabel>
 #include "cardList.h"
 #include <QFont>
-#include "picbutton.h"
-struct character
+#include "characterbutton.h"
+extern CardList cardlist;
+
+class Character : QWidget
 {
-    PicButton* characterPic;
-    QPixmap* isActivated;
-    QPixmap* choosenFrame;
+    Q_OBJECT
+
+    CharacterButton* characterPic;
+//    QPixmap* isActivated;
+//    QPixmap* choosenFrame;
     bool canBeActivated;
     bool activated;
     bool blueExist;
@@ -26,45 +30,53 @@ struct character
     int crystal;
     int status[10];
     int statusNum;
-    int xp;
-    int yp;
-    int width;
-    int height;
-    int offsetX;
-    int offsetY;
     int blue;
     int yellow;
+    
+    QLabel statusBar[10];
+    QLabel seal[6];
+    QLabel gemLabel;
+    QLabel crystalLabel;
+    QLabel cureLabel;
+    
+    static QPixmap weakPic;
+    static QPixmap poisonPic;
+    static QPixmap sheildPic;
+    static QPixmap sealPic[6];
+public:
+    Character(int characterNum,int place,int color);
+protected:
+    void paintEvent(QPaintEvent*);
+//    int xp;
+//    int yp;
+//    int width;
+//    int height;
+//    int offsetX;
+//    int offsetY;
+
 };
 
 class PaintStruct : public QWidget
 {    
     Q_OBJECT
 private:
-    QPixmap* redNum[17];
-    QPixmap* blueNum[17];
-    QPixmap* arrow[4];
-    QPixmap* attribute[6];
-    QPixmap* soulY;
-    QPixmap* soulB;
-    QPixmap* cardFrame;
-    QPixmap* gem;
-    QPixmap* crystal;
-    QPixmap* grail;
-    QPixmap* weakPic;
-    QPixmap* poisonPic;
-    QPixmap* sheildPic;
-    QPixmap* number[17];
-    QPixmap* slash;
-    QFont* font;
-    CardList* cardList;
-    QPixmap* seal[6];
+//    
+//    //QPixmap* arrow[4];
+//    QPixmap* soulY;
+//    //QPixmap* soulB;
+//    //QPixmap* cardFrame;
+//    //QPixmap* gem;
+//    //QPixmap* crystal;
+//    QLabel grail;
+//
+//    QPixmap* seal[6];
 public:
-    character* gameCharacter[6];
+    Character* gameCharacter[6];
     int yourSite;
     int arrowNum;
     int paintArrow;
-    int arrowX[6];
-    int arrowY[6];
+//    int arrowX[6];
+//    int arrowY[6];
     int grailRed;
     int grailBlue;
     int gemRed;
@@ -73,18 +85,29 @@ public:
     int crystalBlue;
     int moraleRed;
     int moraleBlue;
+    QLabel redGrailPic[5];
+    QLabel blueGrailPic[5];
+    QLabel redStonePic[5];
+    QLabel blueStonePic[5];
+    
+    QLabel redMoralePic;
+    QLabel blueMoralePic;
+    static QPixmap crystalPic;
+    static QPixmap gemPic;
     int SoulYX[6];
     int SoulYY[6];
     int SoulBX[6];
     int SoulBY[6];
-    bool getBlue(int characterNum);
-    bool getYellow(int characterNum);
-    int getCrystal(int characterNum);
-    int getCureLimit(int chracterNum);
-    int getEnergyLimit(int characterNum);
-    bool ifActivated(int characterNum);
-    void paint(QPaintEvent*,QPainter*);
+protected:
+    void paintEvent(QPaintEvent* event);
+public:
     explicit PaintStruct(int information[15],QWidget* parent,int yourX);
 };
 
+bool getBlue(int characterNum);
+bool getYellow(int characterNum);
+int getCrystal(int characterNum);
+int getCureLimit(int chracterNum);
+int getEnergyLimit(int characterNum);
+bool ifActivated(int characterNum);
 #endif // PAINTSTRUCT_H

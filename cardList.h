@@ -16,5 +16,4 @@ public:
     int getSkillTwo(int cardNum);
     int getNature(int cardNum);
 };
-CardList cardlist;
 #endif // CARDLIST_H

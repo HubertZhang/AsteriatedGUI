@@ -3,129 +3,49 @@
 #include <QPainter>
 #include <cstdlib>
 #include <iostream>
+QPixmap Character::poisonPic(":/character/poison.png");
+QPixmap Character::weakPic(":/character/weak.png");
+QPixmap Character::sheildPic(":/character/sheild.png");
+QPixmap Character::sealPic[6] = {QPixmap(":/character/seal0.png"),QPixmap(":/character/seal1.png"),QPixmap(":/character/seal2.png"),QPixmap(":/character/seal3.png"),QPixmap(":/character/seal4.png"),QPixmap(":/character/seal5.png")};
+QPixmap PaintStruct::crystalPic(":/character/crystal.png");
+QPixmap PaintStruct::gemPic(":/character/gem.png");
+Character::Character(int characterNum,int place,int color)
+{
+    //setGeometry(GEO_CHARACTER_X[place], GEO_CHARACTER_Y[place], <#int aw#>, <#int ah#>);
+    this->yellow = 0;
+    this->blue = 0;
+    this->characterNum = characterNum;
+    this->blueExist = getBlue(characterNum);
+    this->yellowExist = getYellow(characterNum);
+    this->characterPic = new CharacterButton(characterNum,place,this);
+    //TODO:
+    //        this->choosenFrame = new QPixmap();
+    //        s.sprintf(":/character/choosenFrame.png");
+    //        this->choosenFrame->load(s);
+    this->color = color;
+    this->crystal = 0;
+    //this->crystal = getCrystal(this->characterNum);
+    this->cure = 0;
+    this->cureLimit = getCureLimit(this->characterNum);
+    this->energeLimit = getEnergyLimit(this->characterNum);
+    this->gem = 0;
+    this->statusNum = 0;
+    this->activated = false;
+    this->canBeActivated = ifActivated(this->characterNum);
+    this->cardNum = 0;
+    this->cardLimit = 6;
+    
+    
+    for(int j = 0;j < 10;j++)
+    {
+        statusBar[j].setParent(this);
+        statusBar[j].setGeometry(157 - 16,10 + 30 * j , 36, 36);
+    }
+}
+
 PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
 {
-    yourSite = yourX;
-    QString s;
-    for(int i = 0;i < 6;i ++)
-    {
-        gameCharacter[i] = new character();
-    }
-    for(int i = 0;i < 6;i++)
-    {
-        seal[i] = new QPixmap();
-        s.sprintf(":/character/seal%d.png",i);
-        seal[i]->load(s);
-    }
-    for(int i = 0;i < 17;i ++)
-    {
-        redNum[i] = new QPixmap();
-        blueNum[i] = new QPixmap();
-        s.sprintf(":/morale/red%d.png",i);
-        redNum[i]->load(s);
-        s.sprintf(":/morale/blue%d.png",i);
-        blueNum[i]->load(s);
-    }
-    for(int i = 0;i < 17;i ++)
-    {
-        s.sprintf(":/number/%d.png",i);
-        number[i] = new QPixmap();
-        number[i]->load(s);
-    }
-    slash = new QPixmap();
-    slash->load(":/number/slash.png");
-    gameCharacter[0]->xp = 124; gameCharacter[0]->yp = 273;
-    gameCharacter[1]->xp = 264; gameCharacter[1]->yp = 6;
-    gameCharacter[2]->xp = 509; gameCharacter[2]->yp = 6;
-    gameCharacter[3]->xp = 754; gameCharacter[3]->yp = 6;
-    gameCharacter[4]->xp = 894; gameCharacter[4]->yp = 273;
-    gameCharacter[5]->xp = 194; gameCharacter[5]->yp = 541;
-    for(int i = 0;i < 6;i++)
-    {
-        gameCharacter[i]->yellow = 0;
-        gameCharacter[i]->blue = 0;
-        gameCharacter[i]->characterNum = information[i];
-        gameCharacter[i]->blueExist = getBlue(gameCharacter[i]->characterNum);
-        gameCharacter[i]->yellowExist = getYellow(gameCharacter[i]->characterNum);
-        gameCharacter[i]->characterPic = new PicButton(gameCharacter[i]->characterNum,gameCharacter[i]->xp,gameCharacter[i]->yp,157,223,false);
-        gameCharacter[i]->choosenFrame = new QPixmap();
-        s.sprintf(":/character/choosenFrame.png");
-        gameCharacter[i]->choosenFrame->load(s);
-        gameCharacter[i]->color = information[i+6];
-        gameCharacter[i]->crystal = 0;
-        //gameCharacter[i]->crystal = getCrystal(gameCharacter[i]->characterNum);
-        gameCharacter[i]->cure = 0;
-        gameCharacter[i]->cureLimit = getCureLimit(gameCharacter[i]->characterNum);
-        gameCharacter[i]->energeLimit = getEnergyLimit(gameCharacter[i]->characterNum);
-        gameCharacter[i]->gem = 0;
-        gameCharacter[i]->statusNum = 0;
-        gameCharacter[i]->activated = false;
-        gameCharacter[i]->canBeActivated = ifActivated(gameCharacter[i]->characterNum);
-        gameCharacter[i]->cardNum = 0;
-        gameCharacter[i]->cardLimit = 6;
-        if(gameCharacter[i]->canBeActivated)
-        {
-            gameCharacter[i]->isActivated = new QPixmap();
-            s.sprintf(":/character/character%dActivated.png",information[i]);
-            gameCharacter[i]->isActivated->load(s);
-        }
-        if(i == 0 || i == 4)
-        {
-            SoulYX[i] = gameCharacter[i]->xp + 66;
-            SoulBX[i] = gameCharacter[i]->xp + 103 ;
-            SoulYY[i] = gameCharacter[i]->yp + 223 + 2 - 18;
-            SoulBY[i] = gameCharacter[i]->yp + 223 + 2 - 18;
-        }
-        int offsetYQUQ = 50;
-        if(i == 1)
-        {
-            SoulYX[i] = gameCharacter[i]->xp + 157 + 2 - 18;
-            SoulBX[i] = gameCharacter[i]->xp + 157 + 2 - 18;
-            SoulYY[i] = gameCharacter[i]->yp + offsetYQUQ * 2;
-            SoulBY[i] = gameCharacter[i]->yp + offsetYQUQ * 3;
-        }
-        if(i == 2 || i == 3)
-        {
-            SoulYX[i] = gameCharacter[i]->xp - 2 - 18;
-            SoulBX[i] = gameCharacter[i]->xp - 2 - 18;
-            SoulYY[i] = gameCharacter[i]->yp + offsetYQUQ * 2;
-            SoulBY[i] = gameCharacter[i]->yp + offsetYQUQ * 3;
-        }
-        if(i == 5)
-        {
-            SoulYX[i] = gameCharacter[i]->xp + 157 + 4 + 66;
-            SoulBX[i] = gameCharacter[i]->xp + 157 + 4 + 103;
-            SoulYY[i] = gameCharacter[i]->yp - 2 - 20;
-            SoulBY[i] = gameCharacter[i]->yp - 2 - 20;
-        }
-    }
-    for(int j = 0;j < 6;j++)
-    {
-        attribute[j] = new QPixmap();
-        s.sprintf(":/characterAttribute/attribute%d.png",j);
-        attribute[j]->load(s);
-    }
-    for(int j = 0;j < 4;j++)
-    {
-        arrow[j] = new QPixmap();
-        s.sprintf(":/character/arrow%d.png",j);
-        arrow[j]->load(s);
-    }
-    arrowX[0] = gameCharacter[0]->xp +157 + 2 + 10;
-    for(int j = 1;j < 4;j++)
-    {
-        arrowX[j] = (gameCharacter[j]->xp * 2 + 158)/2 - 18;
-    }
-    arrowX[4] = gameCharacter[4]->xp - 2 - 10 - 36;
-    arrowX[5] = (gameCharacter[5]->xp * 2 + 158)/2 - 18;
-    arrowY[0] = (gameCharacter[0]->yp * 2 + 224)/2 - 18;
-    for(int j = 1;j < 4;j++)
-    {
-        arrowY[j] = (gameCharacter[j]->yp + 2 + 10 + 223);
-    }
-    arrowY[4] = (gameCharacter[4]->yp * 2 + 224)/2 - 18;
-    arrowY[5] = gameCharacter[5]->yp - 2 - 10 - 36;
-    paintArrow = false;
+//    paintArrow = false;
     arrowNum = 0;
     grailRed = 0;
     grailBlue = 0;
@@ -135,27 +55,63 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
     crystalBlue = 0;
     moraleRed = 15;
     moraleBlue = 15;
-    gem = new QPixmap();
-    crystal = new QPixmap();
-    grail = new QPixmap();
-    weakPic = new QPixmap();
-    poisonPic = new QPixmap();
-    sheildPic = new QPixmap();
-    soulB = new QPixmap();
-    soulY = new QPixmap();
-    cardFrame = new QPixmap();
-    gem->load(":/character/gem.png");
-    crystal->load(":/character/crystal.png");
-    grail->load(":/character/grail.png");
-    weakPic->load(":/character/weak.png");
-    poisonPic->load(":/character/poison.png");
-    sheildPic->load(":/character/sheild.png");
-    soulB->load(":/character/SoulB.png");
-    soulY->load(":/character/SoulY.png");
-    cardFrame->load(":/character/CardFrame.png");
-    cardList = new CardList();
+    redMoralePic.setPixmap(QString(":/morale/red%1.png").arg(moraleRed));
+    blueMoralePic.setPixmap(QString(":/morale/blue%1.png").arg(moraleBlue));
+    redMoralePic.setGeometry(GEO_MORALE_X, GEO_MORALE_RED_Y, GEO_MORALE_W, GEO_MORALE_H);
+    blueMoralePic.setGeometry(GEO_MORALE_X, GEO_MORALE_BLUE_Y, GEO_MORALE_W, GEO_MORALE_H);
+    
+
+    
+    for (int i = 0; i<5; i++) {
+        redGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
+        blueGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
+        redGrailPic[i].setPixmap(QPixmap(":/character/grail.png"));
+        blueGrailPic[i].setPixmap(QPixmap(":/character/grail.png"));
+        redGrailPic[i].setVisible(false);
+        blueGrailPic[i].setVisible(false);
+
+        blueGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
+        redStonePic[i].setGeometry(GEO_STONE_X, GEO_STONE_RED_Y+i*GEO_STONE_YOFFSET, GEO_STONE_W, GEO_STONE_H);
+        blueStonePic[i].setGeometry(GEO_STONE_X, GEO_STONE_RED_Y+i*GEO_STONE_YOFFSET, GEO_STONE_W, GEO_STONE_H);
+    }
+    for(int i = 0;i < 6;i++)
+    {
+        
+        gameCharacter[i] = new Character(information[i],i,information[i+6]);
+    }
+
+
+//    arrowX[0] = gameCharacter[0]->xp +157 + 2 + 10;
+//    for(int j = 1;j < 4;j++)
+//    {
+//        arrowX[j] = (gameCharacter[j]->xp * 2 + 158)/2 - 18;
+//    }
+//    arrowX[4] = gameCharacter[4]->xp - 2 - 10 - 36;
+//    arrowX[5] = (gameCharacter[5]->xp * 2 + 158)/2 - 18;
+//    arrowY[0] = (gameCharacter[0]->yp * 2 + 224)/2 - 18;
+//    for(int j = 1;j < 4;j++)
+//    {
+//        arrowY[j] = (gameCharacter[j]->yp + 2 + 10 + 223);
+//    }
+//    arrowY[4] = (gameCharacter[4]->yp * 2 + 224)/2 - 18;
+//    arrowY[5] = gameCharacter[5]->yp - 2 - 10 - 36;
+
+
+    
+//    cardFrame = new QPixmap();
+//    gem->load(":/character/gem.png");
+//    crystal->load(":/character/crystal.png");
+//    grail->load(":/character/grail.png");
+//    weakPic->load(":/character/weak.png");
+//    poisonPic->load(":/character/poison.png");
+//    sheildPic->load(":/character/sheild.png");
+//    soulB->load(":/character/SoulB.png");
+//    soulY->load(":/character/SoulY.png");
+//    cardFrame->load(":/character/CardFrame.png");
+//    cardList = new CardList();
 }
-int PaintStruct::getCrystal(int characterNum)
+
+int getCrystal(int characterNum)
 {
     switch(characterNum)
     {
@@ -170,7 +126,7 @@ int PaintStruct::getCrystal(int characterNum)
         }
     }
 }
-int PaintStruct::getCureLimit(int characterNum)
+int getCureLimit(int characterNum)
 {
     switch(characterNum)
     {
@@ -192,7 +148,7 @@ int PaintStruct::getCureLimit(int characterNum)
         }
     }
 }
-int PaintStruct::getEnergyLimit(int characterNum)
+int getEnergyLimit(int characterNum)
 {
     switch(characterNum)
     {
@@ -206,7 +162,7 @@ int PaintStruct::getEnergyLimit(int characterNum)
         }
     }
 }
-bool PaintStruct::ifActivated(int characterNum)
+bool ifActivated(int characterNum)
 {
     switch(characterNum)
     {
@@ -227,7 +183,7 @@ bool PaintStruct::ifActivated(int characterNum)
     }
     return false;
 }
-bool PaintStruct::getBlue(int characterNum)
+bool getBlue(int characterNum)
 {
     switch(characterNum)
     {
@@ -240,7 +196,7 @@ bool PaintStruct::getBlue(int characterNum)
     }
     return false;
 }
-bool PaintStruct::getYellow(int characterNum)
+bool getYellow(int characterNum)
 {
     switch(characterNum)
     {
@@ -258,7 +214,247 @@ bool PaintStruct::getYellow(int characterNum)
     return false;
 }
 
-void PaintStruct::paint(QPaintEvent *event, QPainter *painter)
+void Character::paintEvent(QPaintEvent *event)
+{
+    //TODO
+    cureLabel.setText(QString("%1/%2").arg(cure,cureLimit));
+    gemLabel.setText(QString("%1/%2").arg(gem,energeLimit));
+    crystalLabel.setText(QString("%1/%2").arg(crystal,energeLimit));
+//        if(i > 0 && i < 4)
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[4]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[4]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            num = 0;
+//            while(cureNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp +95 - 3 + offset * num,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
+//                num ++;
+//                cureNum --;
+//            }
+//        }
+//        else
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[4]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[4]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            num = 0;
+//            while(cureNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp +95 - 3 + offset * num,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
+//                num ++;
+//                cureNum --;
+//            }
+//        }
+//    }
+//    else if(gameCharacter[i]->energeLimit == 4)
+//    {
+//        if(i > 0 && i < 4)
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3 + 7,gameCharacter[i]->yp - 15 + 226 - 10,36,36,*number[cureNum]);
+//        }
+//        else
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            painter->drawPixmap(gameCharacter[i]->xp + 125 - 3 + 7,gameCharacter[i]->yp - 15 - 10,36,36,*number[cureNum]);
+//        }
+//    }
+//    else
+//    {
+//        if(i > 0 && i < 4)
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 110 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            painter->drawPixmap(gameCharacter[i]->xp + 110 - 3 + 7,gameCharacter[i]->yp - 15 + 226 - 10,36,36,*number[cureNum]);
+//        }
+//        else
+//        {
+//            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
+//            painter->drawPixmap(gameCharacter[i]->xp + 110 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
+//            int gemNum = gameCharacter[i]->gem;
+//            int crystalNum = gameCharacter[i]->crystal;
+//            int cureNum = gameCharacter[i]->cure;
+//            int offset = 30;
+//            int num = 0;
+//            while(gemNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
+//                num ++;
+//                gemNum --;
+//            }
+//            while(crystalNum != 0)
+//            {
+//                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
+//                num ++;
+//                crystalNum --;
+//            }
+//            painter->drawPixmap(gameCharacter[i]->xp + 110 - 3 + 7,gameCharacter[i]->yp - 15 - 10,36,36,*number[cureNum]);
+//        }
+//    }
+//    if(i > 0 && i < 4)
+//    {
+//        painter->drawPixmap(SoulYX[i] - 17,SoulYY[i] - 50,36,36,*number[gameCharacter[i]->cardNum]);
+//        painter->drawPixmap(SoulYX[i] - 2,SoulYY[i] - 50,36,36,*slash);
+//        painter->drawPixmap(SoulYX[i] + 13,SoulYY[i] - 50,36,36,*number[gameCharacter[i]->cardLimit]);
+//    }
+//    else
+//    {
+//        painter->drawPixmap(SoulYX[i] - 65,SoulYY[i],36,36,*number[gameCharacter[i]->cardNum]);
+//        painter->drawPixmap(SoulYX[i] - 50,SoulYY[i],36,36,*slash);
+//        painter->drawPixmap(SoulYX[i] - 35,SoulYY[i],36,36,*number[gameCharacter[i]->cardLimit]);
+//    }
+    if(yellowExist)
+    {
+        //TODO
+//        painter->drawPixmap(SoulYX[i],SoulYY[i],36,36,*soulY);
+//        painter->drawPixmap(SoulYX[i] + 7,SoulYY[i] - 10,36,36,*number[gameCharacter[i]->yellow]);
+    }
+    if(blueExist)
+    {
+        //TODO
+//        painter->drawPixmap(SoulBX[i],SoulBY[i],36,36,*soulB);
+//        painter->drawPixmap(SoulBX[i] + 7,SoulBY[i] - 10,36,36,*number[gameCharacter[i]->blue]);
+    }
+    for(int j = 0;j < statusNum; j ++)
+    {
+        statusBar[j].setVisible(true);
+        switch(cardlist.getName(status[j]))
+        {
+            case weak:
+            {
+                statusBar[j].setPixmap(weakPic);
+                break;
+            }
+            case poison:
+            {
+                statusBar[j].setPixmap(poisonPic);
+                break;
+            }
+            case shield:
+            {
+                statusBar[j].setPixmap(sheildPic);
+                break;
+            }
+            case fiveBound:
+            {
+                statusBar[j].setPixmap(sealPic[5]);
+                break;
+            }
+            default://五系封印
+            {
+                statusBar[j].setPixmap(sealPic[cardlist.getSkillOne(status[j]) - 41]);
+                break;
+            }
+        }
+    }
+    for (int i = statusNum; i<10; i++) {
+        statusBar[i].setVisible(false);
+    }
+}
+
+void PaintStruct::paintEvent(QPaintEvent *event)
 {
     int teamGemRed = gemRed;
     int teamGemBlue = gemBlue;
@@ -269,346 +465,56 @@ void PaintStruct::paint(QPaintEvent *event, QPainter *painter)
     //int xOffset = 46;
     int yOffset = 52;
     int count = 0;
-    painter->drawPixmap(39,321,50,50,*redNum[moraleRed]);
-    painter->drawPixmap(39,392,50,50,*blueNum[moraleBlue]);
+
     while(teamGrailRed != 0)
     {
-        painter->drawPixmap(15,67 + yOffset * count,50,50,*grail);
+        redGrailPic[count].setVisible(true);
         count ++;
         teamGrailRed --;
     }
     count = 0;
     while(teamGrailBlue != 0)
     {
-        painter->drawPixmap(15,443 + yOffset * count,50,50,*grail);
+        blueGrailPic[count].setVisible(true);
         count ++;
         teamGrailBlue --;
     }
     count = 0;
     while(teamGemRed != 0)
     {
-        painter->drawPixmap(15 + 46,67 + yOffset * count,50,50,*gem);
+        redStonePic[count].setVisible(true);
+        redStonePic[count].setPixmap(gemPic);
         count ++;
         teamGemRed --;
     }
     while(teamCrystalRed != 0)
     {
-        painter->drawPixmap(15 + 46,67 + yOffset * count,50,50,*crystal);
+        redStonePic[count].setVisible(true);
+        redStonePic[count].setPixmap(crystalPic);
         count ++;
         teamCrystalRed --;
+    }
+    while (count!=4) {
+        redStonePic[count].setVisible(false);
+        count++;
     }
     count = 0;
     while(teamGemBlue != 0)
     {
-        painter->drawPixmap(15 + 46,443 + yOffset * count,50,50,*gem);
+        blueStonePic[count].setVisible(true);
+        blueStonePic[count].setPixmap(gemPic);
         count ++;
         teamGemBlue --;
     }
     while(teamCrystalBlue != 0)
     {
-        painter->drawPixmap(15 + 46,443 + yOffset * count,50,50,*crystal);
+        blueStonePic[count].setVisible(true);
+        blueStonePic[count].setPixmap(crystalPic);
         count ++;
         teamCrystalBlue --;
     }
-    //Activate painting!
-    //
-    //
-    for(int i = 0;i < 6;i++)
-    {
-        gameCharacter[i]->characterPic->paint(event,painter);
-    }
-    for(int i = 0;i < 6;i++)
-    {
-        if(gameCharacter[i]->cureLimit == 2 && gameCharacter[i]->energeLimit == 3 && gameCharacter[i]->cure < 3)
-        {
-            if(i > 0 && i < 4)
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[4]);
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[4]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                num = 0;
-                while(cureNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp +95 - 3 + offset * num,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
-                    num ++;
-                    cureNum --;
-                }
-            }
-            else
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[4]);
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[4]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                num = 0;
-                while(cureNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp +95 - 3 + offset * num,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
-                    num ++;
-                    cureNum --;
-                }
-            }
-        }
-        else if(gameCharacter[i]->energeLimit == 4)
-        {
-            if(i > 0 && i < 4)
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3 + 7,gameCharacter[i]->yp - 15 + 226 - 10,36,36,*number[cureNum]);
-            }
-            else
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 95 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                painter->drawPixmap(gameCharacter[i]->xp + 125 - 3 + 7,gameCharacter[i]->yp - 15 - 10,36,36,*number[cureNum]);
-            }
-        }
-        else
-        {
-            if(i > 0 && i < 4)
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 110 - 3,gameCharacter[i]->yp - 15 + 226,36,36,*attribute[2]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                painter->drawPixmap(gameCharacter[i]->xp + 110 - 3 + 7,gameCharacter[i]->yp - 15 + 226 - 10,36,36,*number[cureNum]);
-            }
-            else
-            {
-                painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 35 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 65 - 3,gameCharacter[i]->yp - 19,36,36,*attribute[3]);
-                painter->drawPixmap(gameCharacter[i]->xp + 110 - 3,gameCharacter[i]->yp - 15,36,36,*attribute[2]);
-                int gemNum = gameCharacter[i]->gem;
-                int crystalNum = gameCharacter[i]->crystal;
-                int cureNum = gameCharacter[i]->cure;
-                int offset = 30;
-                int num = 0;
-                while(gemNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[0]);
-                    num ++;
-                    gemNum --;
-                }
-                while(crystalNum != 0)
-                {
-                    painter->drawPixmap(gameCharacter[i]->xp + 5 - 3 + offset * num,gameCharacter[i]->yp - 19,36,36,*attribute[1]);
-                    num ++;
-                    crystalNum --;
-                }
-                painter->drawPixmap(gameCharacter[i]->xp + 110 - 3 + 7,gameCharacter[i]->yp - 15 - 10,36,36,*number[cureNum]);
-            }
-        }
-        if(i > 0 && i < 4)
-        {
-            painter->drawPixmap(SoulYX[i] - 17,SoulYY[i] - 50,36,36,*number[gameCharacter[i]->cardNum]);
-            painter->drawPixmap(SoulYX[i] - 2,SoulYY[i] - 50,36,36,*slash);
-            painter->drawPixmap(SoulYX[i] + 13,SoulYY[i] - 50,36,36,*number[gameCharacter[i]->cardLimit]);
-        }
-        else
-        {
-            painter->drawPixmap(SoulYX[i] - 65,SoulYY[i],36,36,*number[gameCharacter[i]->cardNum]);
-            painter->drawPixmap(SoulYX[i] - 50,SoulYY[i],36,36,*slash);
-            painter->drawPixmap(SoulYX[i] - 35,SoulYY[i],36,36,*number[gameCharacter[i]->cardLimit]);
-        }
-        if(gameCharacter[i]->yellowExist)
-        {
-            painter->drawPixmap(SoulYX[i],SoulYY[i],36,36,*soulY);
-            painter->drawPixmap(SoulYX[i] + 7,SoulYY[i] - 10,36,36,*number[gameCharacter[i]->yellow]);
-        }
-        if(gameCharacter[i]->blueExist)
-        {
-            painter->drawPixmap(SoulBX[i],SoulBY[i],36,36,*soulB);
-            painter->drawPixmap(SoulBX[i] + 7,SoulBY[i] - 10,36,36,*number[gameCharacter[i]->blue]);
-        }
-        if(paintArrow)
-        {
-            switch(arrowNum)
-            {
-                case 0:
-                {
-                    painter->drawPixmap(arrowX[arrowNum],arrowY[arrowNum],36,36,*arrow[2]);
-                    break;
-                }
-                case 1:
-                case 2:
-                case 3:
-                {
-                    painter->drawPixmap(arrowX[arrowNum],arrowY[arrowNum],36,36,*arrow[0]);
-                    break;
-                }
-                case 4:
-                {
-                    painter->drawPixmap(arrowX[arrowNum],arrowY[arrowNum],36,36,*arrow[3]);
-                    break;
-                }
-                default:
-                {
-                    painter->drawPixmap(arrowX[arrowNum],arrowY[arrowNum],36,36,*arrow[1]);
-                    break;
-                }
-            }
-        }
-        for(int j = 0;j < gameCharacter[i]->statusNum;j ++)
-        {
-            int offset = 30;
-            if(i == 0 ||  i == 2 || i == 3)
-            {
-                switch(cardList->getName(gameCharacter[i]->status[j]))
-                {
-                    case weak:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*weakPic);
-                        break;
-                    }
-                    case poison:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*poisonPic);
-                        break;
-                    }
-                    case shield:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*sheildPic);
-                        break;
-                    }
-                    case fiveBound:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[5]);
-                        break;
-                    }
-                    default://五系封印
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp + 157 - 16,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[cardList->getSkillOne(gameCharacter[i]->status[j]) - 41]);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                switch(cardList->getName(gameCharacter[i]->status[j]))
-                {
-                    case weak:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*weakPic);
-                        break;
-                    }
-                    case poison:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*poisonPic);
-                        break;
-                    }
-                    case shield:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*sheildPic);
-                        break;
-                    }
-                    case fiveBound:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[6]);
-                        break;
-                    }
-                    default:
-                    {
-                        painter->drawPixmap(gameCharacter[i]->xp - 20,gameCharacter[i]->yp + 10 + offset * j,36,36,*seal[cardList->getSkillOne(gameCharacter[i]->status[j]) - 41]);
-                        break;
-                    }
-                }
-            }
-        }
+    while (count!=4) {
+        redStonePic[count].setVisible(false);
+        count++;
     }
 }

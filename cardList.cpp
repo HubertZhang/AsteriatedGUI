@@ -1,6 +1,6 @@
 #include "cardList.h"
 #include"card.h"
-
+CardList cardlist;
 CardList::CardList()
 {
     cardList = new Card[150];

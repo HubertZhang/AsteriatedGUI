@@ -8,6 +8,7 @@ PicButton::PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,
     setChecked(false);
     setEnabled(canBe);
     setGeometry(paraX, paraY, paraW, paraH);
+    setMinimumSize(paraW, paraH);
     clickedLabel.setParent(this);
     notClickedLabel.setParent(this);
     frameLabel.setParent(this);
@@ -69,7 +70,7 @@ PicButton::PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,
 //    notClickedLabel.setPixmap(*notClickedMap);
 //    frameLabel.setPixmap(*frame);
     
-    notClickedLabel.setPixmap(QPixmap(":/character/buttonFrame100.png"));
+    //notClickedLabel.setPixmap(QPixmap(":/character/buttonFrame100.png"));
     clickedLabel.setVisible(false);
     notClickedLabel.setVisible(true);
     frameLabel.setVisible(false);
