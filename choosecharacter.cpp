@@ -1,62 +1,51 @@
 #include "choosecharacter.h"
 
 ChooseCharacter::ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *parent) :
-    QWidget(parent)
+    QLabel(parent)
 {
-    bg = new QPixmap();
-    bg->load(":/character/chooseCharacterFrame");
-    character[0] = new PicButton(numOne,356,270,147,207,true);
-    character[1] = new PicButton(numTwo,515,270,147,207,true);
-    character[2] = new PicButton(numThree,674,270,147,207,true);
-    ensure = new PicButton(32,595,479,100,42,false);
-    cancel = new PicButton(33,715,480,100,42,false);
-    connect(cancel,SIGNAL(notClicked()),character[0],SLOT(cancelX()));
-    connect(cancel,SIGNAL(notClicked()),character[1],SLOT(cancelX()));
-    connect(cancel,SIGNAL(notClicked()),character[2],SLOT(cancelX()));
-    connect(cancel,SIGNAL(notClicked()),ensure,SLOT(cancelX()));
-    connect(cancel,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+    setPixmap(QPixmap(":/character/chooseCharacterFrame"));
+    setGeometry(328,247, 520, 280);
+    character[0] = new CharacterButton(numOne,28,23,this);
+    character[1] = new CharacterButton(numTwo,187,23,this);
+    character[2] = new CharacterButton(numThree,346,23,this);
+    ensure = new PicButton(595-328,233,100,42,false,this);
+    cancel = new PicButton(715-328,233,100,42,false,this);
+    connect(cancel,SIGNAL(clicked()),this,SLOT(recover()));
     for(int i = 0;i < 3;i++)
     {
-        connect(character[i],SIGNAL(changeClicked()),character[(i + 1) % 3],SLOT(cancelX()));
-        connect(character[i],SIGNAL(changeClicked()),character[(i + 2) % 3],SLOT(cancelX()));
-        connect(character[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(character[i],SIGNAL(changeClicked()),cancel,SLOT(recoverClick()));
-        connect(character[i],SIGNAL(notClicked()),ensure,SLOT(cancelX()));
-        connect(character[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
-        connect(character[i],SIGNAL(notClicked()),cancel,SLOT(cancelX()));
-        connect(character[i],SIGNAL(notClicked()),cancel,SLOT(cancelClick()));
+        connect(character[i],SIGNAL(beChecked()),character[(i + 1) % 3],SLOT(disable()));
+        connect(character[i],SIGNAL(beChecked()),character[(i + 2) % 3],SLOT(disable()));
+        connect(character[i],SIGNAL(unChecked()),character[(i + 1) % 3],SLOT(enable()));
+        connect(character[i],SIGNAL(unChecked()),character[(i + 2) % 3],SLOT(enable()));
+        connect(character[i],SIGNAL(beChecked()),ensure,SLOT(enable()));
+        connect(character[i],SIGNAL(unChecked()),ensure,SLOT(disable()));
+        connect(character[i],SIGNAL(beChecked()),cancel,SLOT(enable()));
     }
-    connect(ensure,SIGNAL(changeClicked()),this,SLOT(sendMessage()));
+    connect(ensure,SIGNAL(clicked()),this,SLOT(sendMessage()));
 }
-void ChooseCharacter::paint(QPaintEvent *event, QPainter *painter)
+
+void ChooseCharacter::recover()
 {
-    painter->drawPixmap(328,247,bg->width(),bg->height(),*bg);
-    character[0]->paint(event,painter);
-    character[1]->paint(event,painter);
-    character[2]->paint(event,painter);
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
+    for (int i = 0; i<3; i++)
+    {
+        character[i]->setChecked(false);
+        character[i]->setEnabled(true);
+    }
+
+    ensure->setState(false);
 }
-void ChooseCharacter::sendMessageChoose()
+
+void ChooseCharacter::sendMessage()
 {
     std::vector<int> tempMes;
     for(int i = 0;i < 3;i++)
     {
-        if(character[i]->isClicked)
+        if(character[i]->isChecked())
         {
             tempMes.push_back(character[i]->kind);
             break;
         }
     }
     emit sendMessageChooseSig(tempMes);
-}
-ChooseCharacter::~ChooseCharacter()
-{
-    delete ensure;
-    delete cancel;
-    delete bg;
-    for(int i = 0;i < 3;i++)
-    {
-        delete character[i];
-    }
+    this->~ChooseCharacter();
 }

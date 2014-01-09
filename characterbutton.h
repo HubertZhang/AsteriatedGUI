@@ -8,14 +8,16 @@
 
 #ifndef CHARACTERBUTTON_H
 #define CHARACTERBUTTON_H
+
 #include "picbutton.h"
 #include "placeinfo.h"
 class CharacterButton : public PicButton
 {
     int character;
 public:
-    explicit CharacterButton(int character, int place, QWidget* parent);
-    int getCharacter;
+    CharacterButton(int character, int place, QWidget* parent);
+    CharacterButton(int character, int xp, int yp, QWidget* parent);
+    int getCharacter();
 };
 
 #endif /* defined(CHARACTERBUTTON_H) */

@@ -1,9 +1,10 @@
 #ifndef STARBG_H
 #define STARBG_H
 
+#include "placeinfo.h"
 #include <QLabel>
 #include <QPixmap>
-#include <QPainter>
+#include <QString>
 
 class StarBG : public QLabel
 {

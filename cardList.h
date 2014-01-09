@@ -9,7 +9,6 @@ private:
     void initCardList();
 public:
     CardList();
-    ~CardList(){}
     int getName(int cardNum);
     int getType(int cardNum);
     int getKind(int cardNum);
@@ -17,5 +16,5 @@ public:
     int getSkillTwo(int cardNum);
     int getNature(int cardNum);
 };
-//CardList cardlist;
+CardList cardlist;
 #endif // CARDLIST_H

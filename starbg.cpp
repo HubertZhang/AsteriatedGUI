@@ -1,9 +1,9 @@
 #include "starbg.h"
-#include <QString>
+
 StarBG::StarBG(QWidget *parent) :
 QLabel(parent)
 {
-    this->setMinimumSize(1366,768);
+    this->setMinimumSize(GEO_SCREEN_W,GEO_SCREEN_H);
     sign = true;
     frame = 0;
     refreshSpeed = -1;

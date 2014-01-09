@@ -75,20 +75,6 @@ void Window::paintEvent(QPaintEvent *event)
     QPainter* painter = new QPainter(this);
     switch(phase)
     {
-        case 0:
-        {
-            break;
-        }
-        case 1:
-        {
-            break;
-        }
-        case 2:
-        {
-            //system("pause");
-            chooseCharacter->paint(event,painter);
-            break;
-        }
         case 3:
         {
             paintStruct->paint(event,painter);
@@ -190,15 +176,7 @@ void Window::messageProcess(std::vector<int> m)
         }
         case 1:
         {
-            chooseCharacter = new ChooseCharacter(information[1],information[2],information[3]);
-            connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[0],SLOT(isThisClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[1],SLOT(isThisClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->character[2],SLOT(isThisClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->cancel,SLOT(isThisClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),chooseCharacter->ensure,SLOT(isThisClicked(int,int)));
-            connect(chooseCharacter->ensure,SIGNAL(changeClicked()),chooseCharacter,SLOT(sendMessageChoose()));
-            connect(chooseCharacter,SIGNAL(sendMessageChooseSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
-            connect(chooseCharacter->ensure,SIGNAL(changeClicked()),this,SLOT(changeWPhase()));
+            chooseCharacter = new ChooseCharacter(information[1],information[2],information[3],this);
             this->phase = 2;
             break;
         }

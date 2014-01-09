@@ -21,6 +21,8 @@ public:
     int width;
     int height;
     explicit PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,bool canbe,QWidget* parent);//buttonKind decide the pic to load
+protected:
+    void paintEvent(QPaintEvent* event);
 signals:
     void beChecked();
     void unChecked();

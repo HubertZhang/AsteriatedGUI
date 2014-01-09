@@ -47,9 +47,11 @@ class Window : public QMainWindow
 private:
     QTimer* timer;
     StarBG* starBG;
+    PaintColor* wColor;
+    
     PaintStruct* paintStruct;
     MessageSource* mySource;
-    PaintColor* wColor;
+    
     ChooseCharacter* chooseCharacter;
     AskDialog* askDialog;
     CardList* cardList;
