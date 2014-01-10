@@ -3,14 +3,20 @@
 #include <QPainter>
 #include <cstdlib>
 #include <iostream>
-QPixmap Character::poisonPic(":/character/poison.png");
-QPixmap Character::weakPic(":/character/weak.png");
-QPixmap Character::sheildPic(":/character/sheild.png");
-QPixmap Character::sealPic[6] = {QPixmap(":/character/seal0.png"),QPixmap(":/character/seal1.png"),QPixmap(":/character/seal2.png"),QPixmap(":/character/seal3.png"),QPixmap(":/character/seal4.png"),QPixmap(":/character/seal5.png")};
-QPixmap PaintStruct::crystalPic(":/character/crystal.png");
-QPixmap PaintStruct::gemPic(":/character/gem.png");
+QPixmap Character::weakPic;
+QPixmap Character::poisonPic;
+QPixmap Character::sheildPic;
+QPixmap Character::sealPic[6];
+QPixmap PaintStruct::crystalPic;
+QPixmap PaintStruct::gemPic;
 Character::Character(int characterNum,int place,int color)
 {
+    poisonPic.load(":/character/poison.png");
+    weakPic.load(":/character/weak.png");
+    sheildPic.load(":/character/sheild.png");
+    for(int i = 0; i<6; i++)
+        sealPic[i].load(QString(":/character/seal%1.png").arg(QString::number(i)));
+    
     //setGeometry(GEO_CHARACTER_X[place], GEO_CHARACTER_Y[place], <#int aw#>, <#int ah#>);
     this->yellow = 0;
     this->blue = 0;
@@ -35,16 +41,25 @@ Character::Character(int characterNum,int place,int color)
     this->cardNum = 0;
     this->cardLimit = 6;
     
-    
+    cureLabel.setParent(this);
+    cureLabel.setGeometry(GEO_CHARACTER_CURE_X,GEO_CHARACTER_CURE_Y, GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    gemLabel.setParent(this);
+    gemLabel.setGeometry(GEO_CHARACTER_GEM_X,GEO_CHARACTER_GEM_Y , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    crystalLabel.setParent(this);
+    crystalLabel.setGeometry(GEO_CHARACTER_CRYSTAL_Y,GEO_CHARACTER_CRYSTAL_Y , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+//TODO:soul Label
+    crystalLabel.setText(QString("%1/%2").arg(crystal,energeLimit));
     for(int j = 0;j < 10;j++)
     {
         statusBar[j].setParent(this);
-        statusBar[j].setGeometry(157 - 16,10 + 30 * j , 36, 36);
+        statusBar[j].setGeometry(GEO_CHARACTER_ATTRIBUTE_X,GEO_CHARACTER_ATTRIBUTE_Y + GEO_CHARACTER_ATTRIBUTE_YOFFSET * j , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
     }
 }
 
 PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
 {
+    crystalPic=QPixmap(":/character/crystal.png");
+    gemPic=QPixmap(":/character/gem.png");
 //    paintArrow = false;
     arrowNum = 0;
     grailRed = 0;
