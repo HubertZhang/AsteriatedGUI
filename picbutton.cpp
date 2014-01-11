@@ -4,9 +4,9 @@
 #include <iostream>
 PicButton::PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,bool canBe,QWidget* parent) : QPushButton(parent)
 {
-    setCheckable(true);
+    setCheckable(canBe);
     setChecked(false);
-    setEnabled(canBe);
+    //setEnabled(canBe);
     setGeometry(paraX, paraY, paraW, paraH);
     setMinimumSize(paraW, paraH);
     clickedLabel.setParent(this);
@@ -80,9 +80,9 @@ PicButton::PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,
 
 PicButton::PicButton(int n,int paraX,int paraY,int paraW,int paraH,bool canBe,QWidget* parent) : QPushButton(parent)
 {
-    setCheckable(true);
+    setCheckable(canBe);
     setChecked(false);
-    setEnabled(canBe);
+    //setEnabled(canBe);
     setGeometry(paraX, paraY, paraW, paraH);
     setMinimumSize(paraW, paraH);
     clickedLabel.setParent(this);

@@ -16,34 +16,34 @@ SwordKing::SwordKing(PaintStruct* paintStruct,QWidget *parent,Window* swordX) :
     swordCut->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
-        connect(swordCut->number[i],SIGNAL(changeClicked()),this,SLOT(attackSet()));
-        connect(swordCut->number[i],SIGNAL(notClicked()),this,SLOT(attackReset()));
+        connect(swordCut->number[i],SIGNAL(beChecked()),this,SLOT(attackSet()));
+        connect(swordCut->number[i],SIGNAL(unChecked()),this,SLOT(attackReset()));
         swordCut->number[i]->setChecked(false);
         swordCut->number[i]->setCheckable(false);
-        disconnect(swordCut->number[i],SIGNAL(changeClicked()),swordCut->ensure,SLOT(recoverClick()));
+        disconnect(swordCut->number[i],SIGNAL(beChecked()),swordCut->ensure,SLOT(setCheckableTrue()));
     }
-    disconnect(swordCut->ensure,SIGNAL(changeClicked()),swordCut,SLOT(destroyLabel()));
-    disconnect(swordCut->cancel,SIGNAL(changeClicked()),swordCut,SLOT(destroyLabel()));
-    connect(swordCut->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
-    connect(swordCut->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
+    disconnect(swordCut->ensure,SIGNAL(beChecked()),swordCut,SLOT(destroyLabel()));
+    disconnect(swordCut->cancel,SIGNAL(beChecked()),swordCut,SLOT(destroyLabel()));
+    connect(swordCut->ensure,SIGNAL(beChecked()),this,SLOT(reset()));
+    connect(swordCut->cancel,SIGNAL(beChecked()),this,SLOT(reset()));
     for(int i = 0;i < dialog->skillCount;i++)
     {
         for(int j = 0;j < dialog->skillCount;j++)
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
 }
 void SwordKing::changeSelfMode(int mode)
 {
     cancel->setCheckable(true);
-    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+    disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
     switch(mode)
     {
         case 4://剑魂守护响应阶段
@@ -229,14 +229,14 @@ void SwordKing::attackSet()
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
         if(i != lastAttack)
         {
             paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         }
     }
     ensure->setChecked(false);
@@ -247,8 +247,8 @@ void SwordKing::attackReset()
     {
         paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
         paintStruct->gameCharacter[i]->characterPic->setChecked(false);
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
     }
 }
 void SwordKing::lastAttackSet(int m)

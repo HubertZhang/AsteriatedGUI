@@ -1,6 +1,6 @@
 #ifndef CHOOSECHARACTER_H
 #define CHOOSECHARACTER_H
-
+#include <QButtonGroup>
 #include <QLabel>
 #include <QPixmap>
 #include <QString>
@@ -9,6 +9,7 @@ class ChooseCharacter : public QLabel
 {
     Q_OBJECT
 public:
+    QButtonGroup characters;
     QPixmap* bg;
     CharacterButton* character[3];
     PicButton* ensure;

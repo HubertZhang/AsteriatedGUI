@@ -10,16 +10,16 @@ DarkKiller::DarkKiller(PaintStruct* paintStruct,QWidget *parent) :
     for(int i = 0;i < 1;i++)
     {
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
     }
 }
 void DarkKiller::changeSelfMode(int mode)
 {
     for(int i = 0;i < cardNum;i++)
     {
-        connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(countPlus()));
-        connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
+        connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(countPlus()));
+        connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(countMinus()));
     }
     cancel->setCheckable(true);
     switch(mode)
@@ -33,7 +33,7 @@ void DarkKiller::changeSelfMode(int mode)
                     cardButton[i]->setCheckable(true);
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             //system("pause");
             break;
         }
@@ -109,8 +109,8 @@ void DarkKiller::skillCancel()
     waterCount = 0;
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(countPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(countPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(countMinus()));
     }
 }
 void DarkKiller::sendMessageSelf()

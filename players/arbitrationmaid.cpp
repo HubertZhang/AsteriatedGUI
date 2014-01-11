@@ -17,17 +17,17 @@ ArbitrationMaid::ArbitrationMaid(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
     for(int i = 0;i < 3;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void ArbitrationMaid::magicSetZero()
@@ -67,27 +67,27 @@ void ArbitrationMaid::changeSelfMode(int mode)
         {
             if(i != j)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                connect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
             }
         }
         for(int j = 0;j < 6;j++)
         {
             if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
     }

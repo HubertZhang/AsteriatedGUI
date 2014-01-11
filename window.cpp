@@ -32,7 +32,7 @@ Window::Window(QWidget *parent) :
     infoBrowser->setGeometry(1058,410,302,312);
     infoBrowser->show();
     //connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
-    //connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
+    connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
 }
 void Window::chatReady(int id)
 {
@@ -76,7 +76,7 @@ void Window::timeOut()
         return;
     }
     starBG->update();
-    repaint();
+    //repaint();
 }
 void Window::paintEvent(QPaintEvent *event)
 {
@@ -244,16 +244,16 @@ void Window::messageProcess(std::vector<int> m)
                 case 24:cardAndSkill = new Butterfly(paintStruct,this);break;
                 default:cardAndSkill = new CardAndSkill(paintStruct,this);break;
             }
-            connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->ensure,SLOT(isThisClicked(int,int)));
-            connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->cancel,SLOT(isThisClicked(int,int)));
+            //connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(cardClicked(int,int)));
+            //connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->ensure,SLOT(isThisClicked(int,int)));
+            //connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill->cancel,SLOT(isThisClicked(int,int)));
             connect(cardAndSkill,SIGNAL(sendMessageDisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageInSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageSelfSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageIceSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageMisSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
             connect(cardAndSkill,SIGNAL(sendMessageOneSig(std::vector<int>)),this,SLOT(sendMessageWindow(std::vector<int>)));
-            connect(cardAndSkill->cancel,SIGNAL(changeClicked()),this,SLOT(changeXPhase()));
+            connect(cardAndSkill->cancel,SIGNAL(beChecked()),this,SLOT(changeXPhase()));
             //connect(this,SIGNAL(mouseClicked(int,int)),cardAndSkill,SLOT(send(int,int)));
             //connect(cardAndSkill,SIGNAL(paintAnime(int[15])),this,SLOT(informationSelf(int[15])));
             break;
@@ -402,7 +402,7 @@ void Window::messageProcess(std::vector<int> m)
             cardAndSkill->dialogReset();
             cardAndSkill->setFrame();
             cardAndSkill->setResPara(information[2 + information[1]]);
-            connect(cardAndSkill->ensure,SIGNAL(changeClicked()),cardAndSkill,SLOT(selfReset()));
+            connect(cardAndSkill->ensure,SIGNAL(beChecked()),cardAndSkill,SLOT(selfReset()));
             bool canX[10];
             for(int i = 0;i < 10;i++)
             {
@@ -501,19 +501,19 @@ void Window::messageProcess(std::vector<int> m)
 }
 void Window::informationGet()
 {
-    //networkSocket.setup((char*)mySource->inputLine->text().toStdString().c_str());
-    //mySource->close();
-    QString strIO=mySource->inputLine->text();
-    QTextStream str(&strIO);
-    vector<int> information;
+    networkSocket.setup((char*)mySource->inputLine->text().toStdString().c_str());
+    mySource->close();
+//    QString strIO=mySource->inputLine->text();
+//    QTextStream str(&strIO);
+//    vector<int> information;
 
-    while(!str.atEnd())
-    {
-        int temp;
-        str>>temp;
-        information.push_back(temp);
-    }
-    messageProcess(information);
+//    while(!str.atEnd())
+//    {
+//        int temp;
+//        str>>temp;
+//        information.push_back(temp);
+//    }
+//    messageProcess(information);
 }
 /*void Window::informationSelf(int info[])
 {
@@ -602,7 +602,7 @@ void Window::sendMessageWindow(std::vector<int> messageSend)
     }
     infoBrowser->append(s);
     infoBrowser->append(QString::number(-100));
-    //networkSocket.sendMessage(messageSend);
+    networkSocket.sendMessage(messageSend);
 }
 void Window::queuePop()
 {

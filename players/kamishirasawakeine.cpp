@@ -10,8 +10,8 @@ KamishirasawaKeine::KamishirasawaKeine(PaintStruct* paintStruct,QWidget *parent)
     magicGroup[1] = new PicButton(121,465,559,100,42,false,this);
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     for(int i = 0;i < 2;i++)
@@ -24,16 +24,16 @@ KamishirasawaKeine::KamishirasawaKeine(PaintStruct* paintStruct,QWidget *parent)
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
     for(int i = 0;i < 2;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void KamishirasawaKeine::magicSetZero()
@@ -64,8 +64,8 @@ void KamishirasawaKeine::changeSelfMode(int mode)
         {
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicRespondPlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicRespondMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicRespondPlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicRespondMinus()));
             }
             break;
         }
@@ -74,8 +74,8 @@ void KamishirasawaKeine::changeSelfMode(int mode)
             cancel->setCheckable(false);
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicCodePlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicCodeMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicCodePlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicCodeMinus()));
             }
             break;
         }
@@ -84,13 +84,13 @@ void KamishirasawaKeine::changeSelfMode(int mode)
             cancel->setCheckable(false);
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(sacredCodePlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(sacredCodeMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(sacredCodePlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(sacredCodeMinus()));
             }
             for(int i = 0;i < 6;i++)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(sacredCodeCharacterSet()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(sacredCodeCharacterSet()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(sacredCodeCharacterSet()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(sacredCodeCharacterSet()));
             }
             break;
         }
@@ -168,17 +168,17 @@ void KamishirasawaKeine::skillCancel()
     magicRespondCount = 0;
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicRespondPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicRespondMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicCodePlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicCodeMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(sacredCodePlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(sacredCodeMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicRespondPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicRespondMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicCodePlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicCodeMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(sacredCodePlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(sacredCodeMinus()));
     }
     for(int i = 0;i < 6;i++)
     {
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(sacredCodeCharacterSet()));
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(sacredCodeCharacterSet()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(sacredCodeCharacterSet()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(sacredCodeCharacterSet()));
     }
     for(int i = 0;i < 2;i++)
     {
@@ -245,26 +245,26 @@ void KamishirasawaKeine::magicRespondPlus()
         magicRespondCount ++;
         for(int i = 0;i < 6;i++)
         {
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }
         for(int i = 0;i < 6;i++)
         {
             paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }
@@ -287,13 +287,13 @@ void KamishirasawaKeine::magicRespondMinus()
         for(int i = 0;i < 6;i++)
         {
             paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }
@@ -331,26 +331,26 @@ void KamishirasawaKeine::magicCodePlus()
     {
         for(int i = 0;i < 6;i++)
         {
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }
         for(int i = 0;i < 6;i++)
         {
             paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }
@@ -387,13 +387,13 @@ void KamishirasawaKeine::magicCodeMinus()
         for(int i = 0;i < 6;i++)
         {
             paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+            disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             for(int j = 0;j < 6;j++)
             {
                 if(i != j)
                 {
-                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                 }
             }
         }

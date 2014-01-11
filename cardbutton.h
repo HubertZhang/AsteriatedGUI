@@ -4,6 +4,8 @@
 #include "cardList.h"
 #include "placeinfo.h"
 #include <QLabel>
+#include <QFont>
+#include <QPalette>
 #include <QWidget>
 extern CardList cardlist;
 class CardButton : public PicButton

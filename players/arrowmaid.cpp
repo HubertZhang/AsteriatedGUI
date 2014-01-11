@@ -12,23 +12,23 @@ ArrowMaid::ArrowMaid(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
     }
     kiraTrap = new PicButton(62,362,559,100,42,false,this);
     snipe = new PicButton(64,465,559,100,42,false,this);
     connect(this,SIGNAL(mouseClick(int,int)),kiraTrap,SLOT(isThisClicked(int,int)));
     connect(this,SIGNAL(mouseClick(int,int)),snipe,SLOT(isThisClicked(int,int)));
-    connect(kiraTrap,SIGNAL(changeClicked()),snipe,SLOT(cancelX()));
-    connect(snipe,SIGNAL(changeClicked()),kiraTrap,SLOT(cancelX()));
-    connect(kiraTrap,SIGNAL(changeClicked()),this,SLOT(kiraTrapRes()));
-    connect(snipe,SIGNAL(changeClicked()),this,SLOT(snipeRes()));
-    connect(kiraTrap,SIGNAL(notClicked()),this,SLOT(skillClear()));
-    connect(snipe,SIGNAL(notClicked()),this,SLOT(skillClear()));
+    connect(kiraTrap,SIGNAL(beChecked()),snipe,SLOT(setCheckedFalse()));
+    connect(snipe,SIGNAL(beChecked()),kiraTrap,SLOT(setCheckedFalse()));
+    connect(kiraTrap,SIGNAL(beChecked()),this,SLOT(kiraTrapRes()));
+    connect(snipe,SIGNAL(beChecked()),this,SLOT(snipeRes()));
+    connect(kiraTrap,SIGNAL(unChecked()),this,SLOT(skillClear()));
+    connect(snipe,SIGNAL(unChecked()),this,SLOT(skillClear()));
 }
 void ArrowMaid::changeSelfMode(int mode)
 {
@@ -38,27 +38,27 @@ void ArrowMaid::changeSelfMode(int mode)
         {
             if(i != j)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                connect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
             }
         }
         for(int j = 0;j < 6;j++)
         {
             if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
     }
@@ -77,7 +77,7 @@ void ArrowMaid::changeSelfMode(int mode)
                     cardButton[i]->setCheckable(true);
                 }
             }
-            //disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            //disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 4://贯穿射击响应阶段
@@ -87,8 +87,8 @@ void ArrowMaid::changeSelfMode(int mode)
                 if(cardList->getType(card[i]) == magic)
                 {
                     cardButton[i]->setCheckable(true);
-                    connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                    connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                    connect(cardButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                    connect(cardButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 }
             }
             for(int i = 0;i < cardNum;i++)
@@ -97,8 +97,8 @@ void ArrowMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
             }
@@ -107,7 +107,7 @@ void ArrowMaid::changeSelfMode(int mode)
         case 5://精准射击响应阶段
         {
             emit resetSignal();
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 7://狙击
@@ -116,7 +116,7 @@ void ArrowMaid::changeSelfMode(int mode)
             for(int i = 0;i < 6;i++)
             {
                 paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-                //disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+                //disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             }
             break;
         }

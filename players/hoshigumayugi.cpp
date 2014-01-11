@@ -13,17 +13,17 @@ HoshigumaYugi::HoshigumaYugi(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     connect(this,SIGNAL(mouseClick(int,int)),provoke,SLOT(isThisClicked(int,int)));
     //system("pause");
-    connect(provoke,SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(provoke,SIGNAL(notClicked()),this,SLOT(skillClear()));
+    connect(provoke,SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(provoke,SIGNAL(unChecked()),this,SLOT(skillClear()));
 }
 void HoshigumaYugi::magicSetZero()
 {
@@ -42,7 +42,7 @@ void HoshigumaYugi::changeSelfMode(int mode)
         case 7://禁断之力响应阶段
         case 8://死斗响应阶段
         {
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             emit resetSignal();
             break;
         }

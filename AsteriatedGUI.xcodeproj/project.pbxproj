@@ -1,0 +1,2105 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+		5E618435888B9D49F8540165 = {
+			buildActionMask = 2147483647;
+			files = (
+				);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Qt Qmake";
+			shellPath = "/bin/sh";
+			shellScript = "make -C /Users/Hubert/Documents/Programs/AsteriatedGUI -f AsteriatedGUI.xcodeproj/qt_makeqmake.mak";
+		};
+		682A50D19E416195436708E4 = {
+			isa = PBXFileReference;
+			path = "main.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		2D367B399AA57F7319FEA1FA = {
+			fileRef = "682A50D19E416195436708E4";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		C9CCCCFB1F3ADA4449F9B4F2 = {
+			isa = PBXFileReference;
+			path = "window.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		EBA6BB4ABCE4ED0EAA84E784 = {
+			fileRef = "C9CCCCFB1F3ADA4449F9B4F2";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		5EED1A5AECA61BFBA419DE98 = {
+			isa = PBXFileReference;
+			path = "starbg.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		28E4EC074D5A5629BF9760E8 = {
+			fileRef = "5EED1A5AECA61BFBA419DE98";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		1B2D7F9878D7D3BE85293AFB = {
+			isa = PBXFileReference;
+			path = "paintstruct.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		6995BDAC1965B5089F2977E6 = {
+			fileRef = "1B2D7F9878D7D3BE85293AFB";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		61B2D60DC414EC30CF53ECC5 = {
+			isa = PBXFileReference;
+			path = "messagesource.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		0898C72959D3C8F59BCAEB1D = {
+			fileRef = "61B2D60DC414EC30CF53ECC5";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		045C40374E9C9AF13CE9EE3A = {
+			isa = PBXFileReference;
+			path = "picbutton.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		48E4A7CB09B0CDE30C6E7128 = {
+			fileRef = "045C40374E9C9AF13CE9EE3A";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		9BACF72D1F2F638350515568 = {
+			isa = PBXFileReference;
+			path = "choosecharacter.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		757E616135ED67C547AE2DFC = {
+			fileRef = "9BACF72D1F2F638350515568";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		DFA08770F5D1ABAB0E9CBCCA = {
+			isa = PBXFileReference;
+			path = "paintcolor.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		2BD6F44B5DD5658C39120AD7 = {
+			fileRef = "DFA08770F5D1ABAB0E9CBCCA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		428906F751D7E440F46E2232 = {
+			isa = PBXFileReference;
+			path = "cardList.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		C95534D68216943F43A4653F = {
+			fileRef = "428906F751D7E440F46E2232";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		6B9C81B039111FDF1E966FC9 = {
+			isa = PBXFileReference;
+			path = "card.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		B9959961DF62A76060A82022 = {
+			fileRef = "6B9C81B039111FDF1E966FC9";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A0D2412D0DFBEDBFC0B7DFAA = {
+			isa = PBXFileReference;
+			path = "askdialog.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		4DDA005B8E2D082DB0100E5E = {
+			fileRef = "A0D2412D0DFBEDBFC0B7DFAA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		C6026C3F61DA90BFA4986BE9 = {
+			isa = PBXFileReference;
+			path = "cardandskill.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		85510FBB655249CB6DF1FB8B = {
+			fileRef = "C6026C3F61DA90BFA4986BE9";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3C5CD0595F3E72D4C6AB17DA = {
+			isa = PBXFileReference;
+			path = "cardbutton.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F7AFBDAABDF8BCF9B6DC42F0 = {
+			fileRef = "3C5CD0595F3E72D4C6AB17DA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		5A54581316C63223BF539726 = {
+			isa = PBXFileReference;
+			path = "cardattack.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F946A93A1CE97933D208AD3D = {
+			fileRef = "5A54581316C63223BF539726";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		87690811EBA480C11B0949D8 = {
+			isa = PBXFileReference;
+			path = "framelabel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		EC293CBF1CB64CFD3BB7D9A9 = {
+			fileRef = "87690811EBA480C11B0949D8";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		7FFF7358DDB8EFDECE9F9762 = {
+			isa = PBXFileReference;
+			path = "newdialog.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		1A64E7483ED015CBE18D7765 = {
+			fileRef = "7FFF7358DDB8EFDECE9F9762";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		0BFBD44D6CBB71BD677187FE = {
+			isa = PBXFileReference;
+			path = "network/agclient.cpp";
+			name = "agclient.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		7E1653A412D8FB160BDE7285 = {
+			fileRef = "0BFBD44D6CBB71BD677187FE";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B1C32A4C1E9BABD5A5D1C640 = {
+			isa = PBXFileReference;
+			path = "network/agchatclient.cpp";
+			name = "agchatclient.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		5D016AB8BB5B9263C2178848 = {
+			fileRef = "B1C32A4C1E9BABD5A5D1C640";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		D9862D0331691A607CE5EC4D = {
+			isa = PBXFileReference;
+			path = "players/swordmaster.cpp";
+			name = "swordmaster.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		61CFC1A51274EAD8B937D29A = {
+			fileRef = "D9862D0331691A607CE5EC4D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		03030E055C6C3C82D4B22309 = {
+			isa = PBXFileReference;
+			path = "players/berserker.cpp";
+			name = "berserker.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		633CF73EEA3FB46A05D9F4B4 = {
+			fileRef = "03030E055C6C3C82D4B22309";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		C4BACB88F2FC17EDBC6B16CC = {
+			isa = PBXFileReference;
+			path = "players/arrowmaid.cpp";
+			name = "arrowmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F6DA8019B01A6D78E666B050 = {
+			fileRef = "C4BACB88F2FC17EDBC6B16CC";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3F6D8FDF7767046F8AF57543 = {
+			isa = PBXFileReference;
+			path = "players/sealmaid.cpp";
+			name = "sealmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		769A2AE51E9C5DE884571A20 = {
+			fileRef = "3F6D8FDF7767046F8AF57543";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		8AD7066E2085549CD4D31642 = {
+			isa = PBXFileReference;
+			path = "players/darkkiller.cpp";
+			name = "darkkiller.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		499DAF2328611E7878B26A2D = {
+			fileRef = "8AD7066E2085549CD4D31642";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AD49C3C15367A0E1D78206D0 = {
+			isa = PBXFileReference;
+			path = "players/puremaid.cpp";
+			name = "puremaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		8AEA6E7E2698C3950D98FA8D = {
+			fileRef = "AD49C3C15367A0E1D78206D0";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		DD5C776158CB3F100B4A9802 = {
+			isa = PBXFileReference;
+			path = "players/angel.cpp";
+			name = "angel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		810B160638CBB8F737BAA1D2 = {
+			fileRef = "DD5C776158CB3F100B4A9802";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		25FB974CEA6A4B37041C78EF = {
+			isa = PBXFileReference;
+			path = "players/magicmaid.cpp";
+			name = "magicmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		D8293364FA1D2C3835F9768A = {
+			fileRef = "25FB974CEA6A4B37041C78EF";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		CBA93834C2567AC5F1CE8B92 = {
+			isa = PBXFileReference;
+			path = "players/magicsword.cpp";
+			name = "magicsword.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		3B9BF244607096B1490B9E9E = {
+			fileRef = "CBA93834C2567AC5F1CE8B92";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3D90EE269CB4E39EFD2AD300 = {
+			isa = PBXFileReference;
+			path = "players/purespear.cpp";
+			name = "purespear.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		4A686AB64699372E6E072935 = {
+			fileRef = "3D90EE269CB4E39EFD2AD300";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		BE006DB9262CBC89DBE2A881 = {
+			isa = PBXFileReference;
+			path = "players/elementmaster.cpp";
+			name = "elementmaster.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		67E170AB01B85D32CAF161F9 = {
+			fileRef = "BE006DB9262CBC89DBE2A881";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		6585E1A0A96F51BD4070162C = {
+			isa = PBXFileReference;
+			path = "players/adventurer.cpp";
+			name = "adventurer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		ED745574A10FD0BE8D3CC710 = {
+			fileRef = "6585E1A0A96F51BD4070162C";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		46BFEDB35473E8D11195948E = {
+			isa = PBXFileReference;
+			path = "players/necromancer.cpp";
+			name = "necromancer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		FCEA84BF325323EB9AE29D7B = {
+			fileRef = "46BFEDB35473E8D11195948E";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B8CC1E0B997C3114BE4D3A7B = {
+			isa = PBXFileReference;
+			path = "players/arbitrationmaid.cpp";
+			name = "arbitrationmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		D73F9238F09DA0D8CDE6EE27 = {
+			fileRef = "B8CC1E0B997C3114BE4D3A7B";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AB0FE01103ED7FBB6C7F3EBC = {
+			isa = PBXFileReference;
+			path = "players/priestmaid.cpp";
+			name = "priestmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A0529D00A7C5F0220D366A3D = {
+			fileRef = "AB0FE01103ED7FBB6C7F3EBC";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		D706C88011EE245CFFE38F73 = {
+			isa = PBXFileReference;
+			path = "players/praymaid.cpp";
+			name = "praymaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		2CFD91E8923E11EF7A9A54DD = {
+			fileRef = "D706C88011EE245CFFE38F73";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		2D156860C135DABD63489F5A = {
+			isa = PBXFileReference;
+			path = "players/kamishirasawakeine.cpp";
+			name = "kamishirasawakeine.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		E9BFFC94C49B407719931263 = {
+			fileRef = "2D156860C135DABD63489F5A";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		5860FC3D730F2F647CE6516A = {
+			isa = PBXFileReference;
+			path = "players/hakureireimu.cpp";
+			name = "hakureireimu.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A0BDB7E97FBD607B2DD9B061 = {
+			fileRef = "5860FC3D730F2F647CE6516A";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		84B336564B54F3F320E8E647 = {
+			isa = PBXFileReference;
+			path = "players/swordking.cpp";
+			name = "swordking.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		B9EC0BEE06E501C6BA00C919 = {
+			fileRef = "84B336564B54F3F320E8E647";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		4D7A6DDE91171016907948B6 = {
+			isa = PBXFileReference;
+			path = "players/kazamiyuuka.cpp";
+			name = "kazamiyuuka.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		29A90A852B34EC6AB8CC09B0 = {
+			fileRef = "4D7A6DDE91171016907948B6";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		44C5F3E561E56E9F9B6B1F36 = {
+			isa = PBXFileReference;
+			path = "players/hoshigumayugi.cpp";
+			name = "hoshigumayugi.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		96C594240228A81F61336D38 = {
+			fileRef = "44C5F3E561E56E9F9B6B1F36";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		BBE6F1A0D171F0B56CBB4B30 = {
+			isa = PBXFileReference;
+			path = "players/uuz.cpp";
+			name = "uuz.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		968CB693885E7EB43B886701 = {
+			fileRef = "BBE6F1A0D171F0B56CBB4B30";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		646BE64BFEEB01F093DF6130 = {
+			isa = PBXFileReference;
+			path = "players/redwhite.cpp";
+			name = "redwhite.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A0A958EE2D226505F81C0FF1 = {
+			fileRef = "646BE64BFEEB01F093DF6130";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B930D69D42F3D3DD5623AC78 = {
+			isa = PBXFileReference;
+			path = "players/butterfly.cpp";
+			name = "butterfly.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		01BC4E09876B97D130F7F0FE = {
+			fileRef = "B930D69D42F3D3DD5623AC78";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B536F0EB917B1F07280633AE = {
+			isa = PBXFileReference;
+			path = "characterbutton.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A89A2EE66EE181B69D15B047 = {
+			fileRef = "B536F0EB917B1F07280633AE";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A671C5F92430604813716A0C = {
+			isa = PBXFileReference;
+			path = "qrc_Image.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		82BD9E040068795D39783E24 = {
+			fileRef = "A671C5F92430604813716A0C";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3E37AADA805A9435E07B8636 = {
+			isa = PBXFileReference;
+			path = "moc_window.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		D60A9154EC62E1327EDF0196 = {
+			fileRef = "3E37AADA805A9435E07B8636";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		1C2F7AB5E3BE92A58F530C26 = {
+			isa = PBXFileReference;
+			path = "moc_starbg.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		080FC4219ADB9C3296BAC9AE = {
+			fileRef = "1C2F7AB5E3BE92A58F530C26";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		6CC421BDFE0B3960E4A8EFE2 = {
+			isa = PBXFileReference;
+			path = "moc_paintstruct.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		211299647786C3F8B27D6AA1 = {
+			fileRef = "6CC421BDFE0B3960E4A8EFE2";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		3D04F39FF2DFF9AEBF4A61F2 = {
+			isa = PBXFileReference;
+			path = "moc_messagesource.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		5F87FE2731832224CD35C592 = {
+			fileRef = "3D04F39FF2DFF9AEBF4A61F2";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		9F13C8636A4A4EA09089819E = {
+			isa = PBXFileReference;
+			path = "moc_picbutton.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		E027C6BF6821591F3BE537CA = {
+			fileRef = "9F13C8636A4A4EA09089819E";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		FE03CE95FD053670BE295E3A = {
+			isa = PBXFileReference;
+			path = "moc_choosecharacter.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		CE839EB18051F162FBBB9907 = {
+			fileRef = "FE03CE95FD053670BE295E3A";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		1120644A208541C179979E45 = {
+			isa = PBXFileReference;
+			path = "moc_paintcolor.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		CE513DB6CE0FBCE04559F97D = {
+			fileRef = "1120644A208541C179979E45";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		E9227ABBDCC88459F1C2BBBA = {
+			isa = PBXFileReference;
+			path = "moc_askdialog.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		B73C77B54554C4C4ACF12263 = {
+			fileRef = "E9227ABBDCC88459F1C2BBBA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		CF0E81A3577D9562D767E9B3 = {
+			isa = PBXFileReference;
+			path = "moc_cardandskill.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		514AEB18906DB9735A0DA477 = {
+			fileRef = "CF0E81A3577D9562D767E9B3";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		4EF9B07E11FF8F62BEF00F88 = {
+			isa = PBXFileReference;
+			path = "moc_cardattack.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		15D81B4EE2911621315382F7 = {
+			fileRef = "4EF9B07E11FF8F62BEF00F88";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		5EAEC05F2E9E29A6C4B71D3F = {
+			isa = PBXFileReference;
+			path = "moc_framelabel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		590FAF2B8FFA5EC4736B301D = {
+			fileRef = "5EAEC05F2E9E29A6C4B71D3F";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		E6146ECBB55BD3C8B8DEC290 = {
+			isa = PBXFileReference;
+			path = "moc_newdialog.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		7EB51B654621A46DBA998CB5 = {
+			fileRef = "E6146ECBB55BD3C8B8DEC290";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		6F403C373DB00BC945817EAA = {
+			isa = PBXFileReference;
+			path = "moc_agclient.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F4EA3D960DC3C46945AEB998 = {
+			fileRef = "6F403C373DB00BC945817EAA";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		EC1A996A99A65217C8F12D0D = {
+			isa = PBXFileReference;
+			path = "moc_agchatclient.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		FCE93E6BEEE794C0680A6AF8 = {
+			fileRef = "EC1A996A99A65217C8F12D0D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		C6DA27E0C57F9058CB70975D = {
+			isa = PBXFileReference;
+			path = "moc_swordmaster.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		506D9F8011162B7BED786ECA = {
+			fileRef = "C6DA27E0C57F9058CB70975D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		8D424B2A443A14B8610F120D = {
+			isa = PBXFileReference;
+			path = "moc_berserker.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		BFA151CD0A0F129C194BD8EC = {
+			fileRef = "8D424B2A443A14B8610F120D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		0404110903D63F88B897A683 = {
+			isa = PBXFileReference;
+			path = "moc_arrowmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		4E78F5A97D217099EDD87919 = {
+			fileRef = "0404110903D63F88B897A683";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AE94F57441C74AEF0B3C54B5 = {
+			isa = PBXFileReference;
+			path = "moc_sealmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A6F4EF9EA10A2638BAAE4575 = {
+			fileRef = "AE94F57441C74AEF0B3C54B5";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		53C9F1193B2CA84E31C8548B = {
+			isa = PBXFileReference;
+			path = "moc_darkkiller.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A8678CA429D23FB2F18AEFB8 = {
+			fileRef = "53C9F1193B2CA84E31C8548B";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AEBB9C071FA3E5C838474A59 = {
+			isa = PBXFileReference;
+			path = "moc_puremaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		AE7D10FE1C8150BE76D6EA0D = {
+			fileRef = "AEBB9C071FA3E5C838474A59";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		505979EE8CA3E008D6E73F57 = {
+			isa = PBXFileReference;
+			path = "moc_angel.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A4DC3CD672E6C1FC8F5AB985 = {
+			fileRef = "505979EE8CA3E008D6E73F57";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		9DD156DC45B19214BB65E56D = {
+			isa = PBXFileReference;
+			path = "moc_magicmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		D21F74C064D6181A090328C4 = {
+			fileRef = "9DD156DC45B19214BB65E56D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A963B6123C10DCC326DDB976 = {
+			isa = PBXFileReference;
+			path = "moc_magicsword.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		BF483096289317A203575CCD = {
+			fileRef = "A963B6123C10DCC326DDB976";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		895796260627E58D265383EC = {
+			isa = PBXFileReference;
+			path = "moc_purespear.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		66DBC4A3076A4535E44A011B = {
+			fileRef = "895796260627E58D265383EC";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		17A8DF475A9E834B7FC6BE39 = {
+			isa = PBXFileReference;
+			path = "moc_elementmaster.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		A1529397083E11E0C63994CC = {
+			fileRef = "17A8DF475A9E834B7FC6BE39";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		0113A67C8B94A2DBFB7B4E15 = {
+			isa = PBXFileReference;
+			path = "moc_adventurer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		30F8B43B323EE9C6B2F859DD = {
+			fileRef = "0113A67C8B94A2DBFB7B4E15";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		17B1E662C22B98D082BA376A = {
+			isa = PBXFileReference;
+			path = "moc_necromancer.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		AD24A5528E4E4AE8D630784D = {
+			fileRef = "17B1E662C22B98D082BA376A";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		10DE2D4E70E563EBE57A627C = {
+			isa = PBXFileReference;
+			path = "moc_arbitrationmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F5590610EA4896E483F98077 = {
+			fileRef = "10DE2D4E70E563EBE57A627C";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		567FA6F087F75753DB4C91D3 = {
+			isa = PBXFileReference;
+			path = "moc_priestmaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		DAB7924E19AF964BB18DAD88 = {
+			fileRef = "567FA6F087F75753DB4C91D3";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		57C6520E406D6935E124B30D = {
+			isa = PBXFileReference;
+			path = "moc_praymaid.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		F7D24D3E2BB90C364F9CD73F = {
+			fileRef = "57C6520E406D6935E124B30D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		544161F1C57468821D8494AD = {
+			isa = PBXFileReference;
+			path = "moc_kamishirasawakeine.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		9D8226CBCBB16E3A816DB649 = {
+			fileRef = "544161F1C57468821D8494AD";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		A2BB140C6860139A8317F795 = {
+			isa = PBXFileReference;
+			path = "moc_hakureireimu.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		AFAD936C6073923C51A46573 = {
+			fileRef = "A2BB140C6860139A8317F795";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		796BD1FB26E096A85873EBE4 = {
+			isa = PBXFileReference;
+			path = "moc_swordking.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		BB691F4D33D437AF50D71982 = {
+			fileRef = "796BD1FB26E096A85873EBE4";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		DFA6E2A4CEC1B713C0D34470 = {
+			isa = PBXFileReference;
+			path = "moc_kazamiyuuka.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		CFAF94383F63C23AFF43878F = {
+			fileRef = "DFA6E2A4CEC1B713C0D34470";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		E7CF6CD8BF3D5B028C18B1A0 = {
+			isa = PBXFileReference;
+			path = "moc_hoshigumayugi.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		43BDB4611F9AD0B477080D71 = {
+			fileRef = "E7CF6CD8BF3D5B028C18B1A0";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		879E191001A43FE8CFA1416B = {
+			isa = PBXFileReference;
+			path = "moc_uuz.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		E1A9848D860DA6B99E5DDF5B = {
+			fileRef = "879E191001A43FE8CFA1416B";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		AA278D716534A4033A2F240C = {
+			isa = PBXFileReference;
+			path = "moc_redwhite.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		C5DAF21AAAB5573B3D6DF9FC = {
+			fileRef = "AA278D716534A4033A2F240C";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		F75B2D319048E3A1B817205D = {
+			isa = PBXFileReference;
+			path = "moc_butterfly.cpp";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.cpp.cpp";
+		};
+		93F90B7B42721670D81880FA = {
+			fileRef = "F75B2D319048E3A1B817205D";
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					);
+			};
+		};
+		B7E7222A5C00ED3390C9D26C = {
+			isa = PBXFileReference;
+			path = "window.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		449AD1CD9161BDFDB96E38AC = {
+			isa = PBXFileReference;
+			path = "starbg.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		6C5A51BC67BD5E9D7345CFE4 = {
+			isa = PBXFileReference;
+			path = "paintstruct.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		F4DB860FA8BF80A3894C6B11 = {
+			isa = PBXFileReference;
+			path = "messagesource.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		FC6AE36FD5B0057BCC7A2742 = {
+			isa = PBXFileReference;
+			path = "picbutton.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		203B8C8909734AD68A082001 = {
+			isa = PBXFileReference;
+			path = "choosecharacter.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		8536546C181F3464B9DB580B = {
+			isa = PBXFileReference;
+			path = "paintcolor.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		1310D8C67EE33841E4E79484 = {
+			isa = PBXFileReference;
+			path = "cardList.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		1FBFAEADC0A9B34830BFB0C5 = {
+			isa = PBXFileReference;
+			path = "card.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		7C28843F587330CC64ECA6DF = {
+			isa = PBXFileReference;
+			path = "askdialog.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		715C569D189E26AA71910859 = {
+			isa = PBXFileReference;
+			path = "cardandskill.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		FA3BAABC98B8935619F2CEF8 = {
+			isa = PBXFileReference;
+			path = "cardbutton.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		BBAC6FAD66A9513CC131B075 = {
+			isa = PBXFileReference;
+			path = "cardattack.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		8EBAEC9DFCC836256A82511F = {
+			isa = PBXFileReference;
+			path = "framelabel.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		A36DA0569BEFFD758876B89F = {
+			isa = PBXFileReference;
+			path = "newdialog.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		824BB5192EBABB7C8C6F0B8D = {
+			isa = PBXFileReference;
+			path = "network/agclient.h";
+			name = "agclient.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		1FD2A6DBBD39FAD769168915 = {
+			isa = PBXFileReference;
+			path = "network/agchatclient.h";
+			name = "agchatclient.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		D5DE3C54C7E850AE9E238B72 = {
+			isa = PBXFileReference;
+			path = "players/swordmaster.h";
+			name = "swordmaster.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		BF508398226EDD797A20DD04 = {
+			isa = PBXFileReference;
+			path = "players/berserker.h";
+			name = "berserker.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		BCCA29F6446F56EFED6C168A = {
+			isa = PBXFileReference;
+			path = "players/arrowmaid.h";
+			name = "arrowmaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		59C411E88B36F0DB608120A2 = {
+			isa = PBXFileReference;
+			path = "players/sealmaid.h";
+			name = "sealmaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		1F2747FFFBF12EC28F7C8BAD = {
+			isa = PBXFileReference;
+			path = "players/darkkiller.h";
+			name = "darkkiller.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		628A89634DC9E200CB289B52 = {
+			isa = PBXFileReference;
+			path = "players/puremaid.h";
+			name = "puremaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		77BC5715DF025D9526E46D95 = {
+			isa = PBXFileReference;
+			path = "players/angel.h";
+			name = "angel.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		040F8863FEB710B1D4FEB389 = {
+			isa = PBXFileReference;
+			path = "players/magicmaid.h";
+			name = "magicmaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		FFC913918A66F616F702424A = {
+			isa = PBXFileReference;
+			path = "players/magicsword.h";
+			name = "magicsword.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		740F24620CC73A36B73A2B82 = {
+			isa = PBXFileReference;
+			path = "players/purespear.h";
+			name = "purespear.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		4A8140658E0A16549153036B = {
+			isa = PBXFileReference;
+			path = "players/elementmaster.h";
+			name = "elementmaster.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		522852E3B2FB6F50D3615561 = {
+			isa = PBXFileReference;
+			path = "players/adventurer.h";
+			name = "adventurer.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		A264F2B1D10489D2AE902B74 = {
+			isa = PBXFileReference;
+			path = "players/necromancer.h";
+			name = "necromancer.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		9E787DF4C3CE4EFD2AC62C2A = {
+			isa = PBXFileReference;
+			path = "players/arbitrationmaid.h";
+			name = "arbitrationmaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		B0B8E93DBC401B18DD81232E = {
+			isa = PBXFileReference;
+			path = "players/priestmaid.h";
+			name = "priestmaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		01460CC47010350BB40BE5D7 = {
+			isa = PBXFileReference;
+			path = "players/praymaid.h";
+			name = "praymaid.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		17791112685755FFE568F62B = {
+			isa = PBXFileReference;
+			path = "players/kamishirasawakeine.h";
+			name = "kamishirasawakeine.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		86CCEEA7F1BF589ECBF9C391 = {
+			isa = PBXFileReference;
+			path = "players/hakureireimu.h";
+			name = "hakureireimu.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		299B53C6BD3305A056D41260 = {
+			isa = PBXFileReference;
+			path = "players/swordking.h";
+			name = "swordking.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		0672A58D3AD7A5FB21CED792 = {
+			isa = PBXFileReference;
+			path = "players/kazamiyuuka.h";
+			name = "kazamiyuuka.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		00017BD467E542456429662F = {
+			isa = PBXFileReference;
+			path = "players/hoshigumayugi.h";
+			name = "hoshigumayugi.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		8772D5DD98D3522208830B6C = {
+			isa = PBXFileReference;
+			path = "players/uuz.h";
+			name = "uuz.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		CECB7C16B2E0BE1EA4EFACA4 = {
+			isa = PBXFileReference;
+			path = "players/redwhite.h";
+			name = "redwhite.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		786CD2D6EC8064E9484669B0 = {
+			isa = PBXFileReference;
+			path = "players/butterfly.h";
+			name = "butterfly.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		55DD5B8B75083703B013044A = {
+			isa = PBXFileReference;
+			path = "characterbutton.h";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "sourcecode.c.h";
+		};
+		E6AE2942A5E3BE30D89B52E9 = {
+			isa = PBXFileReference;
+			path = "AsteriatedGUI.pro";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "text";
+		};
+		F2E7029BE7DADDD4C7C40A16 = {
+			isa = PBXFileReference;
+			path = "resource/Image.qrc";
+			name = "Image.qrc";
+			sourceTree = "<absolute>";
+			lastKnownFileType = "text";
+		};
+		25B08E2869634E9BCBA333A2 = {
+			isa = PBXGroup;
+			children = (
+				"A671C5F92430604813716A0C",
+				"3E37AADA805A9435E07B8636",
+				"1C2F7AB5E3BE92A58F530C26",
+				"6CC421BDFE0B3960E4A8EFE2",
+				"3D04F39FF2DFF9AEBF4A61F2",
+				"9F13C8636A4A4EA09089819E",
+				"FE03CE95FD053670BE295E3A",
+				"1120644A208541C179979E45",
+				"E9227ABBDCC88459F1C2BBBA",
+				"CF0E81A3577D9562D767E9B3",
+				"4EF9B07E11FF8F62BEF00F88",
+				"5EAEC05F2E9E29A6C4B71D3F",
+				"E6146ECBB55BD3C8B8DEC290",
+				"6F403C373DB00BC945817EAA",
+				"EC1A996A99A65217C8F12D0D",
+				"C6DA27E0C57F9058CB70975D",
+				"8D424B2A443A14B8610F120D",
+				"0404110903D63F88B897A683",
+				"AE94F57441C74AEF0B3C54B5",
+				"53C9F1193B2CA84E31C8548B",
+				"AEBB9C071FA3E5C838474A59",
+				"505979EE8CA3E008D6E73F57",
+				"9DD156DC45B19214BB65E56D",
+				"A963B6123C10DCC326DDB976",
+				"895796260627E58D265383EC",
+				"17A8DF475A9E834B7FC6BE39",
+				"0113A67C8B94A2DBFB7B4E15",
+				"17B1E662C22B98D082BA376A",
+				"10DE2D4E70E563EBE57A627C",
+				"567FA6F087F75753DB4C91D3",
+				"57C6520E406D6935E124B30D",
+				"544161F1C57468821D8494AD",
+				"A2BB140C6860139A8317F795",
+				"796BD1FB26E096A85873EBE4",
+				"DFA6E2A4CEC1B713C0D34470",
+				"E7CF6CD8BF3D5B028C18B1A0",
+				"879E191001A43FE8CFA1416B",
+				"AA278D716534A4033A2F240C",
+				"F75B2D319048E3A1B817205D");
+			name = "Generated Sources";
+			sourceTree = "<Group>";
+		};
+		4ADB1752486307428F9A061F = {
+			isa = PBXGroup;
+			children = (
+				"F2E7029BE7DADDD4C7C40A16");
+			name = "resource";
+			sourceTree = "<Group>";
+		};
+		69B759D6B12C4B38EA34F071 = {
+			isa = PBXGroup;
+			children = (
+				"0BFBD44D6CBB71BD677187FE",
+				"B1C32A4C1E9BABD5A5D1C640",
+				"824BB5192EBABB7C8C6F0B8D",
+				"1FD2A6DBBD39FAD769168915");
+			name = "network";
+			sourceTree = "<Group>";
+		};
+		0F71A583322B74D245E3B0C8 = {
+			isa = PBXGroup;
+			children = (
+				"D9862D0331691A607CE5EC4D",
+				"03030E055C6C3C82D4B22309",
+				"C4BACB88F2FC17EDBC6B16CC",
+				"3F6D8FDF7767046F8AF57543",
+				"8AD7066E2085549CD4D31642",
+				"AD49C3C15367A0E1D78206D0",
+				"DD5C776158CB3F100B4A9802",
+				"25FB974CEA6A4B37041C78EF",
+				"CBA93834C2567AC5F1CE8B92",
+				"3D90EE269CB4E39EFD2AD300",
+				"BE006DB9262CBC89DBE2A881",
+				"6585E1A0A96F51BD4070162C",
+				"46BFEDB35473E8D11195948E",
+				"B8CC1E0B997C3114BE4D3A7B",
+				"AB0FE01103ED7FBB6C7F3EBC",
+				"D706C88011EE245CFFE38F73",
+				"2D156860C135DABD63489F5A",
+				"5860FC3D730F2F647CE6516A",
+				"84B336564B54F3F320E8E647",
+				"4D7A6DDE91171016907948B6",
+				"44C5F3E561E56E9F9B6B1F36",
+				"BBE6F1A0D171F0B56CBB4B30",
+				"646BE64BFEEB01F093DF6130",
+				"B930D69D42F3D3DD5623AC78",
+				"D5DE3C54C7E850AE9E238B72",
+				"BF508398226EDD797A20DD04",
+				"BCCA29F6446F56EFED6C168A",
+				"59C411E88B36F0DB608120A2",
+				"1F2747FFFBF12EC28F7C8BAD",
+				"628A89634DC9E200CB289B52",
+				"77BC5715DF025D9526E46D95",
+				"040F8863FEB710B1D4FEB389",
+				"FFC913918A66F616F702424A",
+				"740F24620CC73A36B73A2B82",
+				"4A8140658E0A16549153036B",
+				"522852E3B2FB6F50D3615561",
+				"A264F2B1D10489D2AE902B74",
+				"9E787DF4C3CE4EFD2AC62C2A",
+				"B0B8E93DBC401B18DD81232E",
+				"01460CC47010350BB40BE5D7",
+				"17791112685755FFE568F62B",
+				"86CCEEA7F1BF589ECBF9C391",
+				"299B53C6BD3305A056D41260",
+				"0672A58D3AD7A5FB21CED792",
+				"00017BD467E542456429662F",
+				"8772D5DD98D3522208830B6C",
+				"CECB7C16B2E0BE1EA4EFACA4",
+				"786CD2D6EC8064E9484669B0");
+			name = "players";
+			sourceTree = "<Group>";
+		};
+		87DF60DE337FB58864343E39 = {
+			isa = PBXGroup;
+			children = (
+				"4ADB1752486307428F9A061F");
+			name = "Resources";
+			sourceTree = "<Group>";
+		};
+		2EB56BE3C2D93CDAB0C52E67 = {
+			isa = PBXGroup;
+			children = (
+				"682A50D19E416195436708E4",
+				"C9CCCCFB1F3ADA4449F9B4F2",
+				"5EED1A5AECA61BFBA419DE98",
+				"1B2D7F9878D7D3BE85293AFB",
+				"61B2D60DC414EC30CF53ECC5",
+				"045C40374E9C9AF13CE9EE3A",
+				"9BACF72D1F2F638350515568",
+				"DFA08770F5D1ABAB0E9CBCCA",
+				"428906F751D7E440F46E2232",
+				"6B9C81B039111FDF1E966FC9",
+				"A0D2412D0DFBEDBFC0B7DFAA",
+				"C6026C3F61DA90BFA4986BE9",
+				"3C5CD0595F3E72D4C6AB17DA",
+				"5A54581316C63223BF539726",
+				"87690811EBA480C11B0949D8",
+				"7FFF7358DDB8EFDECE9F9762",
+				"69B759D6B12C4B38EA34F071",
+				"0F71A583322B74D245E3B0C8",
+				"B536F0EB917B1F07280633AE",
+				"B7E7222A5C00ED3390C9D26C",
+				"449AD1CD9161BDFDB96E38AC",
+				"6C5A51BC67BD5E9D7345CFE4",
+				"F4DB860FA8BF80A3894C6B11",
+				"FC6AE36FD5B0057BCC7A2742",
+				"203B8C8909734AD68A082001",
+				"8536546C181F3464B9DB580B",
+				"1310D8C67EE33841E4E79484",
+				"1FBFAEADC0A9B34830BFB0C5",
+				"7C28843F587330CC64ECA6DF",
+				"715C569D189E26AA71910859",
+				"FA3BAABC98B8935619F2CEF8",
+				"BBAC6FAD66A9513CC131B075",
+				"8EBAEC9DFCC836256A82511F",
+				"A36DA0569BEFFD758876B89F",
+				"55DD5B8B75083703B013044A");
+			name = "Sources";
+			sourceTree = "<Group>";
+		};
+		74B182DB50CB5611B5C1C297 = {
+			isa = PBXGroup;
+			children = (
+				"E6AE2942A5E3BE30D89B52E9");
+			name = "Supporting Files";
+			sourceTree = "<Group>";
+		};
+		7EF0942E79C014DCEC8976BC = {
+			buildActionMask = 2147483647;
+			files = (
+				);
+			isa = PBXShellScriptBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Qt Preprocessors";
+			shellPath = "/bin/sh";
+			shellScript = "make -C /Users/Hubert/Documents/Programs/AsteriatedGUI -f AsteriatedGUI.xcodeproj/qt_preprocess.mak";
+		};
+		F7E50F631C51CD5B5DC0BC43 = {
+			buildActionMask = 2147483647;
+			files = (
+				"2D367B399AA57F7319FEA1FA",
+				"EBA6BB4ABCE4ED0EAA84E784",
+				"28E4EC074D5A5629BF9760E8",
+				"6995BDAC1965B5089F2977E6",
+				"0898C72959D3C8F59BCAEB1D",
+				"48E4A7CB09B0CDE30C6E7128",
+				"757E616135ED67C547AE2DFC",
+				"2BD6F44B5DD5658C39120AD7",
+				"C95534D68216943F43A4653F",
+				"B9959961DF62A76060A82022",
+				"4DDA005B8E2D082DB0100E5E",
+				"85510FBB655249CB6DF1FB8B",
+				"F7AFBDAABDF8BCF9B6DC42F0",
+				"F946A93A1CE97933D208AD3D",
+				"EC293CBF1CB64CFD3BB7D9A9",
+				"1A64E7483ED015CBE18D7765",
+				"7E1653A412D8FB160BDE7285",
+				"5D016AB8BB5B9263C2178848",
+				"61CFC1A51274EAD8B937D29A",
+				"633CF73EEA3FB46A05D9F4B4",
+				"F6DA8019B01A6D78E666B050",
+				"769A2AE51E9C5DE884571A20",
+				"499DAF2328611E7878B26A2D",
+				"8AEA6E7E2698C3950D98FA8D",
+				"810B160638CBB8F737BAA1D2",
+				"D8293364FA1D2C3835F9768A",
+				"3B9BF244607096B1490B9E9E",
+				"4A686AB64699372E6E072935",
+				"67E170AB01B85D32CAF161F9",
+				"ED745574A10FD0BE8D3CC710",
+				"FCEA84BF325323EB9AE29D7B",
+				"D73F9238F09DA0D8CDE6EE27",
+				"A0529D00A7C5F0220D366A3D",
+				"2CFD91E8923E11EF7A9A54DD",
+				"E9BFFC94C49B407719931263",
+				"A0BDB7E97FBD607B2DD9B061",
+				"B9EC0BEE06E501C6BA00C919",
+				"29A90A852B34EC6AB8CC09B0",
+				"96C594240228A81F61336D38",
+				"968CB693885E7EB43B886701",
+				"A0A958EE2D226505F81C0FF1",
+				"01BC4E09876B97D130F7F0FE",
+				"A89A2EE66EE181B69D15B047",
+				"82BD9E040068795D39783E24",
+				"D60A9154EC62E1327EDF0196",
+				"080FC4219ADB9C3296BAC9AE",
+				"211299647786C3F8B27D6AA1",
+				"5F87FE2731832224CD35C592",
+				"E027C6BF6821591F3BE537CA",
+				"CE839EB18051F162FBBB9907",
+				"CE513DB6CE0FBCE04559F97D",
+				"B73C77B54554C4C4ACF12263",
+				"514AEB18906DB9735A0DA477",
+				"15D81B4EE2911621315382F7",
+				"590FAF2B8FFA5EC4736B301D",
+				"7EB51B654621A46DBA998CB5",
+				"F4EA3D960DC3C46945AEB998",
+				"FCE93E6BEEE794C0680A6AF8",
+				"506D9F8011162B7BED786ECA",
+				"BFA151CD0A0F129C194BD8EC",
+				"4E78F5A97D217099EDD87919",
+				"A6F4EF9EA10A2638BAAE4575",
+				"A8678CA429D23FB2F18AEFB8",
+				"AE7D10FE1C8150BE76D6EA0D",
+				"A4DC3CD672E6C1FC8F5AB985",
+				"D21F74C064D6181A090328C4",
+				"BF483096289317A203575CCD",
+				"66DBC4A3076A4535E44A011B",
+				"A1529397083E11E0C63994CC",
+				"30F8B43B323EE9C6B2F859DD",
+				"AD24A5528E4E4AE8D630784D",
+				"F5590610EA4896E483F98077",
+				"DAB7924E19AF964BB18DAD88",
+				"F7D24D3E2BB90C364F9CD73F",
+				"9D8226CBCBB16E3A816DB649",
+				"AFAD936C6073923C51A46573",
+				"BB691F4D33D437AF50D71982",
+				"CFAF94383F63C23AFF43878F",
+				"43BDB4611F9AD0B477080D71",
+				"E1A9848D860DA6B99E5DDF5B",
+				"C5DAF21AAAB5573B3D6DF9FC",
+				"93F90B7B42721670D81880FA");
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Compile Sources";
+		};
+		D28C4178B80AA6724FD78473 = {
+			isa = PBXFileReference;
+			name = "QtWidgets.framework";
+			path = "../../../Development/Qt/5.2.0/clang_64/lib/QtWidgets.framework";
+			refType = 4;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		D26635B58A763191E7B98F87 = {
+			fileRef = "D28C4178B80AA6724FD78473";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		606FBC0924834F6A255DD087 = {
+			isa = PBXFileReference;
+			name = "QtGui.framework";
+			path = "../../../Development/Qt/5.2.0/clang_64/lib/QtGui.framework";
+			refType = 4;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		E3AD2B4511C49EC5D6A263E2 = {
+			fileRef = "606FBC0924834F6A255DD087";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		C33B52868E69FB12B08DB8C6 = {
+			isa = PBXFileReference;
+			name = "QtCore.framework";
+			path = "../../../Development/Qt/5.2.0/clang_64/lib/QtCore.framework";
+			refType = 4;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		C3CEFD4974EE19E2ACF01147 = {
+			fileRef = "C33B52868E69FB12B08DB8C6";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		B4581AEAE2C83FE9BE4CC119 = {
+			isa = PBXFileReference;
+			name = "QtNetwork.framework";
+			path = "../../../Development/Qt/5.2.0/clang_64/lib/QtNetwork.framework";
+			refType = 4;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		E438431ABC0A49FE43DC7A95 = {
+			fileRef = "B4581AEAE2C83FE9BE4CC119";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		D4B32C2222F82AC56BADEB21 = {
+			isa = PBXFileReference;
+			name = "OpenGL.framework";
+			path = "/System/Library/Frameworks/OpenGL.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		8771A8C96E9C391044035D99 = {
+			fileRef = "D4B32C2222F82AC56BADEB21";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D9815BDB5BD9F90D2BC05C5 = {
+			isa = PBXFileReference;
+			name = "AGL.framework";
+			path = "/System/Library/Frameworks/AGL.framework";
+			refType = 0;
+			sourceTree = "<absolute>";
+			lastKnownFileType = "wrapper.framework";
+		};
+		E45E51A644D5FC9F942ECE55 = {
+			fileRef = "8D9815BDB5BD9F90D2BC05C5";
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AF39DD055C3EF8226FBE929D = {
+			children = (
+				"D28C4178B80AA6724FD78473",
+				"606FBC0924834F6A255DD087",
+				"C33B52868E69FB12B08DB8C6",
+				"B4581AEAE2C83FE9BE4CC119",
+				"D4B32C2222F82AC56BADEB21",
+				"8D9815BDB5BD9F90D2BC05C5");
+			isa = PBXGroup;
+			name = "Frameworks";
+			sourceTree = "<Group>";
+		};
+		D1C883685E82D5676953459A = {
+			buildActionMask = 2147483647;
+			files = (
+				"D26635B58A763191E7B98F87",
+				"E3AD2B4511C49EC5D6A263E2",
+				"C3CEFD4974EE19E2ACF01147",
+				"E438431ABC0A49FE43DC7A95",
+				"8771A8C96E9C391044035D99",
+				"E45E51A644D5FC9F942ECE55");
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+			name = "Link Binary With Libraries";
+		};
+		204A2423F9222EC3BCA93DB7 = {
+			isa = PBXFileReference;
+			includeInIndex = 0;
+			explicitFileType = "wrapper.application";
+			path = "AsteriatedGUI.app";
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FE0A091FDBFB3E9C31B7A1BD = {
+			children = (
+				"204A2423F9222EC3BCA93DB7");
+			isa = PBXGroup;
+			name = "Products";
+			sourceTree = "<Group>";
+		};
+		E8C543AB96796ECAA2E65C57 = {
+			children = (
+				"2EB56BE3C2D93CDAB0C52E67",
+				"25B08E2869634E9BCBA333A2",
+				"74B182DB50CB5611B5C1C297",
+				"87DF60DE337FB58864343E39",
+				"AF39DD055C3EF8226FBE929D",
+				"FE0A091FDBFB3E9C31B7A1BD");
+			isa = PBXGroup;
+			name = "AsteriatedGUI";
+			sourceTree = "<Group>";
+		};
+		9F6B86AC1FAC453E04DCAE73 = {
+			buildPhases = (
+				"5E618435888B9D49F8540165",
+				"7EF0942E79C014DCEC8976BC");
+			dependencies = (
+				);
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59;
+			isa = PBXAggregateTarget;
+			buildRules = (
+);
+			productName = "Qt Preprocess";
+			name = "Qt Preprocess";
+		};
+		8EE1F9FFF0613622F4CC5D5C = {
+			isa = PBXTargetDependency;
+			target = "9F6B86AC1FAC453E04DCAE73";
+		};
+		131570533AFE52F997E2350D = {
+			buildPhases = (
+				"F7E50F631C51CD5B5DC0BC43",
+				"D1C883685E82D5676953459A");
+			dependencies = (
+				"8EE1F9FFF0613622F4CC5D5C");
+			productReference = "204A2423F9222EC3BCA93DB7";
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59;
+			isa = PBXNativeTarget;
+			buildRules = (
+);
+			productType = "com.apple.product-type.application";
+			name = "AsteriatedGUI";
+			productName = "AsteriatedGUI";
+		};
+		3AA6C32AC930069E80220CF1 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = "NO";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "YES";
+				GCC_OPTIMIZATION_LEVEL = "0";
+				PRODUCT_NAME = "AsteriatedGUI";
+				QT_LIBRARY_SUFFIX = "_debug";
+				SDKROOT = "macosx";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				CC = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang";
+				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				INFOPLIST_FILE = "Info.plist";
+				SYMROOT = "/Users/Hubert/Documents/Programs/AsteriatedGUI";
+				DYLIB_CURRENT_VERSION = "1.0.0";
+				DYLIB_COMPATIBILITY_VERSION = "1.0";
+				MACOSX_DEPLOYMENT_TARGET = "10.6";
+				HEADER_SEARCH_PATHS = (
+					".",
+					"players",
+					"network",
+					"textgui",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers",
+					".",
+					"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
+					"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/AGL.framework/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/mkspecs/macx-clang");
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib",
+					"/System/Library/Frameworks/");
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib",
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib");
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-O2",
+					"-Wall",
+					"-W",
+					"-fPIE",
+					"-DQT_NO_DEBUG",
+					"-DQT_WIDGETS_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-O2",
+					"-Wall",
+					"-W",
+					"-fPIE",
+					"-DQT_NO_DEBUG",
+					"-DQT_WIDGETS_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_LDFLAGS = (
+						"-headerpad_max_install_names",
+						"-F/Users/Hubert/Development/Qt/5.2.0/clang_64/lib");
+				ARCHS = "x86_64";
+			};
+			name = "Debug";
+		};
+		77418F46922677BB04ED38DD = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = "NO";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "YES";
+				GCC_OPTIMIZATION_LEVEL = "0";
+				PRODUCT_NAME = "AsteriatedGUI";
+				QT_LIBRARY_SUFFIX = "_debug";
+				SDKROOT = "macosx";
+				PRODUCT_NAME = "AsteriatedGUI";
+			};
+			name = "Debug";
+		};
+		339EE1B2CC4FC24589A0EA95 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "NO";
+				PRODUCT_NAME = "AsteriatedGUI";
+				QT_LIBRARY_SUFFIX = "";
+				SDKROOT = "macosx";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				CC = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang";
+				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				INFOPLIST_FILE = "Info.plist";
+				SYMROOT = "/Users/Hubert/Documents/Programs/AsteriatedGUI";
+				DYLIB_CURRENT_VERSION = "1.0.0";
+				DYLIB_COMPATIBILITY_VERSION = "1.0";
+				MACOSX_DEPLOYMENT_TARGET = "10.6";
+				HEADER_SEARCH_PATHS = (
+					".",
+					"players",
+					"network",
+					"textgui",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtWidgets.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtNetwork.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtGui.framework/Versions/5/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Versions/5/Headers",
+					".",
+					"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers",
+					"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/AGL.framework/Headers",
+					"../../../Development/Qt/5.2.0/clang_64/mkspecs/macx-clang");
+				LIBRARY_SEARCH_PATHS = (
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib",
+					"/System/Library/Frameworks/");
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib",
+					"/Users/Hubert/Development/Qt/5.2.0/clang_64/lib");
+				OTHER_CFLAGS = (
+					"-pipe",
+					"-O2",
+					"-Wall",
+					"-W",
+					"-fPIE",
+					"-DQT_NO_DEBUG",
+					"-DQT_WIDGETS_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_CPLUSPLUSFLAGS = (
+					"-pipe",
+					"-O2",
+					"-Wall",
+					"-W",
+					"-fPIE",
+					"-DQT_NO_DEBUG",
+					"-DQT_WIDGETS_LIB",
+					"-DQT_NETWORK_LIB",
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB");
+				OTHER_LDFLAGS = (
+						"-headerpad_max_install_names",
+						"-F/Users/Hubert/Development/Qt/5.2.0/clang_64/lib");
+				ARCHS = "x86_64";
+			};
+			name = "Release";
+		};
+		6666AA5E688052234F6758D8 = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = "YES";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = "NO";
+				PRODUCT_NAME = "AsteriatedGUI";
+				QT_LIBRARY_SUFFIX = "";
+				SDKROOT = "macosx";
+				PRODUCT_NAME = "AsteriatedGUI";
+			};
+			name = "Release";
+		};
+		DAC4C1AA5EDEA1C85E9CA5E6 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"3AA6C32AC930069E80220CF1",
+				"339EE1B2CC4FC24589A0EA95");
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release";
+		};
+		6CC3B5D2136C7CD6A5CF5A59 = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				"77418F46922677BB04ED38DD",
+				"6666AA5E688052234F6758D8");
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Release";
+		};
+		6DB9C3763D02B1415CD9D565 = {
+			hasScannedForEncodings = 1;
+			compatibilityVersion = "Xcode 3.2";
+			isa = PBXProject;
+			mainGroup = "E8C543AB96796ECAA2E65C57";
+			productRefGroup = "FE0A091FDBFB3E9C31B7A1BD";
+			buildConfigurationList = "DAC4C1AA5EDEA1C85E9CA5E6";
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"131570533AFE52F997E2350D",
+				"9F6B86AC1FAC453E04DCAE73");
+		};
+	};
+	rootObject = "6DB9C3763D02B1415CD9D565";
+}

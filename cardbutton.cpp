@@ -6,13 +6,23 @@
 CardButton::CardButton(int card,int paraX,int paraY, QWidget *parent)
     :PicButton(paraX,paraY,GEO_CARD_W,GEO_CARD_H,true,parent)
 {
+
     //isConnect = false;
     frameLabel.setPixmap(QPixmap(":/character/cardFrameX.png"));
+    notClickedLabel.setPixmap(QPixmap(":/button/buttonNotClicked48.png"));
+    clickedLabel.setPixmap(QPixmap(":/button/buttonClicked48.png"));
     QString s;
     for(int i = 0;i < 5;i ++)
     {
         label[i] = new QLabel(this);
+        label[i]->raise();
     }
+    QFont font("微软雅黑",20,QFont::Bold);
+    QPalette palette;
+    palette.setColor(QPalette::WindowText,Qt::yellow);
+    //TODO
+    int yOffset = 20;
+
     QString qnature[] = {QString::fromLocal8Bit("地"),QString::fromLocal8Bit("水"),QString::fromLocal8Bit("火"),QString::fromLocal8Bit("风"),QString::fromLocal8Bit("雷"),QString::fromLocal8Bit("暗"),QString::fromLocal8Bit("光")};
     QString qname[] = {QString::fromLocal8Bit("地斩"),QString::fromLocal8Bit("水斩"),QString::fromLocal8Bit("火斩"),QString::fromLocal8Bit("风斩"),QString::fromLocal8Bit("雷斩"),QString::fromLocal8Bit("暗斩"),QString::fromLocal8Bit("中毒"),QString::fromLocal8Bit("虚弱"),QString::fromLocal8Bit("魔弹"),QString::fromLocal8Bit("圣盾"),QString::fromLocal8Bit("圣光")};
     QString qkind[] = {QString::fromLocal8Bit("技"),QString::fromLocal8Bit("血"),QString::fromLocal8Bit("圣"),QString::fromLocal8Bit("幻"),QString::fromLocal8Bit("咏")};
@@ -23,11 +33,13 @@ CardButton::CardButton(int card,int paraX,int paraY, QWidget *parent)
     label[3]->setText(s);
     s.sprintf("%d",cardlist.getSkillTwo(card));
     label[4]->setText(s);
-    //TODO
-//    int yOffset = 20;
-//    for(int i = 0;i < 5;i ++)
-//    {
-//        label[i]->move(xp + 20,yp + yOffset * (i + 1));
-//        label[i]->show();
-//    }
+    for(int i = 0;i < 5;i ++)
+    {
+        label[i]->setStyleSheet("QLabel{color:blue}");
+        label[i]->setFont(font);
+        //label[i]->setPalette(palette);
+        label[i]->move(20,yOffset * (i + 1));
+        label[i]->show();
+    }
+    show();
 }

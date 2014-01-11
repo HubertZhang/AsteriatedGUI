@@ -22,12 +22,12 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
         soulLink->number[i]->setChecked(false);
         soulLink->number[i]->setCheckable(false);
     }
-    connect(soulLink->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
-    connect(soulLink->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
-    disconnect(soulLink->ensure,SIGNAL(changeClicked()),soulLink,SLOT(destroyLabel()));
-    disconnect(soulLink->cancel,SIGNAL(changeClicked()),soulLink,SLOT(destroyLabel()));
-    connect(soulLink->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
-    connect(soulLink->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
+    connect(soulLink->ensure,SIGNAL(beChecked()),this,SLOT(sendMessageCardAndSkill()));
+    connect(soulLink->cancel,SIGNAL(beChecked()),this,SLOT(sendMessageCardAndSkill()));
+    disconnect(soulLink->ensure,SIGNAL(beChecked()),soulLink,SLOT(destroyLabel()));
+    disconnect(soulLink->cancel,SIGNAL(beChecked()),soulLink,SLOT(destroyLabel()));
+    connect(soulLink->ensure,SIGNAL(beChecked()),this,SLOT(reset()));
+    connect(soulLink->cancel,SIGNAL(beChecked()),this,SLOT(reset()));
     magicGroup[0] = new PicButton(143,362,559,100,42,false,this);
     magicGroup[1] = new PicButton(146,465,559,100,42,false,this);
     magicGroup[2] = new PicButton(147,568,559,100,42,false,this);
@@ -38,11 +38,11 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     for(int i = 0;i < 4;i++)
@@ -55,18 +55,18 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
-    connect(magicGroup[3],SIGNAL(changeClicked()),this,SLOT(magicSetThree()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[3],SIGNAL(beChecked()),this,SLOT(magicSetThree()));
     for(int i = 0;i < 4;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void UUZ::magicSetZero()
@@ -111,8 +111,8 @@ void UUZ::changeSelfMode(int mode)
                 {
                     cardButton[i]->setCheckable(true);
                 }
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(soulPlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(soulMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(soulPlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(soulMinus()));
             }
             break;
         }
@@ -120,7 +120,7 @@ void UUZ::changeSelfMode(int mode)
         case 6://灵魂B to Y响应阶段
         {
             emit resetSignal();
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 7://灵魂镜像响应阶段
@@ -142,8 +142,8 @@ void UUZ::changeSelfMode(int mode)
             }
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(mirrorPlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(mirrorMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(mirrorPlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(mirrorMinus()));
             }
             break;
         }
@@ -153,9 +153,9 @@ void UUZ::changeSelfMode(int mode)
             cardSingleSet(213 + mode);
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(clickAllSet()));
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(clickAllSet()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(singleToEnsure()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(allReset()));
             }
             break;
         }
@@ -174,7 +174,7 @@ void UUZ::changeSelfMode(int mode)
                     soulLink->number[i]->setCheckable(false);
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
     }
@@ -258,13 +258,13 @@ void UUZ::skillCancel()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(clickAllSet()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(mirrorPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(mirrorMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(soulPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(soulMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(clickAllSet()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(singleToEnsure()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(allReset()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(mirrorPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(mirrorMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(soulPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(soulMinus()));
     }
 }
 void UUZ::skillClear()

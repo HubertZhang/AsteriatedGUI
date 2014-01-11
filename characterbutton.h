@@ -8,7 +8,6 @@
 
 #ifndef CHARACTERBUTTON_H
 #define CHARACTERBUTTON_H
-
 #include "picbutton.h"
 #include "placeinfo.h"
 class CharacterButton : public PicButton

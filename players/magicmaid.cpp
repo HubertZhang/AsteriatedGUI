@@ -12,8 +12,8 @@ MagicMaid::MagicMaid(PaintStruct* paintStruct,QWidget *parent) :
     magicGroup[2] = new PicButton(82,568,559,100,42,false,this);
     /*for(int i = 0;i < dialog->skillCount;i++)
     {
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }*/
     for(int i = 0;i < 3;i++)
@@ -26,17 +26,17 @@ MagicMaid::MagicMaid(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
     for(int i = 0;i < 3;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void MagicMaid::magicSetZero()
@@ -70,27 +70,27 @@ void MagicMaid::changeSelfMode(int mode)
         {
             if(i != j)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                connect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
             }
         }
         for(int j = 0;j < 6;j++)
         {
             if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
     }
@@ -106,11 +106,11 @@ void MagicMaid::changeSelfMode(int mode)
                 {
                     if(i != j)
                     {
-                        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                     }
                 }
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(countPlus()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(countMinus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(countPlus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(countMinus()));
             }
             for(int i = 0;i < cardNum;i++)
             {
@@ -133,14 +133,14 @@ void MagicMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
-                connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }*/
         case 6://魔弹融合法术响应阶段
@@ -176,14 +176,14 @@ void MagicMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[left]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[left]->characterPic,SLOT(cancelClick()));
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[right]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[right]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[left]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[left]->characterPic,SLOT(setCheckableFalse()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[right]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[right]->characterPic,SLOT(setCheckableFalse()));
             }
             break;
         }
@@ -192,17 +192,17 @@ void MagicMaid::changeSelfMode(int mode)
             cancel->setCheckable(false);
             for(int i = 0;i < 6;i++)
             {
-                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 for(int j = 0;j < 6;j ++)
                 {
                     if(i != j)
                     {
-                        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                     }
                 }
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(countPlus()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(countMinus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(countPlus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(countMinus()));
             }
             for(int i = 0;i < 6;i++)
             {
@@ -268,8 +268,8 @@ void MagicMaid::skillCancel()
     //ask = false;
     for(int i = 0;i < 6;i++)
     {
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(countPlus()));
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(countMinus()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(countPlus()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(countMinus()));
     }
     for(int i = 0;i < 3;i++)
     {

@@ -19,23 +19,23 @@ HakureiReimu::HakureiReimu(PaintStruct* paintStruct,QWidget *parent,Window* show
     showFire->labelTwo->setText("");
     showFire->ensure->setCheckable(false);
     showFire->cancel->setCheckable(false);
-    connect(showFire->ensure,SIGNAL(changeClicked()),this,SLOT(fireChoose()));
-    connect(showFire->cancel,SIGNAL(changeClicked()),this,SLOT(fireNotChoose()));
-    disconnect(showFire->ensure,SIGNAL(changeClicked()),showFire,SLOT(destroyLabel()));
-    disconnect(showFire->cancel,SIGNAL(changeClicked()),showFire,SLOT(destroyLabel()));
-    disconnect(showFire->ensure,SIGNAL(changeClicked()),showFire,SLOT(sendMessageAskDialog()));
-    disconnect(showFire->cancel,SIGNAL(changeClicked()),showFire,SLOT(sendMessageAskDialog()));
+    connect(showFire->ensure,SIGNAL(beChecked()),this,SLOT(fireChoose()));
+    connect(showFire->cancel,SIGNAL(beChecked()),this,SLOT(fireNotChoose()));
+    disconnect(showFire->ensure,SIGNAL(beChecked()),showFire,SLOT(destroyLabel()));
+    disconnect(showFire->cancel,SIGNAL(beChecked()),showFire,SLOT(destroyLabel()));
+    disconnect(showFire->ensure,SIGNAL(beChecked()),showFire,SLOT(sendMessageAskDialog()));
+    disconnect(showFire->cancel,SIGNAL(beChecked()),showFire,SLOT(sendMessageAskDialog()));
     tokenPic = new PicButton(127,568,559,100,42,true,this);
-    connect(tokenPic,SIGNAL(changeClicked()),this,SLOT(tokenSet()));
-    connect(tokenPic,SIGNAL(notClicked()),this,SLOT(tokenReset()));
+    connect(tokenPic,SIGNAL(beChecked()),this,SLOT(tokenSet()));
+    connect(tokenPic,SIGNAL(unChecked()),this,SLOT(tokenReset()));
     tokenPaint = false;
     tokenNum = 0;
     connect(this,SIGNAL(mouseClick(int,int)),showFire->ensure,SLOT(isThisClicked(int,int)));
     connect(this,SIGNAL(mouseClick(int,int)),showFire->cancel,SLOT(isThisClicked(int,int)));
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     connect(this,SIGNAL(mouseClick(int,int)),tokenPic,SLOT(isThisClicked(int,int)));
@@ -49,16 +49,16 @@ HakureiReimu::HakureiReimu(PaintStruct* paintStruct,QWidget *parent,Window* show
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
     for(int i = 0;i < 2;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void HakureiReimu::magicSetZero()
@@ -84,13 +84,13 @@ void HakureiReimu::changeSelfMode(int mode)
         {
             if(i != j)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                connect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
             }
         }
         for(int j = 0;j < 6;j++)
         {
-            connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-            connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+            connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+            connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
         }
     }
     cancel->setCheckable(true);
@@ -126,12 +126,12 @@ void HakureiReimu::changeSelfMode(int mode)
             }
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicReset()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicReset()));
             }
             for(int i = 0;i < 6;i++)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(elementPlus()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(elementMinus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(elementPlus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(elementMinus()));
             }
             break;
         }
@@ -143,11 +143,11 @@ void HakureiReimu::changeSelfMode(int mode)
                 for(int i = 0;i < cardNum;i++)
                 {
                     cardButton[i]->setCheckable(true);
-                    connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                    connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                    connect(cardButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                    connect(cardButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 7://百鬼夜行响应阶段
@@ -157,23 +157,23 @@ void HakureiReimu::changeSelfMode(int mode)
             for(int i = 0;i < tokenNum;i++)
             {
                 tokenButton[i]->setCheckable(true);
-                connect(tokenButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(tokenButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                connect(tokenButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                connect(tokenButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 for(int j = 0;j < tokenNum;j++)
                 {
                     if(i != j)
                     {
-                        connect(tokenButton[i],SIGNAL(changeClicked()),tokenButton[j],SLOT(cancelX()));
+                        connect(tokenButton[i],SIGNAL(beChecked()),tokenButton[j],SLOT(setCheckedFalse()));
                     }
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 8://灵力崩解响应阶段
         {
             emit resetSignal();
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 9://百鬼夜行响应（非火）
@@ -182,17 +182,17 @@ void HakureiReimu::changeSelfMode(int mode)
             for(int i = 0;i < 6;i++)
             {
                 paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 for(int j = 0;j < 6;j++)
                 {
                     if(i != j)
                     {
-                        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
                     }
                 }
             }
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+            connect(ensure,SIGNAL(beChecked()),this,SLOT(reset()));
             break;
         }
         case 10://百鬼夜行响应（火）
@@ -201,10 +201,10 @@ void HakureiReimu::changeSelfMode(int mode)
             for(int i = 0;i < 6;i++)
             {
                 paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(elementPlus()));
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(elementMinus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(elementPlus()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(elementMinus()));
             }
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+            connect(ensure,SIGNAL(beChecked()),this,SLOT(reset()));
             break;
         }
     }
@@ -296,7 +296,7 @@ void HakureiReimu::skillCancel()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicReset()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicReset()));
     }
     tokenPaint = false;
     for(int i = 0;i < tokenNum;i++)
@@ -319,8 +319,8 @@ void HakureiReimu::skillCancel()
     showFire->cancel->setChecked(false);
     for(int i = 0;i < 6;i++)
     {
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),this,SLOT(elementPlus()));
-        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),this,SLOT(elementMinus()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),this,SLOT(elementPlus()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),this,SLOT(elementMinus()));
     }
 }
 void HakureiReimu::skillClear()
@@ -492,7 +492,7 @@ void HakureiReimu::sendMessageSelf()
                                     connect(this,SIGNAL(mouseClick(int,int)),tokenButton[0],SLOT(isThisClicked(int,int)));
                                 }
                             }
-                            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+                            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(reset()));
                             ensure->setChecked(false);
                             ensure->setCheckable(false);
                             if(cardList->getNature(cardRecord) == fire)

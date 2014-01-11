@@ -20,12 +20,12 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
         blood->number[i]->setChecked(false);
         blood->number[i]->setCheckable(false);
     }
-    connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
-    connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
-    disconnect(blood->ensure,SIGNAL(changeClicked()),blood,SLOT(destroyLabel()));
-    disconnect(blood->cancel,SIGNAL(changeClicked()),blood,SLOT(destroyLabel()));
-    connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
-    connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
+    connect(blood->ensure,SIGNAL(beChecked()),this,SLOT(sendMessageCardAndSkill()));
+    connect(blood->cancel,SIGNAL(beChecked()),this,SLOT(sendMessageCardAndSkill()));
+    disconnect(blood->ensure,SIGNAL(beChecked()),blood,SLOT(destroyLabel()));
+    disconnect(blood->cancel,SIGNAL(beChecked()),blood,SLOT(destroyLabel()));
+    connect(blood->ensure,SIGNAL(beChecked()),this,SLOT(reset()));
+    connect(blood->cancel,SIGNAL(beChecked()),this,SLOT(reset()));
     magicGroup[0] = new PicButton(151,362,559,100,42,false,this);
     magicGroup[1] = new PicButton(154,465,559,100,42,false,this);
     magicGroup[2] = new PicButton(155,568,559,100,42,false,this);
@@ -40,18 +40,18 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
-    connect(magicGroup[3],SIGNAL(changeClicked()),this,SLOT(magicSetThree()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[3],SIGNAL(beChecked()),this,SLOT(magicSetThree()));
     for(int i = 0;i < 4;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void RedWhite::magicSetZero()
@@ -98,8 +98,8 @@ void RedWhite::changeSelfMode(int mode)
             cardSetOne();
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(bloodPlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(bloodMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(bloodPlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(bloodMinus()));
             }
             break;
         }
@@ -108,11 +108,11 @@ void RedWhite::changeSelfMode(int mode)
             cardSingleSet(231);
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(clickAllSet()));
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(clickAllSet()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(singleToEnsure()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(allReset()));
             }
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
+            connect(ensure,SIGNAL(beChecked()),this,SLOT(bloodSet()));
             break;
         }
         case 9://血之诅咒响应阶段
@@ -134,8 +134,8 @@ void RedWhite::changeSelfMode(int mode)
             }
             for(int i = 0;i < cardNum;i++)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(cursePlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(curseMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(cursePlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(curseMinus()));
             }
             break;
         }
@@ -228,15 +228,15 @@ void RedWhite::skillCancel()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(clickAllSet()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(cursePlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(curseMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(bloodPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(bloodMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(clickAllSet()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(singleToEnsure()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(allReset()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(cursePlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(curseMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(bloodPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(bloodMinus()));
     }
-    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
+    disconnect(ensure,SIGNAL(beChecked()),this,SLOT(bloodSet()));
 }
 void RedWhite::skillClear()
 {
@@ -402,7 +402,7 @@ void RedWhite::clickRedWhiteSet()
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
         if(i != lifeLinkCha)

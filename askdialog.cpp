@@ -13,7 +13,6 @@ AskDialog::AskDialog(PaintStruct* paintStruct,QWidget* parent) : QLabel(parent)
     font.setBold(true);
     palette.setColor(QPalette::WindowText,Qt::yellow);
     ensure = new PicButton(32,GEO_DIALOG_ENSURE_X, GEO_DIALOG_ENSURE_Y, GEO_DIALOG_ENSURE_W, GEO_DIALOG_ENSURE_H, false , this);
-    ensure->setEnabled(false);
     cancel = new PicButton(33,GEO_DIALOG_CANCEL_X, GEO_DIALOG_CANCEL_Y, GEO_DIALOG_CANCEL_W, GEO_DIALOG_CANCEL_H, false,this);
     operate.addButton(ensure);
     operate.addButton(cancel);
@@ -113,8 +112,6 @@ ActiveDialog::ActiveDialog(PaintStruct* paintStruct,QWidget* parent) : AskDialog
 {
     int offsetX = 0;
     int offsetY = 12 + 42;
-    ensure->setEnabled(false);
-    cancel->setEnabled(true);
     choice.setExclusive(true);
     PicButton* choiceButton[4];
     //Active
@@ -248,7 +245,7 @@ ActiveDialog::ActiveDialog(PaintStruct* paintStruct,QWidget* parent) : AskDialog
     }
     choiceButton[3] = new PicButton(37,9 + offsetX, 9+offsetY * 3,100,42,composeAllow,this);
     choice.addButton(choiceButton[3],3);
-    connect(&choice, SIGNAL(buttonClicked(int)), ensure, SLOT(enable()));
+    connect(&choice, SIGNAL(buttonClicked(int)), ensure, SLOT(setCheckableTrue()));
 }
 
 void ActiveDialog::ensureClicked()
@@ -823,8 +820,8 @@ int wast()
 ////        attributeGroup[2] = new PicButton(36,9 + 328 + offsetX,257 + offsetY * 2,100,42,buyAllow);
 ////        if(stone == 5)
 ////        {
-////            connect(attributeGroup[2],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-////            connect(attributeGroup[2],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(attributeGroup[2],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+////            connect(attributeGroup[2],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////        }
 ////        if(stone == 4)
 ////        {
@@ -945,27 +942,27 @@ int wast()
 ////        composeGroup[3] = new PicButton(44,9 + 328 + 100 * 3 + 50 + offsetX * 5,257 + offsetY * 3,50,42,compose[3]);
 ////        for(int i = 0;i < actNum;i ++)
 ////        {
-////            connect(activateGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+////            connect(activateGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
 ////            connect(storeWindow,SIGNAL(mouseClicked(int,int)),activateGroup[i],SLOT(isThisClicked(int,int)));
 ////        }
 ////        for(int i = 0;i < 5;i++)
 ////        {
-////            connect(refineGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+////            connect(refineGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
 ////            connect(storeWindow,SIGNAL(mouseClicked(int,int)),refineGroup[i],SLOT(isThisClicked(int,int)));
 ////        }
 ////        for(int i = 0;i < 4;i++)
 ////        {
-////            connect(buyGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+////            connect(buyGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
 ////            connect(storeWindow,SIGNAL(mouseClicked(int,int)),buyGroup[i],SLOT(isThisClicked(int,int)));
 ////        }
 ////        for(int i = 0;i < 4;i++)
 ////        {
-////            connect(composeGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+////            connect(composeGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
 ////            connect(storeWindow,SIGNAL(mouseClicked(int,int)),composeGroup[i],SLOT(isThisClicked(int,int)));
 ////        }
 ////        for(int i = 0;i < 4;i++)
 ////        {
-////            connect(attributeGroup[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
+////            connect(attributeGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableFalse()));
 ////        }
 ////        if(stone > 2)
 ////        {
@@ -985,161 +982,161 @@ int wast()
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(attributeGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(cancelX()));
+////                    connect(attributeGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////                for(int k = 0;k < actNum;k++)
 ////                {
 ////                    if(i != 0)
 ////                    {
-////                        connect(attributeGroup[i],SIGNAL(changeClicked()),activateGroup[k],SLOT(cancelX()));
+////                        connect(attributeGroup[i],SIGNAL(beChecked()),activateGroup[k],SLOT(setCheckedFalse()));
 ////                    }
 ////                }
 ////                for(int k = 0;k < 5;k ++)
 ////                {
 ////                    if(i != 1)
 ////                    {
-////                        connect(attributeGroup[i],SIGNAL(changeClicked()),refineGroup[k],SLOT(cancelX()));
+////                        connect(attributeGroup[i],SIGNAL(beChecked()),refineGroup[k],SLOT(setCheckedFalse()));
 ////                    }
 ////                }
 ////                for(int k = 0;k < 4;k++)
 ////                {
 ////                    if(i != 2)
 ////                    {
-////                        connect(attributeGroup[i],SIGNAL(changeClicked()),buyGroup[k],SLOT(cancelX()));
+////                        connect(attributeGroup[i],SIGNAL(beChecked()),buyGroup[k],SLOT(setCheckedFalse()));
 ////                    }
 ////                }
 ////                for(int k = 0;k < 4;k++)
 ////                {
 ////                    if(i != 3)
 ////                    {
-////                        connect(attributeGroup[i],SIGNAL(changeClicked()),composeGroup[k],SLOT(cancelX()));
+////                        connect(attributeGroup[i],SIGNAL(beChecked()),composeGroup[k],SLOT(setCheckedFalse()));
 ////                    }
 ////                }
 ////            }
-////            connect(attributeGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(attributeGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////        }
 ////        for(int i = 0;i < actNum;i++)
 ////        {
-////            connect(activateGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(activateGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(j == 0)
 ////                {
-////                    connect(activateGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(recover()));
+////                    connect(activateGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(recover()));
 ////                }
 ////                else
 ////                {
-////                    connect(activateGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(cancelX()));
+////                    connect(activateGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < actNum;j++)
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(activateGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
+////                    connect(activateGroup[i],SIGNAL(beChecked()),activateGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < 5;j++)
 ////            {
-////                connect(activateGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
+////                connect(activateGroup[i],SIGNAL(beChecked()),refineGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < 4;j++)
 ////            {
-////                connect(activateGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
-////                connect(activateGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
+////                connect(activateGroup[i],SIGNAL(beChecked()),buyGroup[j],SLOT(setCheckedFalse()));
+////                connect(activateGroup[i],SIGNAL(beChecked()),composeGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////        }
 ////        for(int i = 0;i < 5;i++)
 ////        {
-////            connect(refineGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(refineGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(j == 1)
 ////                {
-////                    connect(refineGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(recover()));
+////                    connect(refineGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(recover()));
 ////                }
 ////                else
 ////                {
-////                    connect(refineGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(cancelX()));
+////                    connect(refineGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < 5;j++)
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(refineGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
+////                    connect(refineGroup[i],SIGNAL(beChecked()),refineGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < 4;j++)
 ////            {
-////                connect(refineGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
-////                connect(refineGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
+////                connect(refineGroup[i],SIGNAL(beChecked()),buyGroup[j],SLOT(setCheckedFalse()));
+////                connect(refineGroup[i],SIGNAL(beChecked()),composeGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < actNum;j++)
 ////            {
-////                connect(refineGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
+////                connect(refineGroup[i],SIGNAL(beChecked()),activateGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////        }
 ////        for(int i = 0;i < 4;i++)
 ////        {
-////            connect(buyGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(buyGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(j == 2)
 ////                {
-////                    connect(buyGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(recover()));
+////                    connect(buyGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(recover()));
 ////                }
 ////                else
 ////                {
-////                    connect(buyGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(cancelX()));
+////                    connect(buyGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < 5;j++)
 ////            {
-////                connect(buyGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
+////                connect(buyGroup[i],SIGNAL(beChecked()),refineGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(buyGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
+////                    connect(buyGroup[i],SIGNAL(beChecked()),buyGroup[j],SLOT(setCheckedFalse()));
 ////                }
-////                connect(buyGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
+////                connect(buyGroup[i],SIGNAL(beChecked()),composeGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < actNum;j++)
 ////            {
-////                connect(buyGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
+////                connect(buyGroup[i],SIGNAL(beChecked()),activateGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////        }
 ////        for(int i = 0;i < 4;i++)
 ////        {
-////            connect(composeGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(composeGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(j == 3)
 ////                {
-////                    connect(composeGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(recover()));
+////                    connect(composeGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(recover()));
 ////                }
 ////                else
 ////                {
-////                    connect(composeGroup[i],SIGNAL(changeClicked()),attributeGroup[j],SLOT(cancelX()));
+////                    connect(composeGroup[i],SIGNAL(beChecked()),attributeGroup[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////            for(int j = 0;j < 5;j++)
 ////            {
-////                connect(composeGroup[i],SIGNAL(changeClicked()),refineGroup[j],SLOT(cancelX()));
+////                connect(composeGroup[i],SIGNAL(beChecked()),refineGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < 4;j++)
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(composeGroup[i],SIGNAL(changeClicked()),composeGroup[j],SLOT(cancelX()));
+////                    connect(composeGroup[i],SIGNAL(beChecked()),composeGroup[j],SLOT(setCheckedFalse()));
 ////                }
-////                connect(composeGroup[i],SIGNAL(changeClicked()),buyGroup[j],SLOT(cancelX()));
+////                connect(composeGroup[i],SIGNAL(beChecked()),buyGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////            for(int j = 0;j < actNum;j++)
 ////            {
-////                connect(composeGroup[i],SIGNAL(changeClicked()),activateGroup[j],SLOT(cancelX()));
+////                connect(composeGroup[i],SIGNAL(beChecked()),activateGroup[j],SLOT(setCheckedFalse()));
 ////            }
 ////        }
 ////        if(paintStruct->gameCharacter[5]->characterNum == 12)
@@ -1154,14 +1151,14 @@ int wast()
 ////                if(paintStruct->gameCharacter[j]->color == paintStruct->gameCharacter[5]->color)
 ////                {
 ////                    paintStruct->gameCharacter[j]->characterPic->setCheckable(true);
-////                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),this,SLOT(adventureRefine()));
-////                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),this,SLOT(adventureReset()));
+////                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(beChecked()),this,SLOT(adventureRefine()));
+////                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(unChecked()),this,SLOT(adventureReset()));
 ////                }
 ////                for(int k = 0;k < 6;k++)
 ////                {
 ////                    if(j != k)
 ////                    {
-////                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
+////                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[k]->characterPic,SLOT(setCheckedFalse()));
 ////                    }
 ////                }
 ////            }
@@ -1183,8 +1180,8 @@ int wast()
 ////                number[i] = new PicButton(i + 49,99 + 328 + 70 * i,407,50,50,false);
 ////            }
 ////            connect(storeWindow,SIGNAL(mouseClicked(int,int)),number[i],SLOT(isThisClicked(int,int)));
-////            connect(number[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-////            connect(number[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+////            connect(number[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+////            connect(number[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
 ////        }
 ////        for(int i = 0;i < 5;i++)
 ////        {
@@ -1192,7 +1189,7 @@ int wast()
 ////            {
 ////                if(i != j)
 ////                {
-////                    connect(number[i],SIGNAL(changeClicked()),number[j],SLOT(cancelX()));
+////                    connect(number[i],SIGNAL(beChecked()),number[j],SLOT(setCheckedFalse()));
 ////                }
 ////            }
 ////        }

@@ -13,18 +13,18 @@ KazamiYuuka::KazamiYuuka(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
 }
 void KazamiYuuka::changeSelfMode(int mode)
 {
     cancel->setCheckable(true);
-    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+    disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
     switch(mode)
     {
         case 4://蓄力一击响应阶段
@@ -57,8 +57,8 @@ void KazamiYuuka::changeSelfMode(int mode)
                 for(int i = 0;i < cardNum;i++)
                 {
                     cardButton[i]->setCheckable(true);
-                    connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(YuukaTwoPlus()));
-                    connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(YuukaTwoMinus()));
+                    connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(YuukaTwoPlus()));
+                    connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(YuukaTwoMinus()));
                 }
             }
         }
@@ -97,8 +97,8 @@ void KazamiYuuka::skillCancel()
     for(int i = 0;i < cardNum;i++)
     {
         cardButton[i]->setCheckable(true);
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(YuukaTwoPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(YuukaTwoMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(YuukaTwoPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(YuukaTwoMinus()));
     }
 }
 void KazamiYuuka::selfReset()

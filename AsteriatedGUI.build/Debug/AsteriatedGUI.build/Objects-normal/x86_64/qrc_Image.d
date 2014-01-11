@@ -1,0 +1,19 @@
+dependencies: \
+  /Users/Hubert/Documents/Programs/AsteriatedGUI/qrc_Image.cpp \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qglobal.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qconfig.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qfeatures.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qsystemdetection.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qprocessordetection.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qcompilerdetection.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qglobalstatic.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qatomic.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qbasicatomic.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qatomic_x86.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qgenericatomic.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qmutex.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qlogging.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qflags.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qtypeinfo.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qtypetraits.h \
+  /Users/Hubert/Development/Qt/5.2.0/clang_64/lib/QtCore.framework/Headers/qsysinfo.h

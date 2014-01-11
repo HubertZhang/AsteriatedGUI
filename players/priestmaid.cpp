@@ -23,9 +23,9 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX)
     sacredContract->cancel->setCheckable(false);
     for(int i = 0;i < 5;i++)
     {
-        connect(sacredContract->number[i],SIGNAL(changeClicked()),this,SLOT(contractSet()));
-        connect(sacredContract->number[i],SIGNAL(notClicked()),this,SLOT(contractReset()));
-        disconnect(sacredContract->number[i],SIGNAL(changeClicked()),sacredContract->ensure,SLOT(recoverClick()));
+        connect(sacredContract->number[i],SIGNAL(beChecked()),this,SLOT(contractSet()));
+        connect(sacredContract->number[i],SIGNAL(unChecked()),this,SLOT(contractReset()));
+        disconnect(sacredContract->number[i],SIGNAL(beChecked()),sacredContract->ensure,SLOT(setCheckableTrue()));
     }
     magicGroup[0] = new PicButton(108,362,559,100,42,false,this);
     magicGroup[1] = new PicButton(109,465,559,100,42,false,this);
@@ -33,8 +33,8 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX)
     magicGroup[3] = new PicButton(112,671,559,100,42,false,this);
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     for(int i = 0;i < 4;i++)
@@ -47,18 +47,18 @@ PriestMaid::PriestMaid(PaintStruct* paintStruct,QWidget *parent,Window* sacredX)
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
-    connect(magicGroup[3],SIGNAL(changeClicked()),this,SLOT(magicSetThree()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[3],SIGNAL(beChecked()),this,SLOT(magicSetThree()));
     for(int i = 0;i < 4;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void PriestMaid::magicSetZero()
@@ -100,27 +100,27 @@ void PriestMaid::changeSelfMode(int mode)
         {
             if(i != j)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                connect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
             }
         }
         for(int j = 0;j < 6;j++)
         {
             if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckedFalse()));
             }
         }
     }
@@ -129,7 +129,7 @@ void PriestMaid::changeSelfMode(int mode)
     {
         case 4://神圣启示响应阶段
         {
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             emit resetSignal();
             break;
         }
@@ -149,17 +149,17 @@ void PriestMaid::changeSelfMode(int mode)
                 {
                     if(i != j)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
                     }
                 }
-                connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicPlus()));
-                connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicMinus()));
+                connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicPlus()));
+                connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicMinus()));
                 for(int j = 0;j < 6;j++)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
             }
@@ -174,8 +174,8 @@ void PriestMaid::changeSelfMode(int mode)
                 {
                     cardButton[i]->setCheckable(true);
                 }
-                connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                connect(cardButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
             }
             for(int i = 0;i < cardNum;i++)
             {
@@ -183,13 +183,13 @@ void PriestMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(waterPhase()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(reset()));
+            connect(ensure,SIGNAL(beChecked()),this,SLOT(waterPhase()));
             break;
         }
         case 7://神圣契约响应阶段
@@ -229,17 +229,17 @@ void PriestMaid::changeSelfMode(int mode)
                     {
                         if(i != j)
                         {
-                            disconnect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                            disconnect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
                         }
                     }
-                    connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(zonePlus()));
-                    connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(zoneMinus()));
+                    connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(zonePlus()));
+                    connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(zoneMinus()));
                     for(int j = 0;j < 6;j++)
                     {
                         if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                         {
-                            disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                            disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                            disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                            disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                         }
                     }
                 }
@@ -266,13 +266,13 @@ void PriestMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[0],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[0],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[0],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[0],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                     else
                     {
-                        connect(cardButton[0],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        connect(cardButton[0],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        connect(cardButton[0],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        connect(cardButton[0],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
             }
@@ -285,17 +285,17 @@ void PriestMaid::changeSelfMode(int mode)
                     {
                         if(i != j)
                         {
-                            disconnect(cardButton[i],SIGNAL(changeClicked()),cardButton[j],SLOT(cancelX()));
+                            disconnect(cardButton[i],SIGNAL(beChecked()),cardButton[j],SLOT(setCheckedFalse()));
                         }
                     }
-                    connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(curePlus()));
-                    connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(cureMinus()));
+                    connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(curePlus()));
+                    connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(cureMinus()));
                     for(int j = 0;j < 6;j++)
                     {
                         if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                         {
-                            disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                            disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                            disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                            disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                         }
                     }
                 }
@@ -305,7 +305,7 @@ void PriestMaid::changeSelfMode(int mode)
         case 10://水之神力响应第二阶段
         {
             cancel->setCheckable(false);
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
+            connect(ensure,SIGNAL(beChecked()),this,SLOT(reset()));
             for(int i = 0;i < cardNum;i++)
             {
                 cardButton[i]->setCheckable(true);
@@ -320,13 +320,13 @@ void PriestMaid::changeSelfMode(int mode)
                 {
                     if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        disconnect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                     else
                     {
-                        connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        connect(cardButton[i],SIGNAL(beChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableTrue()));
+                        connect(cardButton[i],SIGNAL(unChecked()),paintStruct->gameCharacter[j]->characterPic,SLOT(setCheckableFalse()));
                     }
                 }
             }
@@ -418,15 +418,15 @@ void PriestMaid::skillCancel()
     sacredContract->ensure->setCheckable(false);
     sacredContract->cancel->setChecked(false);
     sacredContract->cancel->setCheckable(false);
-    disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(waterPhase()));
+    disconnect(ensure,SIGNAL(beChecked()),this,SLOT(waterPhase()));
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(curePlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(cureMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(zonePlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(zoneMinus()));
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(magicPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(magicMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(curePlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(cureMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(zonePlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(zoneMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(magicPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(magicMinus()));
     }
     for(int i = 0;i < 4;i++)
     {

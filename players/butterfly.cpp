@@ -13,8 +13,8 @@ Butterfly::Butterfly(PaintStruct* paintStruct,QWidget *parent) :
     magicGroup[1] = new PicButton(162,465,559,100,42,false,this);
     magicGroup[2] = new PicButton(163,568,559,100,42,false,this);
     tokenPic = new PicButton(164,671,559,100,42,true,this);
-    connect(tokenPic,SIGNAL(changeClicked()),this,SLOT(tokenSet()));
-    connect(tokenPic,SIGNAL(notClicked()),this,SLOT(tokenReset()));
+    connect(tokenPic,SIGNAL(beChecked()),this,SLOT(tokenSet()));
+    connect(tokenPic,SIGNAL(unChecked()),this,SLOT(tokenReset()));
     tokenPaint = false;
     tokenNum = 0;
     for(int i = 0;i < dialog->skillCount;i++)
@@ -23,11 +23,11 @@ Butterfly::Butterfly(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(dialog->skillGroup[i],SIGNAL(changeClicked()),dialog->skillGroup[j],SLOT(cancelX()));
+                connect(dialog->skillGroup[i],SIGNAL(beChecked()),dialog->skillGroup[j],SLOT(setCheckedFalse()));
             }
         }
-        connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(dialog->skillGroup[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(dialog->skillGroup[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+        connect(dialog->skillGroup[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
         connect(this,SIGNAL(mouseClick(int,int)),dialog->skillGroup[i],SLOT(isThisClicked(int,int)));
     }
     connect(this,SIGNAL(mouseClick(int,int)),this,SLOT(tokenClicked(int,int)));
@@ -42,17 +42,17 @@ Butterfly::Butterfly(PaintStruct* paintStruct,QWidget *parent) :
         {
             if(i != j)
             {
-                connect(magicGroup[i],SIGNAL(changeClicked()),magicGroup[j],SLOT(cancelX()));
+                connect(magicGroup[i],SIGNAL(beChecked()),magicGroup[j],SLOT(setCheckedFalse()));
             }
         }
     }
     //system("pause");
-    connect(magicGroup[0],SIGNAL(changeClicked()),this,SLOT(magicSetZero()));
-    connect(magicGroup[1],SIGNAL(changeClicked()),this,SLOT(magicSetOne()));
-    connect(magicGroup[2],SIGNAL(changeClicked()),this,SLOT(magicSetTwo()));
+    connect(magicGroup[0],SIGNAL(beChecked()),this,SLOT(magicSetZero()));
+    connect(magicGroup[1],SIGNAL(beChecked()),this,SLOT(magicSetOne()));
+    connect(magicGroup[2],SIGNAL(beChecked()),this,SLOT(magicSetTwo()));
     for(int i = 0;i < 3;i++)
     {
-        connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
+        connect(magicGroup[i],SIGNAL(unChecked()),this,SLOT(skillClear()));
     }
 }
 void Butterfly::magicSetZero()
@@ -97,17 +97,17 @@ void Butterfly::changeSelfMode(int mode)
             for(int i = 0;i < tokenNum;i++)
             {
                 tokenButton[i]->setCheckable(true);
-                connect(tokenButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                connect(tokenButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                connect(tokenButton[i],SIGNAL(beChecked()),ensure,SLOT(setCheckableTrue()));
+                connect(tokenButton[i],SIGNAL(unChecked()),ensure,SLOT(setCheckableFalse()));
                 for(int j = 0;j < tokenNum;j++)
                 {
                     if(i != j)
                     {
-                        connect(tokenButton[i],SIGNAL(changeClicked()),tokenButton[j],SLOT(cancelX()));
+                        connect(tokenButton[i],SIGNAL(beChecked()),tokenButton[j],SLOT(setCheckedFalse()));
                     }
                 }
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 7://镜花水月响应阶段
@@ -117,17 +117,17 @@ void Butterfly::changeSelfMode(int mode)
             for(int i = 0;i < tokenNum;i++)
             {
                 tokenButton[i]->setCheckable(true);
-                connect(tokenButton[i],SIGNAL(changeClicked()),this,SLOT(confusePlus()));
-                connect(tokenButton[i],SIGNAL(notClicked()),this,SLOT(confuseMinus()));
+                connect(tokenButton[i],SIGNAL(beChecked()),this,SLOT(confusePlus()));
+                connect(tokenButton[i],SIGNAL(unChecked()),this,SLOT(confuseMinus()));
             }
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 8://凋零响应阶段
         {
             clickAllSet();
             singleToEnsure();
-            disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
+            disconnect(ensure,SIGNAL(beChecked()),this,SLOT(selfReset()));
             break;
         }
         case 9://蛹化响应阶段
@@ -148,8 +148,8 @@ void Butterfly::changeSelfMode(int mode)
             {
                 for(int i = 0;i < cardNum;i++)
                 {
-                    connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(deadflyPlus()));
-                    connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(deadflyMinus()));
+                    connect(cardButton[i],SIGNAL(beChecked()),this,SLOT(deadflyPlus()));
+                    connect(cardButton[i],SIGNAL(unChecked()),this,SLOT(deadflyMinus()));
                 }
                 if(cardNum == 1)
                 {
@@ -260,13 +260,13 @@ void Butterfly::skillCancel()
     }
     for(int i = 0;i < tokenNum;i++)
     {
-        disconnect(tokenButton[i],SIGNAL(changeClicked()),this,SLOT(confusePlus()));
-        disconnect(tokenButton[i],SIGNAL(notClicked()),this,SLOT(confuseMinus()));
+        disconnect(tokenButton[i],SIGNAL(beChecked()),this,SLOT(confusePlus()));
+        disconnect(tokenButton[i],SIGNAL(unChecked()),this,SLOT(confuseMinus()));
     }
     for(int i = 0;i < cardNum;i++)
     {
-        disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(deadflyPlus()));
-        disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(deadflyMinus()));
+        disconnect(cardButton[i],SIGNAL(beChecked()),this,SLOT(deadflyPlus()));
+        disconnect(cardButton[i],SIGNAL(unChecked()),this,SLOT(deadflyMinus()));
     }
 }
 void Butterfly::skillClear()
