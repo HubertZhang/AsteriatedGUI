@@ -15,7 +15,7 @@
 #include "agclient.h"
 #include "agchatclient.h"
 #include "cardList.h"
-#include "cardandskill.h"
+//#include "cardandskill.h"
 #include "cardattack.h"
 #include "swordmaster.h"
 #include "berserker.h"
@@ -67,8 +67,9 @@ private:
 public:
     QLineEdit* chatLine;
     QTextBrowser* chatBrowser;
+    QTextBrowser* infoBrowser;
     explicit Window(QWidget *parent = 0);
-    void mousePressEvent(QMouseEvent *event);
+    //void mousePressEvent(QMouseEvent *event);
     AGClient networkSocket;
     AGChatClient chatSocket;
 protected:
@@ -82,11 +83,12 @@ public slots:
     void displayMessage(int id,QString message);
     void changeWPhase();
     void changeXPhase();
-    void changeZPhase();
+    //void changeZPhase();
+    void activateAct(bool skill1,bool skill2);
     void sendMessageWindow(std::vector<int>);
     void queuePop();
 signals:
-    void mouseClicked(int x,int y);
+    //void mouseClicked(int x,int y);
 };
 
 

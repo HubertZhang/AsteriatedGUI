@@ -15,7 +15,7 @@ public:
     bool ask;
     NewDialog* dialog;
     int lightCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

@@ -14,10 +14,10 @@ public:
     explicit PureSpear(PaintStruct* paintStruct,QWidget *parent,Window* groundX);
     PicButton* magicGroup[3];
     NewDialog* dialog;
-    AskDialog* groundSpear;
+    NumberDialog* groundSpear;
     bool ask;
     bool spearAsk;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

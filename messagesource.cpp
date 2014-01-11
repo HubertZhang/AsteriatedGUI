@@ -11,9 +11,13 @@ MessageSource::MessageSource(QWidget *parent)
     layout->addWidget(submit);
     setLayout(layout);
     resize(200,200);
+
+    connect(inputLine,SIGNAL(returnPressed()),this,SLOT(isClicked()));
     this->show();
 }
 void MessageSource::isClicked()
 {
     emit buttonClicked();
+    inputLine->selectAll();
+
 }

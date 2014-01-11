@@ -1,21 +1,22 @@
-    #include "cardandskill.h"
+#include "cardandskill.h"
 #include <QString>
 #include <QLabel>
 #include <cstdlib>
 #include <iostream>
 using namespace std;
-CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent)
+CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent) : QWidget(parent)
 {
+    setGeometry(0,0,1366,768);
     informationKind = 0;
     cancelClick = false;
     frame = false;
-    paintStructX = paintStruct;
+    this->paintStruct = paintStruct;
     cardNum = 0;
     windowX = parent;
     paintMode = 0;
     cardList = new CardList();
-    ensure = new PicButton(32,775,559,100,42,false);
-    cancel = new PicButton(33,878,559,100,42,false);
+    ensure = new PicButton(32,775,559,100,42,false,this);
+    cancel = new PicButton(33,878,559,100,42,false,this);
     frameLabel = new FrameLabel(windowX);
     connect(ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     connect(cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
@@ -27,35 +28,36 @@ CardAndSkill::CardAndSkill(PaintStruct* paintStruct ,QWidget *parent)
     connect(this,SIGNAL(skillSetSig()),this,SLOT(skillset()));
     for(int j = 0;j < 6;j++)
     {
-        paintStructX->gameCharacter[j]->characterPic->canBeClicked = false;
-        paintStructX->gameCharacter[j]->characterPic->isClicked = false;
+        paintStruct->gameCharacter[j]->characterPic->setCheckable(false);
+        paintStruct->gameCharacter[j]->characterPic->setChecked(false);
     }
-    cancel->canBeClicked = false;
-    ensure->canBeClicked = false;
-    cancel->isClicked = false;
-    ensure->isClicked = false;
+    cancel->setCheckable(false);
+    ensure->setCheckable(false);
+    cancel->setChecked(false);
+    ensure->setChecked(false);
     //system("pause");
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = false;
-        cardButton[i]->isClicked = false;
+        cardButton[i]->setCheckable(false);
+        cardButton[i]->setChecked(false);
 
     }
+    show();
     //connect(ensure,SIGNAL(changeClicked()),this,SLOT(paintSignal()));
 }
-void CardAndSkill::paint(QPaintEvent* event, QPainter* painter)
-{
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-    if(frame)
-    {
-        frameLabel->paint(event,painter);
-    }
-}
+//void CardAndSkill::paint(QPaintEvent* event, QPainter* painter)
+//{
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//    if(frame)
+//    {
+//        frameLabel->paint(event,painter);
+//    }
+//}
 void CardAndSkill::linkReset()
 {
     if(frame)
@@ -68,17 +70,17 @@ void CardAndSkill::linkReset()
     skillCancel();
     for(int j = 0;j < 6;j++)
     {
-        paintStructX->gameCharacter[j]->characterPic->canBeClicked = false;
-        paintStructX->gameCharacter[j]->characterPic->isClicked = false;
+        paintStruct->gameCharacter[j]->characterPic->setCheckable(false);
+        paintStruct->gameCharacter[j]->characterPic->setChecked(false);
     }
-    cancel->canBeClicked = false;
-    ensure->canBeClicked = false;
-    cancel->isClicked = false;
-    ensure->isClicked = false;
+    cancel->setCheckable(false);
+    ensure->setCheckable(false);
+    cancel->setChecked(false);
+    ensure->setChecked(false);
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = false;
-        cardButton[i]->isClicked = false;
+        cardButton[i]->setCheckable(false);
+        cardButton[i]->setChecked(false);
         disconnect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
         disconnect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
         disconnect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
@@ -96,18 +98,18 @@ void CardAndSkill::linkReset()
         {
             if(i != j)
             {
-                disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
     for(int i = 0;i < cardNum;i ++)
     {
         for(int j = 0;j < 6;j++)
         {
-            disconnect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-            disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+            disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+            disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
         }
     }
     for(int i = 0;i < cardNum;i++)
@@ -128,11 +130,11 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
         {
             for(int i = 0;i < 6;i ++)
             {
-                paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+                paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
             }
             for(int i = 0;i < cardNum;i++)
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
             break;
         }
@@ -141,10 +143,10 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
             //information[0]:是否可以应战
             //information[1]:卡片序号
             //information[2]:攻击人
-            cancel->canBeClicked = true;
+            cancel->setCheckable(true);
             for(int i = 0;i < 6;i++)
             {
-                paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+                paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
             }
             for(int i = 0;i < cardNum;i ++)
             {
@@ -157,17 +159,17 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                 }
                 for(int j = 0;j < 6;j++)
                 {
-                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
                 }
                 if(!information[0])
                 {
                     if(cardList->getName(card[i]) != holyLight)
                     {
-                        cardButton[i]->canBeClicked = false;
+                        cardButton[i]->setCheckable(false);
                     }
                     else
                     {
-                        cardButton[i]->canBeClicked = true;
+                        cardButton[i]->setCheckable(true);
                         connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
                         connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                     }
@@ -176,7 +178,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                 {
                     if(cardList->getName(card[i]) == cardList->getName(information[1]) || cardList->getName(card[i]) == darkAttack)
                     {
-                        cardButton[i]->canBeClicked = true;
+                        cardButton[i]->setCheckable(true);
                         connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
                         connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                         for(int j = 0;j < 6;j ++)
@@ -199,17 +201,18 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                     }
                     else if(cardList->getName(card[i]) == holyLight)
                     {
-                        cardButton[i]->canBeClicked = true;
+                        cardButton[i]->setCheckable(true);
                         connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                        //TODO
                         for(int j = 0;j < 6;j ++)
                         {
-                            connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                            connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
                         }
                         connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                     }
                     else
                     {
-                        cardButton[i]->canBeClicked = false;
+                        cardButton[i]->setCheckable(false);
                     }
                 }
             }
@@ -217,9 +220,9 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
         }
         case 2://回合内
         {
-            if(paintStructX->gameCharacter[5]->characterNum == 14)
+            if(paintStruct->gameCharacter[5]->characterNum == 14)
             {
-                if(paintStructX->gameCharacter[5]->yellow == 4)
+                if(paintStruct->gameCharacter[5]->yellow == 4)
                 {
                     arbitrationEnd();
                     return;
@@ -236,15 +239,15 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                 }
                 for(int j = 0;j < 6;j++)
                 {
-                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                    connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
                 }
                 if(cardList->getName(card[i])== holyLight)
                 {
-                    cardButton[i]->canBeClicked = false;
+                    cardButton[i]->setCheckable(false);
                 }
                 else
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                     if(cardList->getType(card[i]) == attack)
                     {
                         connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(cancelClick()));
@@ -255,15 +258,15 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                             {
                                 if(j != k)
                                 {
-                                    connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[k]->characterPic,SLOT(cancelX()));
+                                    connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
                                 }
                             }
-                            if(paintStructX->gameCharacter[j]->color != paintStructX->gameCharacter[5]->color && !(paintStructX->gameCharacter[j]->characterNum == 5 && paintStructX->gameCharacter[j]->activated))
+                            if(paintStruct->gameCharacter[j]->color != paintStruct->gameCharacter[5]->color && !(paintStruct->gameCharacter[j]->characterNum == 5 && paintStruct->gameCharacter[j]->activated))
                             {
-                                connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                                connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
-                                connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                                connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                                connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                                connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                             }
                         }
                     }
@@ -283,14 +286,14 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                     {
                                         if(j != k)
                                         {
-                                            connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[k]->characterPic,SLOT(cancelX()));
+                                            connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[k]->characterPic,SLOT(cancelX()));
                                         }
                                     }
                                     bool notfindmagic = true;
                                     int magic = cardList->getName(card[i]);
-                                    for(int k = 0;k < paintStructX->gameCharacter[j]->statusNum;k++)
+                                    for(int k = 0;k < paintStruct->gameCharacter[j]->statusNum;k++)
                                     {
-                                        if(cardList->getName(paintStructX->gameCharacter[j]->status[k]) == magic)
+                                        if(cardList->getName(paintStruct->gameCharacter[j]->status[k]) == magic)
                                         {
                                             notfindmagic = false;
                                         }
@@ -301,17 +304,17 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                     }
                                     if(notfindmagic)
                                     {
-                                        connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                                        connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
-                                        connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-                                        connect(paintStructX->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+                                        connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                                        connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+                                        connect(paintStruct->gameCharacter[j]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                                     }
                                 }
                                 break;
                             }
                             case missile:
                             {
-                                if(paintStructX->gameCharacter[5]->characterNum == 8)
+                                if(paintStruct->gameCharacter[5]->characterNum == 8)
                                 {
                                     int siteCount = 0;
                                     int left = 0;
@@ -319,7 +322,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                     int k = 0;
                                     while(siteCount != 3)
                                     {
-                                        if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[k]->color)
+                                        if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[k]->color)
                                         {
                                             if(siteCount == 0)
                                             {
@@ -333,10 +336,10 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                                         }
                                         k++;
                                     }
-                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[left]->characterPic,SLOT(recoverClick()));
-                                    connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[left]->characterPic,SLOT(cancelClick()));
-                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[right]->characterPic,SLOT(recoverClick()));
-                                    connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[right]->characterPic,SLOT(cancelClick()));
+                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[left]->characterPic,SLOT(recoverClick()));
+                                    connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[left]->characterPic,SLOT(cancelClick()));
+                                    connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[right]->characterPic,SLOT(recoverClick()));
+                                    connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[right]->characterPic,SLOT(cancelClick()));
                                     break;
                                 }
                                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
@@ -355,15 +358,15 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
         {
             if(cardNum == 0)
             {
-                cancel->canBeClicked = true;
+                cancel->setCheckable(true);
             }
             if(information[1])
             {
-                cancel->canBeClicked = true;
+                cancel->setCheckable(true);
             }
             else
             {
-                cancel->canBeClicked = false;
+                cancel->setCheckable(false);
             }
             frame = true;
             frameLabel->labelOne->setText(QString::fromUtf8("请弃掉一张牌"));
@@ -386,11 +389,11 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
                 {
                     if(cardList->getType(card[i]) == magic)
                     {
-                        cardButton[i]->canBeClicked = true;
+                        cardButton[i]->setCheckable(true);
                     }
                     else
                     {
-                        cardButton[i]->canBeClicked = false;
+                        cardButton[i]->setCheckable(false);
                     }
                 }
             }
@@ -398,7 +401,7 @@ void CardAndSkill::changePaintMode(int mode,int information[3])
             {
                 for(int i = 0;i < cardNum;i++)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
             break;
@@ -434,12 +437,12 @@ void CardAndSkill::buttonFixed()
     {
         if(cardNum < 7)
         {
-            cardButton[i] = new CardButton(48,364 + (99 + xOffset) * i,611,99,143,false,card[i],windowX);
+            cardButton[i] = new CardButton(card[i],364 + (99 + xOffset) * i,611,windowX);
         }
         else
         {
             xOffset = ((102 * 6) - 99)/(cardNum - 1);
-            cardButton[i] = new CardButton(48,364 + xOffset * i,611,99,143,false,card[i],windowX);
+            cardButton[i] = new CardButton(card[i],364 + (99 + xOffset) * i,611,windowX);
         }
     }
 }
@@ -450,45 +453,45 @@ void CardAndSkill::destroyCard()
         delete cardButton[i];
     }
 }
-void CardAndSkill::cardClicked(int x, int y)
-{
-    if(x > 364 && x < 976)
-    {
-        if(y > 611 && y < 754)
-        {
-            if(cardNum < 7)
-            {
-                int i = ((x - 364)/102);
-                if(i > cardNum - 1)
-                {
-                    return;
-                }
-                if(!cardButton[i]->isConnect)
-                {
-                    connect(this,SIGNAL(isClicked(int,int)),cardButton[i],SLOT(isThisClicked(int,int)));
-                    cardButton[i]->isConnect = true;
-                }
-                emit isClicked(x,y);
-            }
-            else
-            {
-                if(x > (976 - 99))
-                {
-                    int x = cardButton[cardNum - 1]->xp + 50;
-                    int y = cardButton[cardNum - 1]->yp + 50;
-                    cardButton[cardNum - 1]->isThisClicked(x,y);
-                }
-                else
-                {
-                    int i = (x - 364)/(((102 * 6) - 99)/(cardNum - 1));
-                    int x = cardButton[i]->xp + 50;
-                    int y = cardButton[i]->yp + 50;
-                    cardButton[i]->isThisClicked(x,y);
-                }
-            }
-        }
-    }
-}
+//void CardAndSkill::cardClicked(int x, int y)
+//{
+//    if(x > 364 && x < 976)
+//    {
+//        if(y > 611 && y < 754)
+//        {
+//            if(cardNum < 7)
+//            {
+//                int i = ((x - 364)/102);
+//                if(i > cardNum - 1)
+//                {
+//                    return;
+//                }
+//                if(!cardButton[i]->isConnect)
+//                {
+//                    connect(this,SIGNAL(isChecked()(int,int)),cardButton[i],SLOT(isThisChecked()(int,int)));
+//                    cardButton[i]->isConnect = true;
+//                }
+//                emit isChecked()(x,y);
+//            }
+//            else
+//            {
+//                if(x > (976 - 99))
+//                {
+//                    int x = cardButton[cardNum - 1]->xp + 50;
+//                    int y = cardButton[cardNum - 1]->yp + 50;
+//                    cardButton[cardNum - 1]->isThisChecked()(x,y);
+//                }
+//                else
+//                {
+//                    int i = (x - 364)/(((102 * 6) - 99)/(cardNum - 1));
+//                    int x = cardButton[i]->xp + 50;
+//                    int y = cardButton[i]->yp + 50;
+//                    cardButton[i]->isThisChecked()(x,y);
+//                }
+//            }
+//        }
+//    }
+//}
 /*void CardAndSkill::paintSignal()
 {
     int info[15];
@@ -500,7 +503,7 @@ void CardAndSkill::cardClicked(int x, int y)
     int target = 0;
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        if(paintStruct->gameCharacter[i]->characterPic->isChecked())
         {
             target ++;
             info[3 + target] = i;
@@ -511,7 +514,7 @@ void CardAndSkill::cardClicked(int x, int y)
     int cardUse = 0;
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             cardUse ++;
             info[3 + target + cardUse] = card[i];
@@ -528,7 +531,7 @@ void CardAndSkill::cardDis()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             card[i] = -1;
         }
@@ -548,10 +551,10 @@ void CardAndSkill::dialogSet(bool canX[])
 {
 
 }
-void CardAndSkill::send(int x, int y)
-{
-    emit mouseClick(x,y);
-}
+//void CardAndSkill::send(int x, int y)
+//{
+//    emit mouseClick(x,y);
+//}
 void CardAndSkill::selfReset()
 {
 
@@ -588,7 +591,7 @@ void CardAndSkill::discard(int count)
     {
         connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(discardPlus()));
         connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(discardMinus()));
-        cardButton[i]->canBeClicked = true;
+        cardButton[i]->setCheckable(true);
     }
 }
 void CardAndSkill::discardPlus()
@@ -596,12 +599,12 @@ void CardAndSkill::discardPlus()
     discardCount ++;
     if(discardCount == allCount)
     {
-        ensure->canBeClicked = true;
+        ensure->setCheckable(true);
         for(int i = 0;i < cardNum;i++)
         {
-            if(!cardButton[i]->isClicked)
+            if(!cardButton[i]->isChecked())
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
     }
@@ -610,10 +613,10 @@ void CardAndSkill::discardPlus()
 void CardAndSkill::discardMinus()
 {
     discardCount --;
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = true;
+        cardButton[i]->setCheckable(true);
     }
 }
 void CardAndSkill::append(int appKind)
@@ -621,14 +624,14 @@ void CardAndSkill::append(int appKind)
     int info[3] = {0,0,0};
     informationKind = 7;
     changePaintMode(2,info);
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     if(appKind == 1)
     {
         for(int i = 0;i < cardNum;i++)
         {
             if(cardList->getType(card[i]) == attack)
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
         skillset();
@@ -639,7 +642,7 @@ void CardAndSkill::append(int appKind)
         {
             if(cardList->getType(card[i]) == magic && cardList->getName(card[i]) != holyLight)
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
         skillCancel();//Special Adventurer
@@ -651,15 +654,15 @@ void CardAndSkill::magicSwordSet()
 }
 void CardAndSkill::missileAttack()
 {
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     informationKind = 20;
-    if(paintStructX->gameCharacter[5]->characterNum == 8)
+    if(paintStruct->gameCharacter[5]->characterNum == 8)
     {
         for(int i = 0;i < cardNum;i++)
         {
             if(cardList->getName(card[i]) == missile || cardList->getNature(card[i]) == fire || cardList->getNature(card[i]) == ground ||cardList->getName(card[i]) == holyLight)
             {
-                cardButton[i]->canBeClicked = true;
+                cardButton[i]->setCheckable(true);
                 connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
                 connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                 for(int j = 0;j < cardNum;j++)
@@ -677,7 +680,7 @@ void CardAndSkill::missileAttack()
     {
         if(cardList->getName(card[i]) == missile || cardList->getName(card[i]) == holyLight)
         {
-            cardButton[i]->canBeClicked = true;
+            cardButton[i]->setCheckable(true);
             connect(cardButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
             connect(cardButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));            
             for(int j = 0;j < cardNum;j++)
@@ -702,7 +705,7 @@ void CardAndSkill::sendMessageIn()
     {
         case 7:
         {
-            if(cancel->isClicked)
+            if(cancel->isChecked())
             {
                 tempMes.push_back(-1);
                 emit sendMessageInSig(tempMes);
@@ -710,17 +713,17 @@ void CardAndSkill::sendMessageIn()
             }
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
-                    if(paintStructX->gameCharacter[5]->characterNum == 8 && cardList->getName(card[i]) == missile)
+                    if(paintStruct->gameCharacter[5]->characterNum == 8 && cardList->getName(card[i]) == missile)
                     {
                         tempMes.push_back(1);
                         tempMes.push_back(2);
                         for(int j = 0;j < 6;j++)
                         {
-                            if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                            if(paintStruct->gameCharacter[j]->characterPic->isChecked())
                             {
-                                int site = (-j + paintStructX->yourSite + 5) % 6;
+                                int site = (-j + paintStruct->yourSite + 5) % 6;
                                 tempMes.push_back(site);
                                 tempMes.push_back(card[i]);
                                 emit sendMessageInSig(tempMes);
@@ -741,11 +744,11 @@ void CardAndSkill::sendMessageIn()
                     bool missileFind = false;
                     for(int j = 0;j < 6;j++)
                     {
-                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        if(paintStruct->gameCharacter[j]->characterPic->isChecked())
                         {
                             missileFind = true;
                             //system("pause");
-                            int site = ((-j + 5 + paintStructX->yourSite) % 6);
+                            int site = ((-j + 5 + paintStruct->yourSite) % 6);
                             tempMes.push_back(site);
                             lastAttackSet(j);
                         }
@@ -763,7 +766,7 @@ void CardAndSkill::sendMessageIn()
         }
         case 11:
         {
-            if(cancel->isClicked)
+            if(cancel->isChecked())
             {
                 tempMes.push_back(0);
                 emit sendMessageInSig(tempMes);
@@ -771,7 +774,7 @@ void CardAndSkill::sendMessageIn()
             }
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     if(cardList->getName(card[i]) == holyLight)
                     {
@@ -786,9 +789,9 @@ void CardAndSkill::sendMessageIn()
                         tempMes.push_back(1);
                         for(int j = 0;j < 6;j++)
                         {
-                            if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                            if(paintStruct->gameCharacter[j]->characterPic->isChecked())
                             {
-                                int site = ((-j + 5 + paintStructX->yourSite) % 6);
+                                int site = ((-j + 5 + paintStruct->yourSite) % 6);
                                 tempMes.push_back(site);
                                 break;
                             }
@@ -808,7 +811,7 @@ void CardAndSkill::sendMessageDis()
     std::vector<int> tempMes;
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             tempMes.push_back(card[i]);
         }
@@ -849,9 +852,9 @@ void CardAndSkill::sendMessageIce()
     std::vector <int> tempMes;
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        if(paintStruct->gameCharacter[i]->characterPic->isChecked())
         {
-            int site = (-i + paintStructX->yourSite + 5) % 6;
+            int site = (-i + paintStruct->yourSite + 5) % 6;
             tempMes.push_back(site);
             emit sendMessageIceSig(tempMes);
             return;
@@ -861,7 +864,7 @@ void CardAndSkill::sendMessageIce()
 void CardAndSkill::sendMessageMis()
 {
     std::vector <int> tempMes;
-    if(cancel->isClicked)
+    if(cancel->isChecked())
     {
         tempMes.push_back(0);
         emit sendMessageMisSig(tempMes);
@@ -869,7 +872,7 @@ void CardAndSkill::sendMessageMis()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             if(cardList->getName(card[i]) == holyLight)
             {
@@ -889,7 +892,7 @@ void CardAndSkill::sendMessageMis()
 void CardAndSkill::sendMessageOne()
 {
     std::vector <int> tempMes;
-    if(cancel->isClicked)
+    if(cancel->isChecked())
     {
         tempMes.push_back(-1);
         emit sendMessageOneSig(tempMes);
@@ -897,7 +900,7 @@ void CardAndSkill::sendMessageOne()
     }
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             tempMes.push_back(card[i]);
             emit sendMessageOneSig(tempMes);
@@ -910,7 +913,7 @@ void CardAndSkill::putCard(std::vector<int> &m)
 {
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             m.push_back(card[i]);
         }
@@ -920,9 +923,9 @@ void CardAndSkill::putCharacter(std::vector<int> &m)
 {
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        if(paintStruct->gameCharacter[i]->characterPic->isChecked())
         {
-            int site = (-i + 5 + paintStructX->yourSite) % 6;
+            int site = (-i + 5 + paintStruct->yourSite) % 6;
             m.push_back(site);
         }
     }
@@ -932,7 +935,7 @@ void CardAndSkill::putCardCount(std::vector<int> &m)
     int cardCount = 0;
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardButton[i]->isClicked)
+        if(cardButton[i]->isChecked())
         {
             cardCount ++;
         }
@@ -944,7 +947,7 @@ void CardAndSkill::putCharacterCount(std::vector<int> &m)
     int characterCount = 0;
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+        if(paintStruct->gameCharacter[i]->characterPic->isChecked())
         {
             characterCount ++;
         }
@@ -971,14 +974,14 @@ void CardAndSkill::clickRivalSet()
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
+        if(paintStruct->gameCharacter[i]->color != paintStruct->gameCharacter[5]->color)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
-            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         }
     }
 }
@@ -990,20 +993,20 @@ void CardAndSkill::clickAllSet()
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
 }
 void CardAndSkill::singleToEnsure()
 {
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
 }
 void CardAndSkill::YuukaOne()
@@ -1036,7 +1039,7 @@ void CardAndSkill::cardSingleSet(int attribute)
         {
             if(cardList->getSkillOne(card[i]) == attribute||cardList->getSkillTwo(card[i]) == attribute)
             {
-                cardButton[i]->canBeClicked = true;
+                cardButton[i]->setCheckable(true);
             }
         }
     }
@@ -1046,7 +1049,7 @@ void CardAndSkill::cardSingleSet(int attribute)
         {
             if(cardList->getNature(card[i]) == attribute)
             {
-                cardButton[i]->canBeClicked = true;
+                cardButton[i]->setCheckable(true);
             }
         }
     }
@@ -1058,7 +1061,7 @@ void CardAndSkill::cardSingleSet(int attribute)
             {
                 if(cardList->getType(card[i]) == attack)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
         }
@@ -1068,7 +1071,7 @@ void CardAndSkill::cardSingleSet(int attribute)
             {
                 if(cardList->getType(card[i]) == magic)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
         }
@@ -1077,7 +1080,7 @@ void CardAndSkill::cardSingleSet(int attribute)
     {
         for(int i = 0;i < cardNum;i++)
         {
-            cardButton[i]->canBeClicked = true;
+            cardButton[i]->setCheckable(true);
         }
     }
 }
@@ -1093,17 +1096,17 @@ void CardAndSkill::allReset()
 {
     for(int i = 0;i < 6;i++)
     {
-        paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
-        paintStructX->gameCharacter[i]->characterPic->isClicked = false;
+        paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
+        paintStruct->gameCharacter[i]->characterPic->setChecked(false);
     }
 }
 void CardAndSkill::cardResetOne()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        if(!cardButton[i]->isClicked)
+        if(!cardButton[i]->isChecked())
         {
-            cardButton[i]->canBeClicked = false;
+            cardButton[i]->setCheckable(false);
         }
     }
 }
@@ -1111,7 +1114,7 @@ void CardAndSkill::cardSetOne()
 {
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = true;
+        cardButton[i]->setCheckable(true);
     }
 }
 void CardAndSkill::clickFriendSet()
@@ -1122,14 +1125,14 @@ void CardAndSkill::clickFriendSet()
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        if(paintStructX->gameCharacter[i]->color == paintStructX->gameCharacter[5]->color && i < 5)
+        if(paintStruct->gameCharacter[i]->color == paintStruct->gameCharacter[5]->color && i < 5)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
-            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-            connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+            connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         }
     }
 }
@@ -1157,10 +1160,10 @@ void CardAndSkill::characterDisconnect()
         {
             if(i != j)
             {
-                disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
-        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        disconnect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
 }

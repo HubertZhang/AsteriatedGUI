@@ -13,9 +13,9 @@ public:
     explicit Adventurer(PaintStruct* paintStruct,QWidget *parent,Window* advenX);
     PicButton* magicGroup[3];
     int cheatCount;
-    AskDialog* cheat;
+    NumberDialog* cheat;
     bool cheatPaint;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
     void sendMessageSelf();

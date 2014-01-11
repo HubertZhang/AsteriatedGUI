@@ -14,7 +14,7 @@ public:
     PicButton* magicGroup[2];
     bool ask;
     NewDialog* dialog;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

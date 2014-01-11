@@ -14,14 +14,14 @@ public:
     explicit UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX);
     PicButton* magicGroup[4];
     NewDialog* dialog;
-    AskDialog* soulLink;
+    NumberDialog* soulLink;
     bool ask;
     bool soulAsk;
     int soulCount;
     int linkDamage;
     int mirrorCount;
     int mirrorLine;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

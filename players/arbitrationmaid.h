@@ -10,7 +10,7 @@ class ArbitrationMaid : public CardAndSkill
 public:
     explicit ArbitrationMaid(PaintStruct* paintStruct,QWidget *parent);
     PicButton* magicGroup[3];
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
     void sendMessageSelf();

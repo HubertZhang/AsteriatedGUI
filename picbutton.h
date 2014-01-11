@@ -2,14 +2,16 @@
 #define PICBUTTON_H
 
 #include <QPushButton>
+#include <QPixmap>
 #include <QLabel>
 class PicButton : public QPushButton
 {
     Q_OBJECT
+//    QPixmap* clickedMap;
+//    QPixmap* notClickedMap;
+//    QPixmap* frame;
+    
 public:
-    QPixmap* clickedMap;
-    QPixmap* notClickedMap;
-    QPixmap* frame;
     QLabel clickedLabel;
     QLabel notClickedLabel;
     QLabel frameLabel;
@@ -20,7 +22,11 @@ public:
     int kind;
     int width;
     int height;
-    explicit PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,bool canbe,QWidget* parent);//buttonKind decide the pic to load
+    void setNumber(int n);
+    void setRefine(int n);
+    void setByNumber(int n);
+    PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,bool canbe,QWidget* parent);//buttonKind decide the pic to load
+    PicButton(int n,int paraX,int paraY,int paraW,int paraH,bool canBe, QWidget* parent);
 protected:
     void paintEvent(QPaintEvent* event);
 signals:
@@ -28,8 +34,10 @@ signals:
     void unChecked();
 public slots:
     void isThisClicked();
-    void enable();
-    void disable();
-    void setState(bool);
+    void setCheckableFalse();
+    void setCheckableTrue();
+    void setCheckedFalse();
+    void setCheckedTrue();
+    //void setState(bool);
 };
 #endif // PICBUTTON_H

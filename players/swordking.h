@@ -16,8 +16,8 @@ public:
     bool ask;
     bool swordAsk;
     int lastAttack;
-    AskDialog* swordCut;
-    void paint(QPaintEvent *, QPainter *);
+    NumberDialog* swordCut;
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

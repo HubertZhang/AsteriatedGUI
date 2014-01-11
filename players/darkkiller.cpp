@@ -21,7 +21,7 @@ void DarkKiller::changeSelfMode(int mode)
         connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(countPlus()));
         connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
     }
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://水影响应阶段
@@ -30,7 +30,7 @@ void DarkKiller::changeSelfMode(int mode)
             {
                 if(cardList->getNature(card[i]) == water)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
@@ -39,20 +39,20 @@ void DarkKiller::changeSelfMode(int mode)
         }
     }
 }
-void DarkKiller::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-        cancel->canBeClicked = true;
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void DarkKiller::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//        cancel->setCheckable(true);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void DarkKiller::dialogSet(bool canX[])
 {
     dialog->set(canX);
@@ -66,7 +66,7 @@ void DarkKiller::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             changeSelfMode(4 + i);
         }
@@ -78,7 +78,7 @@ void DarkKiller::selfReset()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void DarkKiller::dialogReset()
@@ -87,21 +87,21 @@ void DarkKiller::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void DarkKiller::countPlus()
 {
     waterCount ++;
-    ensure->canBeClicked = true;
+    ensure->setCheckable(true);
 }
 void DarkKiller::countMinus()
 {
     waterCount --;
     if(waterCount == 0)
     {
-        ensure->canBeClicked = false;
+        ensure->setCheckable(false);
     }
 }
 void DarkKiller::skillCancel()
@@ -117,13 +117,13 @@ void DarkKiller::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -135,13 +135,13 @@ void DarkKiller::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -154,7 +154,7 @@ void DarkKiller::sendMessageSelf()
             int messageCount = 0;
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     messageCount ++;
                 }
@@ -168,7 +168,7 @@ void DarkKiller::sendMessageSelf()
             tempMes.push_back(messageCount);
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     tempMes.push_back(card[i]);
                 }

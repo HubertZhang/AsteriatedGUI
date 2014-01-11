@@ -14,7 +14,7 @@ public:
     //NewDialog* dialog;
     int stormCount;
     //bool ask;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
     void sendMessageSelf();

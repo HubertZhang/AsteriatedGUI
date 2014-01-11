@@ -11,7 +11,7 @@ class RedWhite : public CardAndSkill
     Q_OBJECT
 public:
     explicit RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX);
-    AskDialog* blood;
+    NumberDialog* blood;
     PicButton* magicGroup[4];
     bool bloodAsk;
     bool lifeLink;
@@ -19,7 +19,7 @@ public:
     int curseCount;
     int curseLine;
     int lifeLinkCha;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
     void sendMessageSelf();

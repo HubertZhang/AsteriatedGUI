@@ -14,7 +14,7 @@ public:
     NewDialog* dialog;
     int magicCount;
     bool ask;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

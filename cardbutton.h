@@ -11,7 +11,7 @@ class CardButton : public PicButton
     int card;
 public:
     QLabel* label[5];
-    explicit CardButton(int card, int x, QWidget* parent);
+    explicit CardButton(int card, int paraX,int paraY, QWidget* parent);
 };
 
 #endif // CARDBUTTON_H

@@ -7,24 +7,24 @@ Adventurer::Adventurer(PaintStruct* paintStruct,QWidget *parent,Window* advenX) 
     cheatPaint = false;
     //dialog->init(12);//魔弹融合
     int info[3] = {2,0,0};
-    cheat = new AskDialog(info,advenX,paintStruct,false);
+    cheat = new NumberDialog(paintStruct,parent);
     for(int i = 0;i < 5;i++)
     {
-        cheat->number[i]->isClicked = false;
+        cheat->number[i]->setChecked(false);
     }
-    cheat->ensure->canBeClicked = false;
-    cheat->cancel->canBeClicked = false;
-    cheat->ensure->isClicked = false;
-    cheat->cancel->isClicked = false;
+    cheat->ensure->setCheckable(false);
+    cheat->cancel->setCheckable(false);
+    cheat->ensure->setChecked(false);
+    cheat->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
         disconnect(cheat->number[i],SIGNAL(changeClicked()),cheat->ensure,SLOT(recoverClick()));
         connect(cheat->number[i],SIGNAL(changeClicked()),this,SLOT(cheatSet()));
         connect(cheat->number[i],SIGNAL(notClicked()),this,SLOT(cheatReset()));
     }
-    magicGroup[0] = new PicButton(95,362,559,100,42,false);
-    magicGroup[1] = new PicButton(96,465,559,100,42,false);
-    magicGroup[2] = new PicButton(97,568,559,100,42,false);
+    magicGroup[0] = new PicButton(95,362,559,100,42,false,this);
+    magicGroup[1] = new PicButton(96,465,559,100,42,false,this);
+    magicGroup[2] = new PicButton(97,568,559,100,42,false,this);
     for(int i = 0;i < 3;i++)
     {
         connect(this,SIGNAL(mouseClick(int,int)),magicGroup[i],SLOT(isThisClicked(int,int)));
@@ -53,7 +53,7 @@ void Adventurer::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(4);
-    magicGroup[0]->isClicked = true;
+    magicGroup[0]->setChecked(true);
 }
 void Adventurer::magicSetOne()
 {
@@ -61,7 +61,7 @@ void Adventurer::magicSetOne()
     skillset();
     //system("pause");
     changeSelfMode(5);
-    magicGroup[1]->isClicked = true;
+    magicGroup[1]->setChecked(true);
 }
 void Adventurer::magicSetTwo()
 {
@@ -69,7 +69,7 @@ void Adventurer::magicSetTwo()
     skillset();
     //system("pause");
     changeSelfMode(6);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->setChecked(true);
 }
 void Adventurer::changeSelfMode(int mode)
 {
@@ -84,36 +84,36 @@ void Adventurer::changeSelfMode(int mode)
         }
         for(int j = 0;j < 6;j++)
         {
-            if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+            if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
     }
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://欺诈响应阶段
         {
             cheatPaint = true;
-            cheat->cancel->canBeClicked = false;
-            cancel->canBeClicked = false;
+            cheat->cancel->setCheckable(false);
+            cancel->setCheckable(false);
             for(int i = 0;i < cardNum;i++)
             {
-                cardButton[i]->canBeClicked = true;
+                cardButton[i]->setCheckable(true);
                 for(int j = 0;j < cardNum;j++)
                 {
                     if(i != j)
@@ -125,10 +125,10 @@ void Adventurer::changeSelfMode(int mode)
                 connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
                 for(int j = 0;j < 6;j++)
                 {
-                    if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+                    if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
                     }
                 }
             }
@@ -137,35 +137,35 @@ void Adventurer::changeSelfMode(int mode)
         case 5://特殊加工响应阶段
         case 6://偷天换日响应阶段
         {
-            cancel->canBeClicked = false;
-            ensure->canBeClicked = true;
+            cancel->setCheckable(false);
+            ensure->setCheckable(true);
             break;
         }
     }
 }
-void Adventurer::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(cheatPaint)
-    {
-        cheat->paint(event,painter);
-    }
-    for(int i = 0;i < 3;i++)
-    {
-        magicGroup[i]->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void Adventurer::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(cheatPaint)
+//    {
+//        cheat->paint(event,painter);
+//    }
+//    for(int i = 0;i < 3;i++)
+//    {
+//        magicGroup[i]->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 /*void SwordMaster::skillReset()
 {
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void Adventurer::skillset()
@@ -188,11 +188,11 @@ void Adventurer::skillset()
             break;
         }
     }
-    magicGroup[0]->canBeClicked = canCheat;
-    if(paintStructX->gameCharacter[5]->gem + paintStructX->gameCharacter[5]->crystal > 0)
+    magicGroup[0]->setCheckable(canCheat);
+    if(paintStruct->gameCharacter[5]->gem + paintStruct->gameCharacter[5]->crystal > 0)
     {
-        magicGroup[1]->canBeClicked = true;
-        magicGroup[2]->canBeClicked = true;
+        magicGroup[1]->setCheckable(true);
+        magicGroup[2]->setCheckable(true);
     }
 }
 void Adventurer::skillCancel()
@@ -201,12 +201,12 @@ void Adventurer::skillCancel()
     cheat->labelTwo->hide();
     for(int i = 0;i < 5;i++)
     {
-        cheat->number[i]->isClicked = false;
+        cheat->number[i]->setChecked(false);
     }
-    cheat->ensure->canBeClicked = false;
-    cheat->cancel->canBeClicked = false;
-    cheat->ensure->isClicked = false;
-    cheat->cancel->isClicked = false;
+    cheat->ensure->setCheckable(false);
+    cheat->cancel->setCheckable(false);
+    cheat->ensure->setChecked(false);
+    cheat->cancel->setChecked(false);
     cheatPaint = false;
     cheatCount = 0;
     for(int i = 0;i < cardNum;i++)
@@ -216,8 +216,8 @@ void Adventurer::skillCancel()
     }
     for(int i = 0;i < 3;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
 }
 void Adventurer::skillClear()
@@ -234,7 +234,7 @@ void Adventurer::countPlus()
         int attribute;
         for(int i = 0;i < cardNum;i++)
         {
-            if(cardButton[i]->isClicked)
+            if(cardButton[i]->isChecked())
             {
                 attribute = cardList->getNature(card[i]);
                 break;
@@ -244,7 +244,7 @@ void Adventurer::countPlus()
         {
             if(cardList->getNature(card[i]) != attribute)
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
         return;
@@ -254,7 +254,7 @@ void Adventurer::countPlus()
         cheatCount ++;
         for(int i = 0;i < 5;i++)
         {
-            cheat->number[i]->canBeClicked = true;
+            cheat->number[i]->setCheckable(true);
         }
         return;
     }
@@ -263,14 +263,14 @@ void Adventurer::countPlus()
         cheatCount ++;
         for(int i = 0;i < cardNum;i++)
         {
-            if(!cardButton[i]->isClicked)
+            if(!cardButton[i]->isChecked())
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
         for(int i = 0;i < 5;i++)
         {
-            cheat->number[i]->canBeClicked = false;
+            cheat->number[i]->setCheckable(false);
         }
         cheatSet();
     }
@@ -282,8 +282,8 @@ void Adventurer::countMinus()
         cheatCount --;
         for(int i = 0;i < 5;i++)
         {
-            cheat->number[i]->canBeClicked = true;
-            cheat->ensure->canBeClicked = false;
+            cheat->number[i]->setCheckable(true);
+            cheat->ensure->setCheckable(false);
         }
     }
     if(cheatCount == 2)
@@ -291,7 +291,7 @@ void Adventurer::countMinus()
         cheatCount --;
         for(int i = 0;i < 5;i++)
         {
-            cheat->number[i]->canBeClicked = false;
+            cheat->number[i]->setCheckable(false);
         }
     }
     if(cheatCount == 1)
@@ -303,20 +303,20 @@ void Adventurer::cheatSet()
 {
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
+        if(paintStruct->gameCharacter[i]->color != paintStruct->gameCharacter[5]->color)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
         }
     }
 }
 void Adventurer::cheatReset()
 {
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
     for(int i = 0;i < 6;i++)
     {
-        if(paintStructX->gameCharacter[i]->color != paintStructX->gameCharacter[5]->color)
+        if(paintStruct->gameCharacter[i]->color != paintStruct->gameCharacter[5]->color)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
         }
     }
 }
@@ -324,13 +324,13 @@ void Adventurer::sendMessageSelf()
 {
     for(int i = 0;i < 3;i++)
     {
-        if(magicGroup[i]->isClicked)
+        if(magicGroup[i]->isChecked())
         {
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -342,13 +342,13 @@ void Adventurer::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -362,16 +362,16 @@ void Adventurer::sendMessageSelf()
             tempMes.push_back(6);
             for(int i = 0;i < 6;i++)
             {
-                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                if(paintStruct->gameCharacter[i]->characterPic->isChecked())
                 {
-                    int site = (-i + 5 + paintStructX->yourSite) % 6;
+                    int site = (-i + 5 + paintStruct->yourSite) % 6;
                     tempMes.push_back(site);
                 }
             }
             int cardCount = 0;
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     cardCount ++;
                 }
@@ -379,14 +379,14 @@ void Adventurer::sendMessageSelf()
             tempMes.push_back(cardCount);
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     tempMes.push_back(card[i]);
                 }
             }
             for(int i = 0;i < 5;i++)
             {
-                if(cheat->number[i]->isClicked)
+                if(cheat->number[i]->isChecked())
                 {
                     tempMes.push_back(i);
                 }

@@ -11,7 +11,7 @@ public:
     explicit ElementMaster(PaintStruct* paintStruct,QWidget *parent);
     PicButton* magicGroup[3];
     int magicCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void skillCancel();
     //void skillReset();

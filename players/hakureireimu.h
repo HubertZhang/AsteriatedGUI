@@ -24,7 +24,7 @@ public:
     int token[2];
     int tokenNum;
     int elementCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

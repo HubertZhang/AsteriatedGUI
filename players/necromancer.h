@@ -14,11 +14,11 @@ public:
     explicit Necromancer(PaintStruct* paintStruct,QWidget *parent,Window* deathX);
     PicButton* magicGroup[3];
     NewDialog* dialog;
-    AskDialog* deathTouch;
+    NumberDialog* deathTouch;
     bool ask;
     bool deathPaint;
     int deathCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

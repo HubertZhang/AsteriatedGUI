@@ -12,7 +12,7 @@ public:
     explicit Berserker(PaintStruct* paintStruct,QWidget *parent);
     NewDialog* dialog;
     bool ask;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void dialogSet(bool canX[10]);
     void dialogReset();

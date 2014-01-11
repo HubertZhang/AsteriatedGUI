@@ -54,7 +54,7 @@ void CardAttack::set(int information[])
     card->load(s);
     for(int i = 0;i < cardDiscardCount;i ++)
     {
-        cardDiscard[i] = new CardButton(48,discardXp + i * 100,discardYp,99,143,false,cardDiscardNum[i],window);
+        cardDiscard[i] = new CardButton(cardDiscardNum[i],discardXp + i * 100,discardYp,window);
     }
     initialXp = setCoordinateX(information[1]);
     initialYp = setCoordinateY(information[1]);
@@ -142,7 +142,7 @@ void CardAttack::paint(QPaintEvent *event, QPainter *painter)
         }
         for(int i = 0;i < cardDiscardCount;i++)
         {
-            cardDiscard[i]->paint(event,painter);
+            //cardDiscard[i]->paint(event,painter);
         }
         if(paintEnd)
         {
@@ -160,11 +160,11 @@ void CardAttack::paint(QPaintEvent *event, QPainter *painter)
             {
                 QTransform transform;
                 transform.rotate(paintAngle[i]);
-                painter->drawPixmap(initialXp + frameCount * detaX[i],
-                                    initialYp + frameCount * detaY[i],
-                                    50 * (fabs(sin(paintAngle[i] * 3.14 / 180)) + fabs(cos(paintAngle[i] * 3.14 / 180))),
-                                    50 * (fabs(sin(paintAngle[i] * 3.14 / 180)) + fabs(cos(paintAngle[i] * 3.14 / 180))),
-                                    (*card).transformed(transform,Qt::SmoothTransformation));
+//                painter->drawPixmap(initialXp + frameCount * detaX[i],
+//                                    initialYp + frameCount * detaY[i],
+//                                    50 * (fabs(sin(paintAngle[i] * 3.14 / 180)) + fabs(cos(paintAngle[i] * 3.14 / 180))),
+//                                    50 * (fabs(sin(paintAngle[i] * 3.14 / 180)) + fabs(cos(paintAngle[i] * 3.14 / 180))),
+//                                    (*card).transformed(transform,Qt::SmoothTransformation));
             }
             else
             {
@@ -195,7 +195,7 @@ void CardAttack::paint(QPaintEvent *event, QPainter *painter)
         {
             QTransform transform;
             transform.rotate(paintAngle[i] * rotateRatio);
-            painter->drawPixmap(initialXp,initialYp,50,50,(*card).transformed(transform,Qt::SmoothTransformation));
+//            painter->drawPixmap(initialXp,initialYp,50,50,(*card).transformed(transform,Qt::SmoothTransformation));
         }
     }
 }

@@ -33,26 +33,26 @@ void Berserker::changeSelfMode(int mode)
         }
         for(int j = 0;j < 6;j++)
         {
-            if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+            if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
     }
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://血影狂刀
@@ -65,20 +65,20 @@ void Berserker::changeSelfMode(int mode)
         }
     }
 }
-void Berserker::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-        cancel->canBeClicked = true;
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void Berserker::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//        cancel->setCheckable(true);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void Berserker::dialogSet(bool canX[])
 {
     dialog->set(canX);
@@ -92,7 +92,7 @@ void Berserker::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             changeSelfMode(4 + i);
         }
@@ -104,7 +104,7 @@ void Berserker::selfReset()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void Berserker::dialogReset()
@@ -113,21 +113,21 @@ void Berserker::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void Berserker::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -139,13 +139,13 @@ void Berserker::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);

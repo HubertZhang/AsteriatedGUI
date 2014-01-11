@@ -75,7 +75,59 @@ PicButton::PicButton(/*int buttonKind,*/int paraX,int paraY,int paraW,int paraH,
     notClickedLabel.setVisible(true);
     frameLabel.setVisible(false);
     connect(this, SIGNAL(clicked()), this, SLOT(isThisClicked()));
+    show();
 }//buttonKind from 1 to 31:For characterPic;
+
+PicButton::PicButton(int n,int paraX,int paraY,int paraW,int paraH,bool canBe,QWidget* parent) : QPushButton(parent)
+{
+    setCheckable(true);
+    setChecked(false);
+    setEnabled(canBe);
+    setGeometry(paraX, paraY, paraW, paraH);
+    setMinimumSize(paraW, paraH);
+    clickedLabel.setParent(this);
+    notClickedLabel.setParent(this);
+    frameLabel.setParent(this);
+    clickedLabel.setGeometry(0, 0, paraW, paraH);
+    notClickedLabel.setGeometry(0, 0, paraW, paraH);
+    frameLabel.setGeometry(0, 0, paraW, paraH);
+    this->setStyleSheet("border:none;");
+
+    clickedLabel.setVisible(false);
+    notClickedLabel.setVisible(true);
+    frameLabel.setVisible(false);
+    connect(this, SIGNAL(clicked()), this, SLOT(isThisClicked()));
+    
+    setByNumber(n);
+    show();
+}
+
+
+void PicButton::setNumber(int n)
+{
+    notClickedLabel.setPixmap(QPixmap(QString(":button/buttonNotClicked%1.png").arg(QString::number(n+48))));
+    clickedLabel.setPixmap(QPixmap(QString(":button/buttonClicked%1.png").arg(QString::number(n+48))));
+    frameLabel.setPixmap(QPixmap(":character/cureFrame.png"));
+
+}
+
+void PicButton::setRefine(int n)
+{
+    notClickedLabel.setPixmap(QPixmap(QString(":button/buttonNotClicked%1.png").arg(QString::number(n+38))));
+    clickedLabel.setPixmap(QPixmap(QString(":button/buttonClicked%1.png").arg(QString::number(n+38))));
+    frameLabel.setPixmap(QPixmap(":character/buttonFrame100.png"));
+}
+
+void PicButton::setByNumber(int n)
+{
+    notClickedLabel.setPixmap(QPixmap(QString(":button/buttonNotClicked%1.png").arg(QString::number(n))));
+    clickedLabel.setPixmap(QPixmap(QString(":button/buttonClicked%1.png").arg(QString::number(n))));
+    if (n>54||n<48) {
+        frameLabel.setPixmap(QPixmap(":character/buttonFrame100.png"));
+    }
+
+}
+
 void PicButton::isThisClicked()
 {
     if(isChecked())
@@ -104,25 +156,37 @@ void PicButton::paintEvent(QPaintEvent *event)
 }
 //void PicButton::cancelX()
 //{
-//    //setChecked(false);
+    //setChecked(false);
 //}
 //void PicButton::recover()
 //{
 //    //setChecked(true);
 //}
-void PicButton::setState(bool state)
+//void PicButton::setCheckableFals(bool state)
+//{
+//    setEnabled(state);
+//}
+void PicButton::setCheckableFalse()
 {
-    setEnabled(state);
-}
-void PicButton::disable()
-{
-    setEnabled(false);
-    //setCheckable(false);
+    //setEnabled(false);
+    setCheckable(false);
     //setChecked(false);
     //isClicked  = false;
 }
-void PicButton::enable()
+void PicButton::setCheckedFalse()
 {
-    setEnabled(true);
-    //setCheckable(true);
+    //setEnabled(false);
+    setChecked(false);
+    //isClicked  = false;
+}
+void PicButton::setCheckedTrue()
+{
+    //setEnabled(false);
+    setChecked(true);
+    //isClicked  = false;
+}
+void PicButton::setCheckableTrue()
+{
+    //setEnabled(true);
+    setCheckable(true);
 }

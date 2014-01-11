@@ -4,22 +4,29 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QPainter>
+#include <QButtonGroup>
+#include <vector>
 #include "cardbutton.h"
 #include "paintstruct.h"
 #include "cardList.h"
 #include "card.h"
 #include "framelabel.h"
+using std::vector;
+//extern class PaintStruct;
 class CardAndSkill : public QWidget
 {
     Q_OBJECT
-public:   
-    PaintStruct* paintStructX;
+public:
+    PaintStruct* paintStruct;
     QWidget* windowX;
     CardList* cardList;
     FrameLabel* frameLabel;
     int paintMode;
     bool frame;
     bool cancelClick;
+//    QButtonGroup cardGroup;
+//    vector<CardButton*> cardButton;
+//    QButtonGroup characterGroup;
     CardButton* cardButton[15];
     PicButton* ensure;
     PicButton* cancel;
@@ -27,7 +34,7 @@ public:
     int cardNum;
     int informationKind;
     explicit CardAndSkill(PaintStruct* paintStruct,QWidget *parent);
-    virtual void paint(QPaintEvent*,QPainter*);
+    //virtual void paint(QPaintEvent*,QPainter*);
     void buttonFixed();
     void destroyCard();
     void linkReset();
@@ -60,9 +67,9 @@ public:
     virtual void clickRedWhiteSet();
     virtual void butterflyTokenAdd(int tokenX[]);
 signals:
-    void isClicked(int x,int y);
+    //void isClicked(int x,int y);
     void resetSignal();
-    void mouseClick(int x,int y);
+    //void mouseClick(int x,int y);
     void skillSetSig();
     void sendMessageInSig(std::vector<int>);
     void sendMessageSelfSig(std::vector<int>);
@@ -72,8 +79,8 @@ signals:
     void sendMessageOneSig(std::vector<int>);
     //void paintAnime(int info[15]);
 public slots:
-    void cardClicked(int x,int y);
-    void send(int,int);
+    //void cardClicked(int x,int y);
+    //void send(int,int);
     //void paintSignal();
     void cardDis();
     void reset();

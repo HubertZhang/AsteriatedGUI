@@ -3,8 +3,8 @@
 #include <QTextCodec>
 #include <string>
 
-CardButton::CardButton(int card,int paraX, QWidget *parent)
-    :PicButton(paraX,GEO_CARD_Y,GEO_CARD_W,GEO_CARD_H,true,parent)
+CardButton::CardButton(int card,int paraX,int paraY, QWidget *parent)
+    :PicButton(paraX,paraY,GEO_CARD_W,GEO_CARD_H,true,parent)
 {
     //isConnect = false;
     frameLabel.setPixmap(QPixmap(":/character/cardFrameX.png"));

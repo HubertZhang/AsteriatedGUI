@@ -13,7 +13,7 @@ public:
     PicButton* magicGroup[3];
     bool ask;
     int pureCureCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

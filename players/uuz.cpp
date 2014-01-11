@@ -12,15 +12,15 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
     soulCount = 0;
     mirrorCount = 0;
     mirrorLine = 0;
-    soulLink = new AskDialog(info,soulX,paintStructX,false);
-    soulLink->ensure->canBeClicked = false;
-    soulLink->cancel->canBeClicked = false;
-    soulLink->ensure->isClicked = false;
-    soulLink->cancel->isClicked = false;
+    soulLink = new NumberDialog(paintStruct,parent);
+    soulLink->ensure->setCheckable(false);
+    soulLink->cancel->setCheckable(false);
+    soulLink->ensure->setChecked(false);
+    soulLink->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
-        soulLink->number[i]->isClicked = false;
-        soulLink->number[i]->canBeClicked = false;
+        soulLink->number[i]->setChecked(false);
+        soulLink->number[i]->setCheckable(false);
     }
     connect(soulLink->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     connect(soulLink->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
@@ -28,10 +28,10 @@ UUZ::UUZ(PaintStruct* paintStruct,QWidget *parent,Window* soulX):
     disconnect(soulLink->cancel,SIGNAL(changeClicked()),soulLink,SLOT(destroyLabel()));
     connect(soulLink->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
     connect(soulLink->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
-    magicGroup[0] = new PicButton(143,362,559,100,42,false);
-    magicGroup[1] = new PicButton(146,465,559,100,42,false);
-    magicGroup[2] = new PicButton(147,568,559,100,42,false);
-    magicGroup[3] = new PicButton(148,671,559,100,42,false);
+    magicGroup[0] = new PicButton(143,362,559,100,42,false,this);
+    magicGroup[1] = new PicButton(146,465,559,100,42,false,this);
+    magicGroup[2] = new PicButton(147,568,559,100,42,false,this);
+    magicGroup[3] = new PicButton(148,671,559,100,42,false,this);
     for(int i = 0;i < dialog->skillCount;i++)
     {
         for(int j = 0;j < dialog->skillCount;j++)
@@ -74,7 +74,7 @@ void UUZ::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(4);
-    magicGroup[0]->isClicked = true;
+    magicGroup[0]->setChecked(true);
 }
 void UUZ::magicSetOne()
 {
@@ -82,21 +82,21 @@ void UUZ::magicSetOne()
     skillset();
     //system("pause");
     changeSelfMode(7);
-    magicGroup[1]->isClicked = true;
+    magicGroup[1]->setChecked(true);
 }
 void UUZ::magicSetTwo()
 {
     linkReset();
     skillset();
     changeSelfMode(8);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->setChecked(true);
 }
 void UUZ::magicSetThree()
 {
     linkReset();
     skillset();
     changeSelfMode(9);
-    magicGroup[3]->isClicked = true;
+    magicGroup[3]->setChecked(true);
 }
 void UUZ::changeSelfMode(int mode)
 {
@@ -104,12 +104,12 @@ void UUZ::changeSelfMode(int mode)
     {
         case 4://灵魂召还响应阶段
         {
-            cancel->canBeClicked = false;
+            cancel->setCheckable(false);
             for(int i = 0;i < cardNum;i++)
             {
                 if(cardList->getType(card[i]) == magic)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
                 connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(soulPlus()));
                 connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(soulMinus()));
@@ -162,16 +162,16 @@ void UUZ::changeSelfMode(int mode)
         case 10://灵魂链接响应阶段
         {
             soulAsk = true;
-            soulLink->ensure->canBeClicked = false;
+            soulLink->ensure->setCheckable(false);
             for(int i = 0;i < 5;i++)
             {
-                if(i < linkDamage && i < paintStructX->gameCharacter[5]->blue)
+                if(i < linkDamage && i < paintStruct->gameCharacter[5]->blue)
                 {
-                    soulLink->number[i]->canBeClicked = true;
+                    soulLink->number[i]->setCheckable(true);
                 }
                 else
                 {
-                    soulLink->number[i]->canBeClicked = false;
+                    soulLink->number[i]->setCheckable(false);
                 }
             }
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
@@ -179,27 +179,27 @@ void UUZ::changeSelfMode(int mode)
         }
     }
 }
-void UUZ::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-    }
-    if(soulAsk)
-    {
-        soulLink->paint(event,painter);
-    }
-    for(int i = 0;i < 4;i++)
-    {
-        magicGroup[i]->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void UUZ::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//    }
+//    if(soulAsk)
+//    {
+//        soulLink->paint(event,painter);
+//    }
+//    for(int i = 0;i < 4;i++)
+//    {
+//        magicGroup[i]->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void UUZ::setFrame()
 {
     ask = true;
@@ -209,7 +209,7 @@ void UUZ::setFrame()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void UUZ::skillset()
@@ -218,20 +218,20 @@ void UUZ::skillset()
     {
         if(cardList->getType(card[i]) == magic)
         {
-            magicGroup[0]->canBeClicked = true;
+            magicGroup[0]->setCheckable(true);
         }
-        if(cardList->getSkillTwo(card[i]) == 221 && paintStructX->gameCharacter[5]->yellow > 2)
+        if(cardList->getSkillTwo(card[i]) == 221 && paintStruct->gameCharacter[5]->yellow > 2)
         {
-            magicGroup[2]->canBeClicked = true;
+            magicGroup[2]->setCheckable(true);
         }
-        if(cardList->getSkillTwo(card[i]) == 222 && paintStructX->gameCharacter[5]->blue > 2)
+        if(cardList->getSkillTwo(card[i]) == 222 && paintStruct->gameCharacter[5]->blue > 2)
         {
-            magicGroup[3]->canBeClicked = true;
+            magicGroup[3]->setCheckable(true);
         }
     }
-    if(paintStructX->gameCharacter[5]->yellow > 1)
+    if(paintStruct->gameCharacter[5]->yellow > 1)
     {
-        magicGroup[1]->canBeClicked = true;
+        magicGroup[1]->setCheckable(true);
     }
 }
 void UUZ::skillCancel()
@@ -244,17 +244,17 @@ void UUZ::skillCancel()
     soulLink->labelTwo->hide();
     for(int i = 0;i < 4;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
-    soulLink->ensure->canBeClicked = false;
-    soulLink->cancel->canBeClicked = false;
-    soulLink->ensure->isClicked = false;
-    soulLink->cancel->isClicked = false;
+    soulLink->ensure->setCheckable(false);
+    soulLink->cancel->setCheckable(false);
+    soulLink->ensure->setChecked(false);
+    soulLink->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
-        soulLink->number[i]->isClicked = false;
-        soulLink->number[i]->canBeClicked = false;
+        soulLink->number[i]->setChecked(false);
+        soulLink->number[i]->setCheckable(false);
     }
     for(int i = 0;i < cardNum;i++)
     {
@@ -278,7 +278,7 @@ void UUZ::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             if(i > 1)
             {
@@ -298,8 +298,8 @@ void UUZ::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void UUZ::dialogSet(bool canX[])
@@ -310,20 +310,20 @@ void UUZ::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
     for(int i = 0;i < 3;i++)
     {
-        if(magicGroup[i]->isClicked)
+        if(magicGroup[i]->isChecked())
         {
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -335,13 +335,13 @@ void UUZ::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -365,7 +365,7 @@ void UUZ::sendMessageSelf()
         case 102://灵魂链接响应阶段
         {
         //system("pause");
-            if(soulLink->cancel->isClicked)
+            if(soulLink->cancel->isChecked())
             {
                 tempMes.push_back(-1);
                 emit sendMessageSelfSig(tempMes);
@@ -373,7 +373,7 @@ void UUZ::sendMessageSelf()
             }
             for(int i = 0;i < 5;i++)
             {
-                if(soulLink->number[i]->isClicked)
+                if(soulLink->number[i]->isChecked())
                 {
                     tempMes.push_back(i + 1);
                     emit sendMessageSelfSig(tempMes);
@@ -426,14 +426,14 @@ void UUZ::damageSet(int x)
 void UUZ::soulPlus()
 {
     soulCount ++;
-    ensure->canBeClicked = true;
+    ensure->setCheckable(true);
 }
 void UUZ::soulMinus()
 {
     soulCount --;
     if(!soulCount)
     {
-        ensure->canBeClicked = false;
+        ensure->setCheckable(false);
     }
 }
 void UUZ::mirrorPlus()
@@ -451,5 +451,5 @@ void UUZ::mirrorMinus()
     mirrorCount --;
     cardSetOne();
     allReset();
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
 }

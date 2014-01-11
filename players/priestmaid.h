@@ -15,12 +15,12 @@ public:
     PicButton* magicGroup[4];
     bool ask;
     NewDialog* dialog;
-    AskDialog* sacredContract;
+    NumberDialog* sacredContract;
     bool sacredContractPaint;
     int magicCount;
     int cureCount;
     int sacredZoneCount;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

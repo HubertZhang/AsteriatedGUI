@@ -22,7 +22,7 @@ public:
     CardButton* tokenButton[8];
     int token[8];
     int tokenNum;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();
@@ -48,7 +48,7 @@ public slots:
     void confuseMinus();
     void deadflyPlus();
     void deadflyMinus();
-    void tokenClicked(int,int);
+    //void tokenClicked(int,int);
 };
 
 #endif // BUTTERFLY_H

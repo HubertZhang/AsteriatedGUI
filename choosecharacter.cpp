@@ -8,8 +8,8 @@ ChooseCharacter::ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *par
     character[0] = new CharacterButton(numOne,28,23,this);
     character[1] = new CharacterButton(numTwo,187,23,this);
     character[2] = new CharacterButton(numThree,346,23,this);
-    ensure = new PicButton(595-328,233,100,42,false,this);
-    cancel = new PicButton(715-328,233,100,42,false,this);
+    ensure = new PicButton(33,595-328,233,100,42,false,this);
+    cancel = new PicButton(34,715-328,233,100,42,false,this);
     connect(cancel,SIGNAL(clicked()),this,SLOT(recover()));
     for(int i = 0;i < 3;i++)
     {
@@ -22,6 +22,7 @@ ChooseCharacter::ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *par
         connect(character[i],SIGNAL(beChecked()),cancel,SLOT(enable()));
     }
     connect(ensure,SIGNAL(clicked()),this,SLOT(sendMessage()));
+    show();
 }
 
 void ChooseCharacter::recover()
@@ -29,10 +30,10 @@ void ChooseCharacter::recover()
     for (int i = 0; i<3; i++)
     {
         character[i]->setChecked(false);
-        character[i]->setEnabled(true);
+        character[i]->setCheckable(true);
     }
 
-    ensure->setState(false);
+    ensure->setCheckable(false);
 }
 
 void ChooseCharacter::sendMessage()
@@ -42,7 +43,7 @@ void ChooseCharacter::sendMessage()
     {
         if(character[i]->isChecked())
         {
-            tempMes.push_back(character[i]->kind);
+            tempMes.push_back(character[i]->getCharacter());
             break;
         }
     }

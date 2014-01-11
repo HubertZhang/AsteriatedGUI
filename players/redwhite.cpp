@@ -10,15 +10,15 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
     curseLine = 0;
     lifeLink = false;
     int info[3] = {2,0,0};
-    blood = new AskDialog(info,bloodX,paintStructX,false);
-    blood->ensure->canBeClicked = false;
-    blood->cancel->canBeClicked = false;
-    blood->ensure->isClicked = false;
-    blood->cancel->isClicked = false;
+    blood = new NumberDialog(paintStruct,parent);
+    blood->ensure->setCheckable(false);
+    blood->cancel->setCheckable(false);
+    blood->ensure->setChecked(false);
+    blood->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
-        blood->number[i]->isClicked = false;
-        blood->number[i]->canBeClicked = false;
+        blood->number[i]->setChecked(false);
+        blood->number[i]->setCheckable(false);
     }
     connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
@@ -26,10 +26,10 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
     disconnect(blood->cancel,SIGNAL(changeClicked()),blood,SLOT(destroyLabel()));
     connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
     connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
-    magicGroup[0] = new PicButton(151,362,559,100,42,false);
-    magicGroup[1] = new PicButton(154,465,559,100,42,false);
-    magicGroup[2] = new PicButton(155,568,559,100,42,false);
-    magicGroup[3] = new PicButton(156,671,559,100,42,false);
+    magicGroup[0] = new PicButton(151,362,559,100,42,false,this);
+    magicGroup[1] = new PicButton(154,465,559,100,42,false,this);
+    magicGroup[2] = new PicButton(155,568,559,100,42,false,this);
+    magicGroup[3] = new PicButton(156,671,559,100,42,false,this);
     for(int i = 0;i < 4;i++)
     {
         connect(this,SIGNAL(mouseClick(int,int)),magicGroup[i],SLOT(isThisClicked(int,int)));
@@ -59,7 +59,7 @@ void RedWhite::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(4);
-    magicGroup[0]->isClicked = true;
+    magicGroup[0]->setChecked(true);
 }
 void RedWhite::magicSetOne()
 {
@@ -67,21 +67,21 @@ void RedWhite::magicSetOne()
     skillset();
     //system("pause");
     changeSelfMode(7);
-    magicGroup[1]->isClicked = true;
+    magicGroup[1]->setChecked(true);
 }
 void RedWhite::magicSetTwo()
 {
     linkReset();
     skillset();
     changeSelfMode(8);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->setChecked(true);
 }
 void RedWhite::magicSetThree()
 {
     linkReset();
     skillset();
     changeSelfMode(9);
-    magicGroup[3]->isClicked = true;
+    magicGroup[3]->setChecked(true);
 }
 void RedWhite::changeSelfMode(int mode)
 {
@@ -142,67 +142,67 @@ void RedWhite::changeSelfMode(int mode)
         case 10://血之悲鸣响应二阶段
         {
             bloodAsk = true;
-            blood->ensure->canBeClicked = false;
+            blood->ensure->setCheckable(false);
             for(int i = 0;i < 5;i++)
             {
                 if(i < 3)
                 {
-                    blood->number[i]->canBeClicked = true;
+                    blood->number[i]->setCheckable(true);
                 }
                 else
                 {
-                    blood->number[i]->canBeClicked = false;
+                    blood->number[i]->setCheckable(false);
                 }
             }
             break;
         }
     }
 }
-void RedWhite::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(bloodAsk)
-    {
-        blood->paint(event,painter);
-    }
-    for(int i = 0;i < 4;i++)
-    {
-        magicGroup[i]->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void RedWhite::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(bloodAsk)
+//    {
+//        blood->paint(event,painter);
+//    }
+//    for(int i = 0;i < 4;i++)
+//    {
+//        magicGroup[i]->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 /*void SwordMaster::skillReset()
 {
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void RedWhite::skillset()
 {
     if(!lifeLink)
     {
-        magicGroup[0]->canBeClicked = true;
+        magicGroup[0]->setCheckable(true);
     }
-    if(paintStructX->gameCharacter[5]->activated)
+    if(paintStruct->gameCharacter[5]->activated)
     {
-        magicGroup[1]->canBeClicked = true;
+        magicGroup[1]->setCheckable(true);
     }
     for(int i = 0;i < cardNum;i++)
     {
-        if(cardList->getSkillTwo(card[i]) == 231 && paintStructX->gameCharacter[5]->isActivated)
+        if(cardList->getSkillTwo(card[i]) == 231 && paintStruct->gameCharacter[5]->activated)
         {
-            magicGroup[2]->canBeClicked = true;
+            magicGroup[2]->setCheckable(true);
         }
     }
-    if(paintStructX->gameCharacter[5]->gem > 0)
+    if(paintStruct->gameCharacter[5]->gem > 0)
     {
-        magicGroup[3]->canBeClicked = true;
+        magicGroup[3]->setCheckable(true);
     }
 }
 void RedWhite::skillCancel()
@@ -214,17 +214,17 @@ void RedWhite::skillCancel()
     blood->labelTwo->hide();
     for(int i = 0;i < 4;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
-    blood->ensure->canBeClicked = false;
-    blood->cancel->canBeClicked = false;
-    blood->ensure->isClicked = false;
-    blood->cancel->isClicked = false;
+    blood->ensure->setCheckable(false);
+    blood->cancel->setCheckable(false);
+    blood->ensure->setChecked(false);
+    blood->cancel->setChecked(false);
     for(int i = 0;i < 5;i++)
     {
-        blood->number[i]->isClicked = false;
-        blood->number[i]->canBeClicked = false;
+        blood->number[i]->setChecked(false);
+        blood->number[i]->setCheckable(false);
     }
     for(int i = 0;i < cardNum;i++)
     {
@@ -248,13 +248,13 @@ void RedWhite::sendMessageSelf()
 {
     for(int i = 0;i < 4;i++)
     {
-        if(magicGroup[i]->isClicked)
+        if(magicGroup[i]->isChecked())
         {
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -266,13 +266,13 @@ void RedWhite::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -294,7 +294,7 @@ void RedWhite::sendMessageSelf()
             lifeLink = true;
             for(int i = 0;i < 6;i++)
             {
-                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                if(paintStruct->gameCharacter[i]->characterPic->isChecked())
                 {
                     lifeLinkCha = i;
                 }
@@ -327,7 +327,7 @@ void RedWhite::sendMessageSelf()
             {
                 for(int i = 0;i < 5;i++)
                 {
-                    if(blood->number[i]->isClicked)
+                    if(blood->number[i]->isChecked())
                     {
                         tempMes.push_back(i + 1);
                         emit sendMessageSelfSig(tempMes);
@@ -359,14 +359,14 @@ void RedWhite::bloodPlus()
     if(bloodCount == 2)
     {
         cardResetOne();
-        ensure->canBeClicked = true;
+        ensure->setCheckable(true);
     }
 }
 void RedWhite::bloodMinus()
 {
     bloodCount --;
     cardSetOne();
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
 }
 void RedWhite::cursePlus()
 {
@@ -383,7 +383,7 @@ void RedWhite::curseMinus()
     curseCount --;
     cardSetOne();
     allReset();
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
 }
 bool RedWhite::redWhiteLink()
 {
@@ -402,12 +402,12 @@ void RedWhite::clickRedWhiteSet()
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
         if(i != lifeLinkCha)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
         }
     }
 }

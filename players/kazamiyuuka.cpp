@@ -23,7 +23,7 @@ KazamiYuuka::KazamiYuuka(PaintStruct* paintStruct,QWidget *parent) :
 }
 void KazamiYuuka::changeSelfMode(int mode)
 {
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
     switch(mode)
     {
@@ -47,16 +47,16 @@ void KazamiYuuka::changeSelfMode(int mode)
         case 8://YuukaTwo;
         {
             informationKind = 301;
-            if(paintStructX->gameCharacter[5]->cardNum < 4)
+            if(paintStruct->gameCharacter[5]->cardNum < 4)
             {
-                cancel->canBeClicked = false;
+                cancel->setCheckable(false);
                 sendMessageSelf();
             }
             else
             {
                 for(int i = 0;i < cardNum;i++)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                     connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(YuukaTwoPlus()));
                     connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(YuukaTwoMinus()));
                 }
@@ -64,19 +64,19 @@ void KazamiYuuka::changeSelfMode(int mode)
         }
     }
 }
-void KazamiYuuka::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void KazamiYuuka::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void KazamiYuuka::setFrame()
 {
     ask = true;
@@ -86,7 +86,7 @@ void KazamiYuuka::setFrame()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void KazamiYuuka::skillCancel()
@@ -96,7 +96,7 @@ void KazamiYuuka::skillCancel()
     dialog->label->hide();
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = true;
+        cardButton[i]->setCheckable(true);
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(YuukaTwoPlus()));
         disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(YuukaTwoMinus()));
     }
@@ -106,7 +106,7 @@ void KazamiYuuka::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             changeSelfMode(4 + i);
         }
@@ -119,8 +119,8 @@ void KazamiYuuka::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void KazamiYuuka::dialogSet(bool canX[])
@@ -131,13 +131,13 @@ void KazamiYuuka::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -149,13 +149,13 @@ void KazamiYuuka::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -174,7 +174,7 @@ void KazamiYuuka::sendMessageSelf()
         {
             for(int i = 0;i < 6;i++)
             {
-                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                if(paintStruct->gameCharacter[i]->characterPic->isChecked())
                 {
                     putCharacter(tempMes);
                     emit sendMessageSelfSig(tempMes);
@@ -207,25 +207,25 @@ void KazamiYuuka::sendMessageSelf()
 void KazamiYuuka::YuukaTwoPlus()
 {
     YuukaTwoCount ++;
-    if(YuukaTwoCount == paintStructX->gameCharacter[5]->cardNum - 3)
+    if(YuukaTwoCount == paintStruct->gameCharacter[5]->cardNum - 3)
     {
         for(int i = 0;i < cardNum;i++)
         {
-            if(!cardButton[i]->isClicked)
+            if(!cardButton[i]->isChecked())
             {
-                cardButton[i]->canBeClicked = false;
+                cardButton[i]->setCheckable(false);
             }
         }
-        ensure->canBeClicked = true;
+        ensure->setCheckable(true);
     }
 }
 void KazamiYuuka::YuukaTwoMinus()
 {
     YuukaTwoCount --;
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = true;
+        cardButton[i]->setCheckable(true);
     }
 }
 void KazamiYuuka::YuukaOne()

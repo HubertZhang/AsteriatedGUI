@@ -4,9 +4,9 @@ ArbitrationMaid::ArbitrationMaid(PaintStruct* paintStruct,QWidget *parent) :
     CardAndSkill(paintStruct,parent)
 {
     //dialog->init(14);//魔弹融合
-    magicGroup[0] = new PicButton(103,362,559,100,42,false);
-    magicGroup[1] = new PicButton(105,465,559,100,42,false);
-    magicGroup[2] = new PicButton(106,568,559,100,42,false);
+    magicGroup[0] = new PicButton(103,362,559,100,42,false,this);
+    magicGroup[1] = new PicButton(105,465,559,100,42,false,this);
+    magicGroup[2] = new PicButton(106,568,559,100,42,false,this);
     for(int i = 0;i < 3;i++)
     {
         connect(this,SIGNAL(mouseClick(int,int)),magicGroup[i],SLOT(isThisClicked(int,int)));
@@ -35,12 +35,12 @@ void ArbitrationMaid::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(4);
-    magicGroup[0]->isClicked = true;
-    if(paintStructX->gameCharacter[5]->yellow == 4)
+    magicGroup[0]->setChecked(true);
+    if(paintStruct->gameCharacter[5]->yellow == 4)
     {
-        magicGroup[1]->canBeClicked = false;
-        magicGroup[2]->canBeClicked = false;
-        cancel->canBeClicked = false;
+        magicGroup[1]->setCheckable(false);
+        magicGroup[2]->setCheckable(false);
+        cancel->setCheckable(false);
     }
 }
 void ArbitrationMaid::magicSetOne()
@@ -49,7 +49,7 @@ void ArbitrationMaid::magicSetOne()
     skillset();
     //system("pause");
     changeSelfMode(5);
-    magicGroup[1]->isClicked = true;
+    magicGroup[1]->setChecked(true);
 }
 void ArbitrationMaid::magicSetTwo()
 {
@@ -57,7 +57,7 @@ void ArbitrationMaid::magicSetTwo()
     skillset();
     //system("pause");
     changeSelfMode(6);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->setChecked(true);
 }
 void ArbitrationMaid::changeSelfMode(int mode)
 {
@@ -72,75 +72,75 @@ void ArbitrationMaid::changeSelfMode(int mode)
         }
         for(int j = 0;j < 6;j++)
         {
-            if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+            if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
     }
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://末日审判响应阶段
         {
             for(int i = 0;i < 6;i++)
             {
-                paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+                paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
             }
             break;
         }
         case 5://天平(1)响应阶段
         case 6://天平(2)响应阶段
         {
-            ensure->canBeClicked = true;
+            ensure->setCheckable(true);
             break;
         }
     }
 }
-void ArbitrationMaid::paint(QPaintEvent *event, QPainter *painter)
-{
-    for(int i = 0;i < 3;i++)
-    {
-        magicGroup[i]->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void ArbitrationMaid::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    for(int i = 0;i < 3;i++)
+//    {
+//        magicGroup[i]->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void ArbitrationMaid::skillset()
 {
-    if(paintStructX->gameCharacter[5]->yellow != 0)
+    if(paintStruct->gameCharacter[5]->yellow != 0)
     {
-        magicGroup[0]->canBeClicked = true;
+        magicGroup[0]->setCheckable(true);
     }
-    if(paintStructX->gameCharacter[5]->gem + paintStructX->gameCharacter[5]->crystal != 0)
+    if(paintStruct->gameCharacter[5]->gem + paintStruct->gameCharacter[5]->crystal != 0)
     {
-        magicGroup[1]->canBeClicked = true;
-        magicGroup[2]->canBeClicked = true;
+        magicGroup[1]->setCheckable(true);
+        magicGroup[2]->setCheckable(true);
     }
 }
 void ArbitrationMaid::skillCancel()
 {
     for(int i = 0;i < 3;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
 }
 void ArbitrationMaid::skillClear()
@@ -153,13 +153,13 @@ void ArbitrationMaid::sendMessageSelf()
 {
     for(int i = 0;i < 3;i++)
     {
-        if(magicGroup[i]->isClicked)
+        if(magicGroup[i]->isChecked())
         {
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -171,13 +171,13 @@ void ArbitrationMaid::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -218,10 +218,10 @@ void ArbitrationMaid::sendMessageSelf()
 void ArbitrationMaid::arbitrationEnd()
 {
     magicSetZero();
-    magicGroup[0]->isClicked = false;
-    magicGroup[1]->canBeClicked = false;
-    magicGroup[2]->canBeClicked = false;
-    cancel->canBeClicked = false;
+    magicGroup[0]->setChecked(false);
+    magicGroup[1]->setCheckable(false);
+    magicGroup[2]->setCheckable(false);
+    cancel->setCheckable(false);
 }
 void ArbitrationMaid::discardAll()
 {

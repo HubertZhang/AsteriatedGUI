@@ -14,14 +14,14 @@ public:
     explicit Angel(PaintStruct* paintStruct,QWidget *parent,Window* windowAngel);
     NewDialog* dialog;
     NewDialog* windClear;
-    AskDialog* kamiPro;
+    NumberDialog* kamiPro;
     PicButton* magicGroup[3];
     bool reminiscence;
     bool ask;
     bool proAsk;
     int blessCount;
     int morale;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void dialogSet(bool canX[10]);

@@ -9,10 +9,10 @@ Butterfly::Butterfly(PaintStruct* paintStruct,QWidget *parent) :
     ask = false;
     dialog = new NewDialog(windowX);
     dialog->init(24);//毒粉,朝圣,镜花水月,凋零
-    magicGroup[0] = new PicButton(157,362,559,100,42,false);
-    magicGroup[1] = new PicButton(162,465,559,100,42,false);
-    magicGroup[2] = new PicButton(163,568,559,100,42,false);
-    tokenPic = new PicButton(164,671,559,100,42,true);
+    magicGroup[0] = new PicButton(157,362,559,100,42,false,this);
+    magicGroup[1] = new PicButton(162,465,559,100,42,false,this);
+    magicGroup[2] = new PicButton(163,568,559,100,42,false,this);
+    tokenPic = new PicButton(164,671,559,100,42,true,this);
     connect(tokenPic,SIGNAL(changeClicked()),this,SLOT(tokenSet()));
     connect(tokenPic,SIGNAL(notClicked()),this,SLOT(tokenReset()));
     tokenPaint = false;
@@ -60,7 +60,7 @@ void Butterfly::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(4);
-    magicGroup[0]->isClicked = true;
+    magicGroup[0]->setChecked(true);
 }
 void Butterfly::magicSetOne()
 {
@@ -68,7 +68,7 @@ void Butterfly::magicSetOne()
     skillset();
     //system("pause");
     changeSelfMode(9);
-    magicGroup[1]->isClicked = true;
+    magicGroup[1]->setChecked(true);
 }
 void Butterfly::magicSetTwo()
 {
@@ -76,7 +76,7 @@ void Butterfly::magicSetTwo()
     skillset();
     //system("pause");
     changeSelfMode(10);
-    magicGroup[2]->isClicked = true;
+    magicGroup[2]->setChecked(true);
 }
 
 void Butterfly::changeSelfMode(int mode)
@@ -85,18 +85,18 @@ void Butterfly::changeSelfMode(int mode)
     {
         case 4://舞动响应阶段
         {
-            ensure->canBeClicked = true;
+            ensure->setCheckable(true);
             cardSingleSet(-1);
             break;
         }
         case 5://毒粉响应阶段
         case 6://朝圣响应阶段
         {
-            cancel->canBeClicked = true;
+            cancel->setCheckable(true);
             tokenPaint = true;
             for(int i = 0;i < tokenNum;i++)
             {
-                tokenButton[i]->canBeClicked = true;
+                tokenButton[i]->setCheckable(true);
                 connect(tokenButton[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
                 connect(tokenButton[i],SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
                 for(int j = 0;j < tokenNum;j++)
@@ -112,11 +112,11 @@ void Butterfly::changeSelfMode(int mode)
         }
         case 7://镜花水月响应阶段
         {
-            cancel->canBeClicked = true;
+            cancel->setCheckable(true);
             tokenPaint = true;
             for(int i = 0;i < tokenNum;i++)
             {
-                tokenButton[i]->canBeClicked = true;
+                tokenButton[i]->setCheckable(true);
                 connect(tokenButton[i],SIGNAL(changeClicked()),this,SLOT(confusePlus()));
                 connect(tokenButton[i],SIGNAL(notClicked()),this,SLOT(confuseMinus()));
             }
@@ -132,7 +132,7 @@ void Butterfly::changeSelfMode(int mode)
         }
         case 9://蛹化响应阶段
         {
-            ensure->canBeClicked = true;
+            ensure->setCheckable(true);
             break;
         }
         case 10://倒逆之蝶响应阶段
@@ -140,7 +140,7 @@ void Butterfly::changeSelfMode(int mode)
             cardSetOne();
             if(!cardNum)
             {
-                ensure->canBeClicked = true;
+                ensure->setCheckable(true);
                 clickAllSet();
                 break;
             }
@@ -164,60 +164,60 @@ void Butterfly::changeSelfMode(int mode)
         }
     }
 }
-void Butterfly::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(tokenPaint)
-    {
-        for(int i = 0;i < tokenNum;i++)
-        {
-            tokenButton[i]->paint(event,painter);
-            for(int j = 0;j < 5;j++)
-            {
-                tokenButton[i]->label[j]->show();
-            }
-        }
-        for(int i = 0;i < cardNum;i++)
-        {
-            for(int j = 0;j < 5;j++)
-            {
-                cardButton[i]->label[j]->hide();
-            }
-        }
-    }
-    else
-    {
-        for(int i = 0;i < cardNum;i++)
-        {
-            cardButton[i]->paint(event,painter);
-            for(int j = 0;j < 5;j++)
-            {
-                cardButton[i]->label[j]->show();
-            }
-        }
-        for(int i = 0;i < tokenNum;i++)
-        {
-            for(int j = 0;j < 5;j++)
-            {
-                tokenButton[i]->label[j]->hide();
-            }
-        }
-    }
-    if(ask)
-    {
-        dialog->paint(event,painter);
-    }
-    for(int i = 0;i < 3;i++)
-    {
-        magicGroup[i]->paint(event,painter);
-    }
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    tokenPic->paint(event,painter);
-}
+//void Butterfly::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(tokenPaint)
+//    {
+//        for(int i = 0;i < tokenNum;i++)
+//        {
+//            tokenButton[i]->paint(event,painter);
+//            for(int j = 0;j < 5;j++)
+//            {
+//                tokenButton[i]->label[j]->show();
+//            }
+//        }
+//        for(int i = 0;i < cardNum;i++)
+//        {
+//            for(int j = 0;j < 5;j++)
+//            {
+//                cardButton[i]->label[j]->hide();
+//            }
+//        }
+//    }
+//    else
+//    {
+//        for(int i = 0;i < cardNum;i++)
+//        {
+//            cardButton[i]->paint(event,painter);
+//            for(int j = 0;j < 5;j++)
+//            {
+//                cardButton[i]->label[j]->show();
+//            }
+//        }
+//        for(int i = 0;i < tokenNum;i++)
+//        {
+//            for(int j = 0;j < 5;j++)
+//            {
+//                tokenButton[i]->label[j]->hide();
+//            }
+//        }
+//    }
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//    }
+//    for(int i = 0;i < 3;i++)
+//    {
+//        magicGroup[i]->paint(event,painter);
+//    }
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    tokenPic->paint(event,painter);
+//}
 void Butterfly::setFrame()
 {
     ask = true;
-    tokenPic->isClicked = false;
+    tokenPic->setChecked(false);
     tokenPaint = false;
 }
 /*void SwordMaster::skillReset()
@@ -225,20 +225,20 @@ void Butterfly::setFrame()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void Butterfly::skillset()
 {
-    magicGroup[0]->canBeClicked = true;
-    if(paintStructX->gameCharacter[5]->gem != 0)
+    magicGroup[0]->setCheckable(true);
+    if(paintStruct->gameCharacter[5]->gem != 0)
     {
-        magicGroup[1]->canBeClicked = true;
-        magicGroup[2]->canBeClicked = true;
+        magicGroup[1]->setCheckable(true);
+        magicGroup[2]->setCheckable(true);
     }
-    if(paintStructX->gameCharacter[5]->crystal != 0)
+    if(paintStruct->gameCharacter[5]->crystal != 0)
     {
-        magicGroup[2]->canBeClicked = true;
+        magicGroup[2]->setCheckable(true);
     }
 }
 void Butterfly::skillCancel()
@@ -248,15 +248,15 @@ void Butterfly::skillCancel()
     deadflyCount = 0;
     for(int i = 0;i < tokenNum;i++)
     {
-        tokenButton[i]->canBeClicked = false;
-        tokenButton[i]->isClicked = false;
+        tokenButton[i]->setCheckable(false);
+        tokenButton[i]->setChecked(false);
     }
     ask = false;
     dialog->label->hide();
     for(int i = 0;i < 3;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
     for(int i = 0;i < tokenNum;i++)
     {
@@ -280,7 +280,7 @@ void Butterfly::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             changeSelfMode(5 + i);
         }
@@ -293,8 +293,8 @@ void Butterfly::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void Butterfly::dialogSet(bool canX[])
@@ -306,12 +306,12 @@ void Butterfly::confusePlus()
     confuseCount ++;
     if(confuseCount == 2)
     {
-        ensure->canBeClicked = true;
+        ensure->setCheckable(true);
         for(int i = 0;i < tokenNum;i++)
         {
-            if(!tokenButton[i]->isClicked)
+            if(!tokenButton[i]->isChecked())
             {
-                tokenButton[i]->canBeClicked = false;
+                tokenButton[i]->setCheckable(false);
             }
         }
         return;
@@ -321,7 +321,7 @@ void Butterfly::confusePlus()
         int attribute = -1;
         for(int i = 0;i < tokenNum;i++)
         {
-            if(tokenButton[i]->isClicked)
+            if(tokenButton[i]->isChecked())
             {
                 attribute = cardList->getNature(token[i]);
             }
@@ -330,11 +330,11 @@ void Butterfly::confusePlus()
         {
             if(cardList->getNature(token[i]) == attribute)
             {
-                tokenButton[i]->canBeClicked = true;
+                tokenButton[i]->setCheckable(true);
             }
             else
             {
-                tokenButton[i]->canBeClicked = false;
+                tokenButton[i]->setCheckable(false);
             }
         }
         return;
@@ -342,24 +342,24 @@ void Butterfly::confusePlus()
 }
 void Butterfly::confuseMinus()
 {
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
     confuseCount --;
     if(confuseCount == 1)
     {
         int attribute = -1;
         for(int i = 0;i < tokenNum;i++)
         {
-            if(tokenButton[i]->isClicked)
+            if(tokenButton[i]->isChecked())
             {
                 attribute = cardList->getNature(token[i]);
             }
             if(cardList->getNature(token[i]) == attribute)
             {
-                tokenButton[i]->canBeClicked = true;
+                tokenButton[i]->setCheckable(true);
             }
             else
             {
-                tokenButton[i]->canBeClicked = false;
+                tokenButton[i]->setCheckable(false);
             }
         }
         return;
@@ -368,7 +368,7 @@ void Butterfly::confuseMinus()
     {
         for(int i = 0;i < tokenNum;i++)
         {
-            tokenButton[i]->canBeClicked = true;
+            tokenButton[i]->setCheckable(true);
         }
     }
 }
@@ -377,20 +377,20 @@ void Butterfly::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
     for(int i = 0;i < 3;i++)
     {
-        if(magicGroup[i]->isClicked)
+        if(magicGroup[i]->isChecked())
         {
             informationKind = 200 + i;
         }
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -402,13 +402,13 @@ void Butterfly::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -423,7 +423,7 @@ void Butterfly::sendMessageSelf()
             tempMes.push_back(informationKind - 98);
             for(int i = 0;i < tokenNum;i++)
             {
-                if(tokenButton[i]->isClicked)
+                if(tokenButton[i]->isChecked())
                 {
                     tempMes.push_back(token[i]);
                 }
@@ -431,7 +431,7 @@ void Butterfly::sendMessageSelf()
             int tokenCount = 0;
             for(int i = 0;i < tokenNum;i++)
             {
-                if(!tokenButton[i]->isClicked)
+                if(!tokenButton[i]->isChecked())
                 {
                     token[tokenCount] = token[i];
                     tokenCount ++;
@@ -444,12 +444,12 @@ void Butterfly::sendMessageSelf()
             {
                 if(tokenNum < 7)
                 {
-                    tokenButton[i] = new CardButton(48,364 + (99 + xOffset) * i,611,99,143,false,token[i],windowX);
+                    tokenButton[i] = new CardButton(token[i],364 + (99 + xOffset) * i,611,windowX);
                 }
                 else
                 {
                     xOffset = ((102 * 6) - 99)/(tokenNum - 1);
-                    tokenButton[i] = new CardButton(48,364 + xOffset * i,611,99,143,false,token[i],windowX);
+                    tokenButton[i] = new CardButton(token[i],364 + xOffset * i,611,windowX);
                 }
             }
             emit sendMessageSelfSig(tempMes);
@@ -468,7 +468,7 @@ void Butterfly::sendMessageSelf()
             tempMes.push_back(1);
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     tempMes.push_back(0);
                     tempMes.push_back(card[i]);
@@ -495,7 +495,7 @@ void Butterfly::sendMessageSelf()
             putCard(tempMes);
             for(int i = 0;i < 6;i++)
             {
-                if(paintStructX->gameCharacter[i]->characterPic->isClicked)
+                if(paintStruct->gameCharacter[i]->characterPic->isChecked())
                 {
                     if(i != 5)
                     {
@@ -526,28 +526,28 @@ void Butterfly::tokenSet()
     tokenPaint = true;
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = false;
-        cardButton[i]->isClicked = false;
+        cardButton[i]->setCheckable(false);
+        cardButton[i]->setChecked(false);
     }
     for(int i = 0;i < 3;i++)
     {
-        magicGroup[i]->canBeClicked = false;
-        magicGroup[i]->isClicked = false;
+        magicGroup[i]->setCheckable(false);
+        magicGroup[i]->setChecked(false);
     }
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
-    ensure->canBeClicked = false;
-    ensure->isClicked = false;
-    cancel->canBeClicked = false;
-    cancel->isClicked = false;
+    ensure->setCheckable(false);
+    ensure->setChecked(false);
+    cancel->setCheckable(false);
+    cancel->setChecked(false);
     for(int i = 0;i < tokenNum;i++)
     {
-        tokenButton[i]->canBeClicked = false;
-        tokenButton[i]->isClicked = false;
+        tokenButton[i]->setCheckable(false);
+        tokenButton[i]->setChecked(false);
     }
 }
 void Butterfly::tokenReset()
@@ -559,13 +559,13 @@ void Butterfly::reStore()
     tokenPaint = storeArray[0];
     for(int i = 0;i < cardNum;i++)
     {
-        cardButton[i]->canBeClicked = storeArray[1 + i * 2];
-        cardButton[i]->isClicked = storeArray[2 + i * 2];
+        cardButton[i]->setCheckable(storeArray[1 + i * 2]);
+        cardButton[i]->setChecked(storeArray[2 + i * 2]);
     }
     for(int i = 0;i < 3;i++)
     {
-        magicGroup[i]->canBeClicked = storeArray[31 + i * 2];
-        magicGroup[i]->isClicked = storeArray[32 + i * 2];
+        magicGroup[i]->setCheckable(storeArray[31 + i * 2]);
+        magicGroup[i]->setChecked(storeArray[32 + i * 2]);
     }
     ask = storeArray[40];
     if(ask)
@@ -574,17 +574,17 @@ void Butterfly::reStore()
     }
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = storeArray[41 + i * 2];
-        dialog->skillGroup[i]->isClicked = storeArray[42 + i * 2];
+        dialog->skillGroup[i]->setCheckable(storeArray[41 + i * 2]);
+        dialog->skillGroup[i]->setChecked(storeArray[42 + i * 2]);
     }
-    ensure->canBeClicked = storeArray[49];
-    ensure->isClicked = storeArray[50];
-    cancel->canBeClicked = storeArray[51];
-    cancel->isClicked = storeArray[52];
+    ensure->setCheckable(storeArray[49]);
+    ensure->setChecked(storeArray[50]);
+    cancel->setCheckable(storeArray[51]);
+    cancel->setChecked(storeArray[52]);
     for(int i = 0;i < tokenNum;i++)
     {
-        tokenButton[i]->canBeClicked = storeArray[53 + i * 2];
-        tokenButton[i]->isClicked = storeArray[54 + i * 2];
+        tokenButton[i]->setCheckable(storeArray[53 + i * 2]);
+        tokenButton[i]->setChecked(storeArray[54 + i * 2]);
     }
 }
 void Butterfly::storeStatus()
@@ -592,13 +592,13 @@ void Butterfly::storeStatus()
     storeArray[0] = tokenPaint;
     for(int i = 0;i < cardNum;i++)
     {
-        storeArray[1 + i * 2] = cardButton[i]->canBeClicked;
-        storeArray[2 + i * 2] = cardButton[i]->isClicked;
+        storeArray[1 + i * 2] = cardButton[i]->isCheckable();
+        storeArray[2 + i * 2] = cardButton[i]->isChecked();
     }
     for(int i = 0;i < 3;i++)
     {
-        storeArray[31 + i * 2] = magicGroup[i]->canBeClicked;
-        storeArray[32 + i * 2] = magicGroup[i]->isClicked;
+        storeArray[31 + i * 2] = magicGroup[i]->isCheckable();
+        storeArray[32 + i * 2] = magicGroup[i]->isChecked();
     }
     storeArray[40] = ask;
     if(ask)
@@ -607,62 +607,62 @@ void Butterfly::storeStatus()
     }
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        storeArray[41 + i * 2] = dialog->skillGroup[i]->canBeClicked;
-        storeArray[42 + i * 2] = dialog->skillGroup[i]->isClicked;
+        storeArray[41 + i * 2] = dialog->skillGroup[i]->isCheckable();
+        storeArray[42 + i * 2] = dialog->skillGroup[i]->isChecked();
     }
-    storeArray[49] = ensure->canBeClicked;
-    storeArray[50]= ensure->isClicked;
-    storeArray[51] = cancel->canBeClicked;
-    storeArray[52] = cancel->isClicked;
+    storeArray[49] = ensure->isCheckable();
+    storeArray[50]= ensure->isChecked();
+    storeArray[51] = cancel->isCheckable();
+    storeArray[52] = cancel->isChecked();
     for(int i = 0;i < tokenNum;i++)
     {
-        storeArray[53 + i * 2] = tokenButton[i]->canBeClicked;
-        storeArray[54 + i * 2] = tokenButton[i]->isClicked;
+        storeArray[53 + i * 2] = tokenButton[i]->isCheckable();
+        storeArray[54 + i * 2] = tokenButton[i]->isChecked();
     }
 }
-void Butterfly::tokenClicked(int x, int y)
-{
-    if(x > 364 && x < 976)
-    {
-        if(y > 611 && y < 754)
-        {
-            if(tokenNum < 7)
-            {
-                int i = ((x - 364)/102);
-                if(i > tokenNum - 1)
-                {
-                    return;
-                }
-                else
-                {
-                    tokenButton[i]->isThisClicked(x,y);
-                }
-            }
-            else
-            {
-                if(x > (976 - 99))
-                {
-                    int x = tokenButton[tokenNum - 1]->xp + 50;
-                    int y = tokenButton[tokenNum - 1]->yp + 50;
-                    tokenButton[tokenNum - 1]->isThisClicked(x,y);
-                }
-                else
-                {
-                    int i = (x - 364)/(((102 * 6) - 99)/(tokenNum - 1));
-                    int x = tokenButton[i]->xp + 50;
-                    int y = tokenButton[i]->yp + 50;
-                    tokenButton[i]->isThisClicked(x,y);
-                }
-            }
-        }
-    }
-}
+//void Butterfly::tokenClicked(int x, int y)
+//{
+//    if(x > 364 && x < 976)
+//    {
+//        if(y > 611 && y < 754)
+//        {
+//            if(tokenNum < 7)
+//            {
+//                int i = ((x - 364)/102);
+//                if(i > tokenNum - 1)
+//                {
+//                    return;
+//                }
+//                else
+//                {
+//                    tokenButton[i]->isThisClicked(x,y);
+//                }
+//            }
+//            else
+//            {
+//                if(x > (976 - 99))
+//                {
+//                    int x = tokenButton[tokenNum - 1]->xp + 50;
+//                    int y = tokenButton[tokenNum - 1]->yp + 50;
+//                    tokenButton[tokenNum - 1]->isThisClicked(x,y);
+//                }
+//                else
+//                {
+//                    int i = (x - 364)/(((102 * 6) - 99)/(tokenNum - 1));
+//                    int x = tokenButton[i]->xp + 50;
+//                    int y = tokenButton[i]->yp + 50;
+//                    tokenButton[i]->isThisClicked(x,y);
+//                }
+//            }
+//        }
+//    }
+//}
 void Butterfly::deadflyPlus()
 {
     deadflyCount ++;
     if(deadflyCount == cryCount)
     {
-        ensure->canBeClicked = true;
+        ensure->setCheckable(true);
         cardResetOne();
         clickAllSet();
     }
@@ -670,7 +670,7 @@ void Butterfly::deadflyPlus()
 void Butterfly::deadflyMinus()
 {
     deadflyCount --;
-    ensure->canBeClicked = false;
+    ensure->setCheckable(false);
     allReset();
     characterDisconnect();
     cardSetOne();
@@ -691,12 +691,12 @@ void Butterfly::butterflyTokenAdd(int tokenX[15])
     {
         if(tokenNum < 7)
         {
-            tokenButton[i] = new CardButton(48,364 + (99 + xOffset) * i,611,99,143,false,token[i],windowX);
+            tokenButton[i] = new CardButton(token[i],364 + (99 + xOffset) * i,611,windowX);
         }
         else
         {
             xOffset = ((102 * 6) - 99)/(tokenNum - 1);
-            tokenButton[i] = new CardButton(48,364 + xOffset * i,611,99,143,false,token[i],windowX);
+            tokenButton[i] = new CardButton(token[i],364 + xOffset * i,611,windowX);
         }
     }
 }

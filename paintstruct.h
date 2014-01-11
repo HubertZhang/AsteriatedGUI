@@ -11,10 +11,22 @@ extern CardList cardlist;
 class Character : QWidget
 {
     Q_OBJECT
-
-    CharacterButton* characterPic;
+    QPixmap weakPic;
+    QPixmap poisonPic;
+    QPixmap sheildPic;
+    QPixmap sealPic[6];
+    
+    QLabel statusBar[10];
+    QLabel seal[6];
+    QLabel gemLabel;
+    QLabel crystalLabel;
+    QLabel cureLabel;
+    QLabel cardPic;
+    QLabel numberPic[3];
 //    QPixmap* isActivated;
 //    QPixmap* choosenFrame;
+public:
+    CharacterButton* characterPic;
     bool canBeActivated;
     bool activated;
     bool blueExist;
@@ -32,19 +44,10 @@ class Character : QWidget
     int statusNum;
     int blue;
     int yellow;
-    
-    QLabel statusBar[10];
-    QLabel seal[6];
-    QLabel gemLabel;
-    QLabel crystalLabel;
-    QLabel cureLabel;
-    
-    static QPixmap weakPic;
-    static QPixmap poisonPic;
-    static QPixmap sheildPic;
-    static QPixmap sealPic[6];
 public:
-    Character(int characterNum,int place,int color);
+    int getCure(){return cure;}
+    //TODO: change these to private
+    Character(int characterNum,int place,int color,QWidget* parent);
 protected:
     void paintEvent(QPaintEvent*);
 //    int xp;
@@ -71,6 +74,7 @@ private:
 //
 //    QPixmap* seal[6];
 public:
+    //CardAndSkill* cardAndSkill;
     Character* gameCharacter[6];
     int yourSite;
     int arrowNum;
@@ -92,8 +96,8 @@ public:
     
     QLabel redMoralePic;
     QLabel blueMoralePic;
-    static QPixmap crystalPic;
-    static QPixmap gemPic;
+    QPixmap crystalPic;
+    QPixmap gemPic;
     int SoulYX[6];
     int SoulYY[6];
     int SoulBX[6];
@@ -101,7 +105,7 @@ public:
 protected:
     void paintEvent(QPaintEvent* event);
 public:
-    explicit PaintStruct(int information[15],QWidget* parent,int yourX);
+    explicit PaintStruct(int information[15],int yourX, QWidget* parent);
 };
 
 bool getBlue(int characterNum);

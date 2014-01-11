@@ -13,7 +13,7 @@ public:
     PicButton* provoke;
     NewDialog* dialog;
     bool ask;
-    void paint(QPaintEvent *, QPainter *);
+    //void paint(QPaintEvent *, QPainter *);
     void changeSelfMode(int mode);
     void setFrame();
     void skillCancel();

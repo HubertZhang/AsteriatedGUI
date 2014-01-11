@@ -3,27 +3,28 @@
 #include <QPainter>
 #include <cstdlib>
 #include <iostream>
-QPixmap Character::weakPic;
-QPixmap Character::poisonPic;
-QPixmap Character::sheildPic;
-QPixmap Character::sealPic[6];
-QPixmap PaintStruct::crystalPic;
-QPixmap PaintStruct::gemPic;
-Character::Character(int characterNum,int place,int color)
+//QPixmap Character::weakPic;
+//QPixmap Character::poisonPic;
+//QPixmap Character::sheildPic;
+//QPixmap Character::sealPic[6];
+//QPixmap PaintStruct::crystalPic;
+//QPixmap PaintStruct::gemPic;
+
+Character::Character(int characterNum,int place,int color,QWidget* parent) : QWidget(parent)
 {
     poisonPic.load(":/character/poison.png");
     weakPic.load(":/character/weak.png");
     sheildPic.load(":/character/sheild.png");
     for(int i = 0; i<6; i++)
         sealPic[i].load(QString(":/character/seal%1.png").arg(QString::number(i)));
-    
-    //setGeometry(GEO_CHARACTER_X[place], GEO_CHARACTER_Y[place], <#int aw#>, <#int ah#>);
+    setGeometry(GEO_CHARACTER_X[place]-GEO_CHARACTER_XOFFSET[place], GEO_CHARACTER_Y[place]-GEO_CHARACTER_YOFFSET[place],GEO_CHARACTER_W+18,GEO_CHARACTER_H+18);
     this->yellow = 0;
     this->blue = 0;
     this->characterNum = characterNum;
     this->blueExist = getBlue(characterNum);
     this->yellowExist = getYellow(characterNum);
-    this->characterPic = new CharacterButton(characterNum,place,this);
+
+    this->characterPic = new CharacterButton(characterNum,GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_YOFFSET[place],this);
     //TODO:
     //        this->choosenFrame = new QPixmap();
     //        s.sprintf(":/character/choosenFrame.png");
@@ -42,22 +43,35 @@ Character::Character(int characterNum,int place,int color)
     this->cardLimit = 6;
     
     cureLabel.setParent(this);
-    cureLabel.setGeometry(GEO_CHARACTER_CURE_X,GEO_CHARACTER_CURE_Y, GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    cureLabel.setGeometry(GEO_CHARACTER_CURE_X[place]+GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_CURE_Y[place]+GEO_CHARACTER_YOFFSET[place], GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    cureLabel.setPixmap(QPixmap(":/characterAttribute/attribute2.png"));
     gemLabel.setParent(this);
-    gemLabel.setGeometry(GEO_CHARACTER_GEM_X,GEO_CHARACTER_GEM_Y , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    gemLabel.setGeometry(GEO_CHARACTER_GEM_X[place]+GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_GEM_Y [place]+GEO_CHARACTER_YOFFSET[place], GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    gemLabel.setPixmap(QPixmap(":/characterAttribute/attribute0.png"));
     crystalLabel.setParent(this);
-    crystalLabel.setGeometry(GEO_CHARACTER_CRYSTAL_Y,GEO_CHARACTER_CRYSTAL_Y , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
-//TODO:soul Label
-    crystalLabel.setText(QString("%1/%2").arg(crystal,energeLimit));
+    crystalLabel.setGeometry(GEO_CHARACTER_CRYSTAL_X[place]+GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_CRYSTAL_Y[place]+GEO_CHARACTER_YOFFSET[place] , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+    crystalLabel.setPixmap(QPixmap(":/characterAttribute/attribute1.png"));
+
+    for(int i = 0; i<3; i++)
+    {
+        numberPic[i].setParent(this);
+        numberPic[i].setGeometry(GEO_CHARACTER_NUMBER_X+i*12+GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_NUMBER_Y+GEO_CHARACTER_YOFFSET[place],36,36);
+    }
+    numberPic[1].setPixmap(QPixmap(QString(":number/slash.png")));
+    //TODO:soul Label
+    //crystalLabel.setText(QString("%1/%2").arg(crystal,energeLimit));
     for(int j = 0;j < 10;j++)
     {
         statusBar[j].setParent(this);
-        statusBar[j].setGeometry(GEO_CHARACTER_ATTRIBUTE_X,GEO_CHARACTER_ATTRIBUTE_Y + GEO_CHARACTER_ATTRIBUTE_YOFFSET * j , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
+        statusBar[j].setGeometry(GEO_CHARACTER_ATTRIBUTE_X[place]+GEO_CHARACTER_XOFFSET[place],GEO_CHARACTER_ATTRIBUTE_Y[place]+GEO_CHARACTER_YOFFSET[place] + GEO_CHARACTER_ATTRIBUTE_YOFFSET * j , GEO_CHARACTER_ATTRIBUTE_SIZE, GEO_CHARACTER_ATTRIBUTE_SIZE);
     }
+    show();
 }
 
-PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
+PaintStruct::PaintStruct(int information[15],int yourX,QWidget* parent) : QWidget(parent)
 {
+    setMinimumSize(1366,768);
+    yourSite = yourX;
     crystalPic=QPixmap(":/character/crystal.png");
     gemPic=QPixmap(":/character/gem.png");
 //    paintArrow = false;
@@ -70,32 +84,36 @@ PaintStruct::PaintStruct(int information[15],QWidget* parent,int yourX)
     crystalBlue = 0;
     moraleRed = 15;
     moraleBlue = 15;
-    redMoralePic.setPixmap(QString(":/morale/red%1.png").arg(moraleRed));
-    blueMoralePic.setPixmap(QString(":/morale/blue%1.png").arg(moraleBlue));
+
+    redMoralePic.show();
+    blueMoralePic.show();
+
+
+    redMoralePic.setParent(this);
+    blueMoralePic.setParent(this);
+    redMoralePic.setPixmap(QString(":/morale/red%1.png").arg(QString::number(moraleRed)));
+    blueMoralePic.setPixmap(QString(":/morale/blue%1.png").arg(QString::number(moraleBlue)));
     redMoralePic.setGeometry(GEO_MORALE_X, GEO_MORALE_RED_Y, GEO_MORALE_W, GEO_MORALE_H);
     blueMoralePic.setGeometry(GEO_MORALE_X, GEO_MORALE_BLUE_Y, GEO_MORALE_W, GEO_MORALE_H);
-    
-
-    
     for (int i = 0; i<5; i++) {
         redGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
-        blueGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
+        blueGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_BLUE_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
         redGrailPic[i].setPixmap(QPixmap(":/character/grail.png"));
         blueGrailPic[i].setPixmap(QPixmap(":/character/grail.png"));
         redGrailPic[i].setVisible(false);
         blueGrailPic[i].setVisible(false);
-
-        blueGrailPic[i].setGeometry(GEO_GRAIL_X, GEO_GRAIL_RED_Y+i*GEO_GRAIL_YOFFSET, GEO_GRAIL_W, GEO_GRAIL_H);
+        redGrailPic[i].setParent(this);
+        blueGrailPic[i].setParent(this);
+        redStonePic[i].setParent(this);
+        blueStonePic[i].setParent(this);
         redStonePic[i].setGeometry(GEO_STONE_X, GEO_STONE_RED_Y+i*GEO_STONE_YOFFSET, GEO_STONE_W, GEO_STONE_H);
-        blueStonePic[i].setGeometry(GEO_STONE_X, GEO_STONE_RED_Y+i*GEO_STONE_YOFFSET, GEO_STONE_W, GEO_STONE_H);
+        blueStonePic[i].setGeometry(GEO_STONE_X, GEO_STONE_BLUE_Y+i*GEO_STONE_YOFFSET, GEO_STONE_W, GEO_STONE_H);
     }
     for(int i = 0;i < 6;i++)
     {
-        
-        gameCharacter[i] = new Character(information[i],i,information[i+6]);
+        gameCharacter[i] = new Character(information[i],i,information[i+6],this);
     }
-
-
+    show();
 //    arrowX[0] = gameCharacter[0]->xp +157 + 2 + 10;
 //    for(int j = 1;j < 4;j++)
 //    {
@@ -232,9 +250,9 @@ bool getYellow(int characterNum)
 void Character::paintEvent(QPaintEvent *event)
 {
     //TODO
-    cureLabel.setText(QString("%1/%2").arg(cure,cureLimit));
-    gemLabel.setText(QString("%1/%2").arg(gem,energeLimit));
-    crystalLabel.setText(QString("%1/%2").arg(crystal,energeLimit));
+//    cureLabel.setText(QString("%1/%2").arg(QString::number(cure),QString::number(cureLimit)));
+//    gemLabel.setText(QString("%1/%2").arg(QString::number(gem),QString::number(energeLimit)));
+//    crystalLabel.setText(QString("%1/%2").arg(QString::number(crystal),QString::number(energeLimit)));
 //        if(i > 0 && i < 4)
 //        {
 //            painter->drawPixmap(gameCharacter[i]->xp + 5 - 3,gameCharacter[i]->yp - 19 + 226,36,36,*attribute[3]);
@@ -420,6 +438,8 @@ void Character::paintEvent(QPaintEvent *event)
 //        painter->drawPixmap(SoulYX[i] - 50,SoulYY[i],36,36,*slash);
 //        painter->drawPixmap(SoulYX[i] - 35,SoulYY[i],36,36,*number[gameCharacter[i]->cardLimit]);
 //    }
+    numberPic[0].setPixmap(QPixmap(QString(":number/%1.png").arg(QString::number(cardNum))));
+    numberPic[2].setPixmap(QPixmap(QString(":number/%1.png").arg(QString::number(cardLimit))));
     if(yellowExist)
     {
         //TODO
@@ -478,58 +498,56 @@ void PaintStruct::paintEvent(QPaintEvent *event)
     int teamGrailRed = grailRed;
     int teamGrailBlue = grailBlue;
     //int xOffset = 46;
-    int yOffset = 52;
+    //int yOffset = 52;
     int count = 0;
 
-    while(teamGrailRed != 0)
-    {
+    for(int i = 0; i<teamGrailRed;i++)
         redGrailPic[count].setVisible(true);
-        count ++;
-        teamGrailRed --;
-    }
-    count = 0;
-    while(teamGrailBlue != 0)
-    {
+    for(int i = teamGrailRed;i<5;i++)
+        redGrailPic[count].setVisible(false);
+    for(int i = 0; i<teamGrailBlue;i++)
         blueGrailPic[count].setVisible(true);
-        count ++;
-        teamGrailBlue --;
-    }
-    count = 0;
+    for(int i = teamGrailBlue;i<5;i++)
+        blueGrailPic[count].setVisible(false);
+
     while(teamGemRed != 0)
     {
-        redStonePic[count].setVisible(true);
         redStonePic[count].setPixmap(gemPic);
+        redStonePic[count].setVisible(true);
         count ++;
         teamGemRed --;
     }
     while(teamCrystalRed != 0)
     {
-        redStonePic[count].setVisible(true);
         redStonePic[count].setPixmap(crystalPic);
+        redStonePic[count].setVisible(true);
+
         count ++;
         teamCrystalRed --;
     }
-    while (count!=4) {
+    while (count<=4) {
         redStonePic[count].setVisible(false);
         count++;
     }
     count = 0;
     while(teamGemBlue != 0)
     {
-        blueStonePic[count].setVisible(true);
         blueStonePic[count].setPixmap(gemPic);
+        blueStonePic[count].setVisible(true);
         count ++;
         teamGemBlue --;
     }
     while(teamCrystalBlue != 0)
     {
-        blueStonePic[count].setVisible(true);
         blueStonePic[count].setPixmap(crystalPic);
+        blueStonePic[count].setVisible(true);
         count ++;
         teamCrystalBlue --;
     }
-    while (count!=4) {
-        redStonePic[count].setVisible(false);
+    while (count<=4) {
+        blueStonePic[count].setVisible(false);
         count++;
     }
+    redMoralePic.setPixmap(QString(":/morale/red%1.png").arg(QString::number(moraleRed)));
+    blueMoralePic.setPixmap(QString(":/morale/blue%1.png").arg(QString::number(moraleBlue)));
 }

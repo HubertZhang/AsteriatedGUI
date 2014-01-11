@@ -7,7 +7,7 @@ MagicSword::MagicSword(PaintStruct* paintStruct,QWidget *parent) :
     magicCount = 0;
     dialog = new NewDialog(windowX);
     dialog->init(9);//修罗连斩,黑暗震颤
-    darkMeteor = new PicButton(85,362,559,100,42,false);
+    darkMeteor = new PicButton(85,362,559,100,42,false,this);
     for(int i = 0;i < dialog->skillCount;i++)
     {
         connect(dialog->skillGroup[i],SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
@@ -24,7 +24,7 @@ void MagicSword::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(6);
-    darkMeteor->isClicked = true;
+    darkMeteor->setChecked(true);
 }
 void MagicSword::changeSelfMode(int mode)
 {
@@ -39,26 +39,26 @@ void MagicSword::changeSelfMode(int mode)
         }
         for(int j = 0;j < 6;j++)
         {
-            if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+            if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
             {
-                connect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                connect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                connect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                connect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
             }
         }
     }
     for(int i = 0;i < 6;i++)
     {
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
-        connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
+        connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
         for(int j = 0;j < 6;j ++)
         {
             if(i != j)
             {
-                connect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelX()));
+                connect(paintStruct->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelX()));
             }
         }
     }
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://修罗连斩响应阶段
@@ -67,7 +67,7 @@ void MagicSword::changeSelfMode(int mode)
             {
                 if(cardList->getName(card[i]) == fireAttack)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
             disconnect(ensure,SIGNAL(changeClicked()),this,SLOT(selfReset()));
@@ -81,12 +81,12 @@ void MagicSword::changeSelfMode(int mode)
         }
         case 6://暗影流星响应阶段
         {
-            cancel->canBeClicked = false;
+            cancel->setCheckable(false);
             for(int i = 0;i < cardNum;i++)
             {
                 if(cardList->getType(card[i]) == magic)
                 {
-                    cardButton[i]->canBeClicked = true;
+                    cardButton[i]->setCheckable(true);
                 }
             }
             for(int i = 0;i < cardNum;i++)
@@ -102,10 +102,10 @@ void MagicSword::changeSelfMode(int mode)
                 }
                 for(int j = 0;j < 6;j++)
                 {
-                    if(paintStructX->gameCharacter[5]->color != paintStructX->gameCharacter[j]->color)
+                    if(paintStruct->gameCharacter[5]->color != paintStruct->gameCharacter[j]->color)
                     {
-                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(recoverClick()));
-                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStructX->gameCharacter[j]->characterPic,SLOT(cancelClick()));
+                        disconnect(cardButton[i],SIGNAL(changeClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(recoverClick()));
+                        disconnect(cardButton[i],SIGNAL(notClicked()),paintStruct->gameCharacter[j]->characterPic,SLOT(cancelClick()));
                     }
                 }
             }
@@ -113,20 +113,20 @@ void MagicSword::changeSelfMode(int mode)
         }
     }
 }
-void MagicSword::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-    }
-    darkMeteor->paint(event,painter);
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void MagicSword::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//    }
+//    darkMeteor->paint(event,painter);
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void MagicSword::setFrame()
 {
     ask = true;
@@ -136,7 +136,7 @@ void MagicSword::setFrame()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void MagicSword::skillset()
@@ -149,9 +149,9 @@ void MagicSword::skillset()
             count ++;
         }
     }
-    if(count > 1 && paintStructX->gameCharacter[5]->activated)
+    if(count > 1 && paintStruct->gameCharacter[5]->activated)
     {
-        darkMeteor->canBeClicked = true;
+        darkMeteor->setCheckable(true);
     }
 }
 void MagicSword::skillCancel()
@@ -163,8 +163,8 @@ void MagicSword::skillCancel()
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(countPlus()));
         disconnect(cardButton[i],SIGNAL(notClicked()),this,SLOT(countMinus()));
     }
-    darkMeteor->canBeClicked = false;
-    darkMeteor->isClicked = false;
+    darkMeteor->setCheckable(false);
+    darkMeteor->setChecked(false);
 }
 void MagicSword::skillClear()
 {
@@ -184,7 +184,7 @@ void MagicSword::countPlus()
         magicCount ++;
         for(int i = 0;i < 6;i++)
         {
-            paintStructX->gameCharacter[i]->characterPic->canBeClicked = true;
+            paintStruct->gameCharacter[i]->characterPic->setCheckable(true);
         }
         return;
     }
@@ -192,9 +192,9 @@ void MagicSword::countPlus()
     {
         for(int i = 0;i < cardNum;i++)
         {
-            if(cardButton[i]->isClicked)
+            if(cardButton[i]->isChecked())
             {
-                cardButton[i]->isClicked = false;
+                cardButton[i]->setChecked(false);
                 break;
             }
         }
@@ -205,7 +205,7 @@ void MagicSword::countMinus()
 {
     for(int i = 0;i < 6;i++)
     {
-        paintStructX->gameCharacter[i]->characterPic->canBeClicked = false;
+        paintStruct->gameCharacter[i]->characterPic->setCheckable(false);
     }
     magicCount --;
 }
@@ -214,7 +214,7 @@ void MagicSword::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             changeSelfMode(4 + i);
         }
@@ -227,8 +227,8 @@ void MagicSword::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void MagicSword::dialogSet(bool canX[])
@@ -241,7 +241,7 @@ void MagicSword::magicSwordSet()
     {
         if(cardList->getType(card[i]) == magic)
         {
-            cardButton[i]->canBeClicked = false;
+            cardButton[i]->setCheckable(false);
         }
     }
 }
@@ -249,17 +249,17 @@ void MagicSword::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
-    if(darkMeteor->isClicked)
+    if(darkMeteor->isChecked())
     {
         informationKind = 200;
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -271,13 +271,13 @@ void MagicSword::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
@@ -289,13 +289,13 @@ void MagicSword::sendMessageSelf()
         {
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     for(int j = 0;j < 6;j++)
                     {
-                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        if(paintStruct->gameCharacter[j]->characterPic->isChecked())
                         {
-                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            int site = (-j + paintStruct->yourSite + 5) % 6;
                             tempMes.push_back(site);
                             tempMes.push_back(card[i]);
                             emit sendMessageSelfSig(tempMes);
@@ -316,15 +316,15 @@ void MagicSword::sendMessageSelf()
             bool findOne = false;
             for(int i = 0;i < cardNum;i++)
             {
-                if(cardButton[i]->isClicked && !findOne)
+                if(cardButton[i]->isChecked() && !findOne)
                 {
                     //system("pause");
                     findOne = true;
                     for(int j = 0;j < 6;j++)
                     {
-                        if(paintStructX->gameCharacter[j]->characterPic->isClicked)
+                        if(paintStruct->gameCharacter[j]->characterPic->isChecked())
                         {
-                            int site = (-j + paintStructX->yourSite + 5) % 6;
+                            int site = (-j + paintStruct->yourSite + 5) % 6;
                             tempMes.push_back(site);
                             tempMes.push_back(card[i]);
                             i++;
@@ -332,7 +332,7 @@ void MagicSword::sendMessageSelf()
                         }
                     }
                 }
-                if(cardButton[i]->isClicked)
+                if(cardButton[i]->isChecked())
                 {
                     tempMes.push_back(card[i]);
                     emit sendMessageSelfSig(tempMes);

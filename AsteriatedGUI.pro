@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     players/hoshigumayugi.cpp \
     players/uuz.cpp \
     players/redwhite.cpp \
-    players/butterfly.cpp
+    players/butterfly.cpp \
+    characterbutton.cpp
 
 HEADERS  += \
     window.h \
@@ -97,7 +98,9 @@ HEADERS  += \
     players/hoshigumayugi.h \
     players/uuz.h \
     players/redwhite.h \
-    players/butterfly.h
+    players/butterfly.h \
+    characterbutton.h \
+    placeinfo.h
 
 RESOURCES += \
     resource/Image.qrc

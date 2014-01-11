@@ -8,7 +8,7 @@
 #include <QFont>
 #include <QPalette>
 
-class NewDialog : public QWidget
+class NewDialog : public QLabel
 {
     Q_OBJECT
 public:
@@ -18,10 +18,8 @@ public:
     QFont* font;
     QPalette* palette;
     QLabel* label;
-    QPixmap* frame;
     PicButton* skillGroup[10];
     void set(bool canX[10]);
-    void paint(QPaintEvent *,QPainter *);
 signals:
 
 public slots:

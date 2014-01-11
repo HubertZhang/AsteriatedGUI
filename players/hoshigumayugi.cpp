@@ -6,7 +6,7 @@ HoshigumaYugi::HoshigumaYugi(PaintStruct* paintStruct,QWidget *parent) :
     ask = false;
     dialog = new NewDialog(windowX);
     dialog->init(21);//怒吼,明镜止水,禁断之力,死斗
-    provoke = new PicButton(140,362,559,100,42,false);
+    provoke = new PicButton(140,362,559,100,42,false,this);
     for(int i = 0;i < dialog->skillCount;i++)
     {
         for(int j = 0;j < dialog->skillCount;j++)
@@ -30,11 +30,11 @@ void HoshigumaYugi::magicSetZero()
     linkReset();
     skillset();
     changeSelfMode(6);
-    provoke->isClicked = true;
+    provoke->setChecked(true);
 }
 void HoshigumaYugi::changeSelfMode(int mode)
 {
-    cancel->canBeClicked = true;
+    cancel->setCheckable(true);
     switch(mode)
     {
         case 4://怒吼响应阶段
@@ -48,26 +48,26 @@ void HoshigumaYugi::changeSelfMode(int mode)
         }
         case 6://挑衅响应阶段
         {
-            cancel->canBeClicked = false;
+            cancel->setCheckable(false);
             clickRivalSet();
             break;
         }
     }
 }
-void HoshigumaYugi::paint(QPaintEvent *event, QPainter *painter)
-{
-    if(ask)
-    {
-        dialog->paint(event,painter);
-    }
-    provoke->paint(event,painter);
-    ensure->paint(event,painter);
-    cancel->paint(event,painter);
-    for(int i = 0;i < cardNum;i++)
-    {
-        cardButton[i]->paint(event,painter);
-    }
-}
+//void HoshigumaYugi::paint(QPaintEvent *event, QPainter *painter)
+//{
+//    if(ask)
+//    {
+//        dialog->paint(event,painter);
+//    }
+//    provoke->paint(event,painter);
+//    ensure->paint(event,painter);
+//    cancel->paint(event,painter);
+//    for(int i = 0;i < cardNum;i++)
+//    {
+//        cardButton[i]->paint(event,painter);
+//    }
+//}
 void HoshigumaYugi::setFrame()
 {
     ask = true;
@@ -77,22 +77,22 @@ void HoshigumaYugi::setFrame()
     cancelClick = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setChecked(false);
     }
 }*/
 void HoshigumaYugi::skillset()
 {
-    if(paintStructX->gameCharacter[5]->yellow > 0)
+    if(paintStruct->gameCharacter[5]->yellow > 0)
     {
-        provoke->canBeClicked = true;
+        provoke->setCheckable(true);
     }
 }
 void HoshigumaYugi::skillCancel()
 {
     ask = false;
     dialog->label->hide();
-    provoke->canBeClicked = false;
-    provoke->isClicked = false;
+    provoke->setCheckable(false);
+    provoke->setChecked(false);
 }
 void HoshigumaYugi::skillClear()
 {
@@ -105,7 +105,7 @@ void HoshigumaYugi::selfReset()
     //system("pause");
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             if(i < 2)
             {
@@ -125,8 +125,8 @@ void HoshigumaYugi::dialogReset()
     ask = false;
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        dialog->skillGroup[i]->canBeClicked = false;
-        dialog->skillGroup[i]->isClicked = false;
+        dialog->skillGroup[i]->setCheckable(false);
+        dialog->skillGroup[i]->setChecked(false);
     }
 }
 void HoshigumaYugi::dialogSet(bool canX[])
@@ -137,17 +137,17 @@ void HoshigumaYugi::sendMessageSelf()
 {
     for(int i = 0;i < dialog->skillCount;i++)
     {
-        if(dialog->skillGroup[i]->isClicked)
+        if(dialog->skillGroup[i]->isChecked())
         {
             informationKind = 100 + i;
         }
     }
-    if(provoke->isClicked)
+    if(provoke->isChecked())
     {
         informationKind = 200;
     }
     std::vector<int> tempMes;
-    if(cancel->isClicked && informationKind < 100)
+    if(cancel->isChecked() && informationKind < 100)
     {
         if(informationKind == 7)
         {
@@ -159,13 +159,13 @@ void HoshigumaYugi::sendMessageSelf()
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && !ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && !ensure->isCheckable())
     {
         tempMes.push_back(-1);
         emit sendMessageSelfSig(tempMes);
         return;
     }
-    if(cancel->isClicked && informationKind > 99 && ensure->canBeClicked)
+    if(cancel->isChecked() && informationKind > 99 && ensure->isCheckable())
     {
         tempMes.push_back(0);
         emit sendMessageSelfSig(tempMes);
