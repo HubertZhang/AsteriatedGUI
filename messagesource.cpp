@@ -1,7 +1,7 @@
 #include "messagesource.h"
 #include <QVBoxLayout>
 MessageSource::MessageSource(QWidget *parent)
-    : QWidget(parent)
+    : QDialog(parent)
 {
     submit = new QPushButton("submit");
     connect(submit,SIGNAL(clicked()),this,SLOT(isClicked()));
@@ -11,7 +11,6 @@ MessageSource::MessageSource(QWidget *parent)
     layout->addWidget(submit);
     setLayout(layout);
     resize(200,200);
-    this->show();
 }
 void MessageSource::isClicked()
 {

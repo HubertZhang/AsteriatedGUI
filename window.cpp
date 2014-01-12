@@ -16,6 +16,7 @@ Window::Window(QWidget *parent) :
     paint = false;
     mySource = new MessageSource();
     connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
+    mySource->exec();
     phase = 0;
     starBG = new StarBG(this);
     connect(&networkSocket,SIGNAL(idReceived(int)),this,SLOT(chatReady(int)));
@@ -67,7 +68,7 @@ void Window::timeOut()
     {
         return;
     }
-    starBG->update();
+    starBG->updatePic();
     repaint();
 }
 void Window::paintEvent(QPaintEvent *event)
@@ -77,31 +78,42 @@ void Window::paintEvent(QPaintEvent *event)
     {
         case 0:
         {
+            starBG->paint(event,painter);
             break;
         }
         case 1:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             break;
         }
         case 2:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             //system("pause");
             chooseCharacter->paint(event,painter);
             break;
         }
         case 3:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             break;
         }
         case 4:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             break;
         }
         case 5:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             askDialog->paint(event,painter);
@@ -109,6 +121,8 @@ void Window::paintEvent(QPaintEvent *event)
         }
         case 6:
         {
+            starBG->paint(event,painter);
+            wColor->paint(event,painter);
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             cardAttack->paint(event,painter);

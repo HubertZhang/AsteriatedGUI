@@ -11,17 +11,14 @@ QLabel(parent)
         starBGArray[i].load(QString(":/StarBG/StarBG_000%1").arg(QString::number(i),2,QChar('0')));
     }
 }
-void StarBG::update()
+void StarBG::updatePic()
 {
     refreshSpeed ++;
-    if(refreshSpeed % 2 != 0)
+    if(refreshSpeed % 5 == 0)
     {
-        this->setPixmap(starBGArray[frame]);
         refreshSpeed = 1;
-        this->setPixmap(starBGArray[frame]);
         return ;
     }
-    this->setPixmap(starBGArray[frame]);
     if(sign && frame == 39)
     {
         sign = false;
@@ -38,4 +35,9 @@ void StarBG::update()
     {
         frame --;
     }
+}
+
+void StarBG::paint(QPaintEvent *event, QPainter *painter)
+{
+    painter->drawPixmap(0,0,1366,768,starBGArray[frame]);
 }

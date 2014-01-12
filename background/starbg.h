@@ -15,7 +15,9 @@ private:
     QPixmap starBGArray[40];
 public:
     explicit StarBG(QWidget *parent = 0);
-    void update();
+    void updatePic();
+    void paint(QPaintEvent* event,QPainter* painter);
+
 public slots:
 
 };

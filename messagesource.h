@@ -1,11 +1,11 @@
 #ifndef MESSAGESOURCE_H
 #define MESSAGESOURCE_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QLineEdit>
 #include <QString>
 #include <QPushButton>
-class MessageSource : public QWidget
+class MessageSource : public QDialog
 {
     Q_OBJECT
 private:

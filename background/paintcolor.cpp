@@ -29,19 +29,18 @@ PaintColor::PaintColor(int color[6],QWidget* parent) : QWidget(parent)
         pColor[i] = color[i];
     }
 }
-void PaintColor::paintEvent(QPaintEvent* event)
+void PaintColor::paint(QPaintEvent* event,QPainter* painter)
 {
-    Frame = new QPainter(this);
-    Frame->drawPixmap(0, 0, *frame);
+    painter->drawPixmap(0, 0, *frame);
     for(int i = 0;i < 6;i++)
     {
         if(pColor[i] == 0)
         {
-            this->Frame->drawPixmap(xp[i],yp[i],*redFrame);
+            painter->drawPixmap(xp[i],yp[i],*redFrame);
         }
         else
         {
-            Frame->drawPixmap(xp[i],yp[i],width,height,*blueFrame);
+            painter->drawPixmap(xp[i],yp[i],width,height,*blueFrame);
         }
     }
 }

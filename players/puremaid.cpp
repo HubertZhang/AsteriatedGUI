@@ -37,7 +37,7 @@ PureMaid::PureMaid(PaintStruct* paintStruct,QWidget *parent) :
     {
         connect(magicGroup[i],SIGNAL(notClicked()),this,SLOT(skillClear()));
     }
-    pureCureFrame->labelOne->setText(QString::fromUtf8("你妹啊让不让用中文了"));
+    pureCureFrame->labelOne->setText(QString::fromUtf8("请选择圣疗对象,每选择一名角色请按确认"));
     pureCureFrame->labelTwo->setText("");
     frame = false;
 }

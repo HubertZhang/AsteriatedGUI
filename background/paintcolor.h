@@ -19,8 +19,9 @@ private:
     QPainter* Frame;
 public:
     explicit PaintColor(int color[6],QWidget* parent);
-protected:
-    void paintEvent(QPaintEvent* event);
+    void paint(QPaintEvent* event,QPainter* painter);
+
+
 signals:
 
 public slots:
