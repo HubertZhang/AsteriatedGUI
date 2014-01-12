@@ -11,24 +11,24 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = AsteriatedGUI
 TEMPLATE = app
 
-INCLUDEPATH += . players network textgui
+INCLUDEPATH += . players network dialog background card button
 
 SOURCES += main.cpp\
     window.cpp \
-    starbg.cpp \
+    background/starbg.cpp \
     paintstruct.cpp \
     messagesource.cpp \
-    picbutton.cpp \
-    choosecharacter.cpp \
-    paintcolor.cpp \
-    cardList.cpp \
-    card.cpp \
-    askdialog.cpp \
+    button/picbutton.cpp \
+    dialog/choosecharacter.cpp \
+    background/paintcolor.cpp \
+    card/cardList.cpp \
+    card/card.cpp \
+    dialog/askdialog.cpp \
     cardandskill.cpp \
-    cardbutton.cpp \
-    cardattack.cpp \
-    framelabel.cpp \
-    newdialog.cpp \
+    button/cardbutton.cpp \
+    card/cardattack.cpp \
+    dialog/framelabel.cpp \
+    dialog/newdialog.cpp \
     network/agclient.cpp \
     network/agchatclient.cpp \
     players/swordmaster.cpp \
@@ -58,20 +58,20 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     window.h \
-    starbg.h \
+    background/starbg.h \
     paintstruct.h \
     messagesource.h \
-    picbutton.h \
-    choosecharacter.h \
-    paintcolor.h \
-    cardList.h \
-    card.h \
-    askdialog.h \
+    button/picbutton.h \
+    dialog/choosecharacter.h \
+    background/paintcolor.h \
+    card/cardList.h \
+    card/card.h \
+    dialog/askdialog.h \
     cardandskill.h \
-    cardbutton.h \
-    cardattack.h \
-    framelabel.h \
-    newdialog.h \
+    button/cardbutton.h \
+    card/cardattack.h \
+    dialog/framelabel.h \
+    dialog/newdialog.h \
     network/agclient.h \
     network/agchatclient.h \
     players/swordmaster.h \
