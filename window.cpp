@@ -126,6 +126,12 @@ void Window::paintEvent(QPaintEvent *event)
             paintStruct->paint(event,painter);
             cardAndSkill->paint(event,painter);
             cardAttack->paint(event,painter);
+            break;
+        }
+        case 7:
+        {
+            starBG->paint(event,painter);
+            break;
         }
     }
     delete painter;
@@ -558,6 +564,15 @@ void Window::messageProcess(std::vector<int> m)
         case 22://蝶舞的茧信息
         {
             cardAndSkill->butterflyTokenAdd(information);
+            break;
+        }
+        case 23://游戏胜利动画
+        {
+            winAnime = new WinAnime(this);
+            connect(winAnime,SIGNAL(clicked()),this,SLOT(deleteLater()));
+            winAnime->winTeam = information[1];
+            winAnime->setPic();
+            this->phase = 7;
             break;
         }
     }

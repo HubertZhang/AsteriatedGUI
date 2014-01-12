@@ -41,6 +41,7 @@
 #include "uuz.h"
 #include "redwhite.h"
 #include "butterfly.h"
+#include "winanime.h"
 class Window : public QMainWindow
 {
     Q_OBJECT
@@ -55,6 +56,7 @@ private:
     CardList* cardList;
     CardAndSkill* cardAndSkill;
     CardAttack* cardAttack;
+    WinAnime* winAnime;
     int paintStructInit[15];
     bool paintCardDestroy;
     bool haveDestroyed;
