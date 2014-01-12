@@ -14,9 +14,16 @@ Window::Window(QWidget *parent) :
     haveDestroyed = true;
     paintCardDestroy = false;
     paint = false;
-    mySource = new MessageSource();
+    phase = -1;
+    mySource = new MessageSource(this);
     connect(mySource,SIGNAL(buttonClicked()),this,SLOT(informationGet()));
     mySource->exec();
+    int temp = mySource->result();
+    if(!temp){
+
+        this->deleteLater();
+        return;
+    }
     phase = 0;
     starBG = new StarBG(this);
     connect(&networkSocket,SIGNAL(idReceived(int)),this,SLOT(chatReady(int)));
@@ -26,6 +33,11 @@ Window::Window(QWidget *parent) :
     cardAttack = new CardAttack(this);
     connect(cardAttack,SIGNAL(paintOver()),this,SLOT(queuePop()));
     connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
+    setMaximumSize(1366,768);
+     //a.setWindowIcon(QIcon(":/icon.png"));
+    showFullScreen();
+     //window->setWindowFlags(Qt::FramelessWindowHint);
+    show();
 }
 void Window::chatReady(int id)
 {

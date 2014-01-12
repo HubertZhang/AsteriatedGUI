@@ -10,7 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = AsteriatedGUI
 TEMPLATE = app
-
+macx:ICON = Icon.icns
+macx:QMAKE_INFO_PLIST = Info.plist
 INCLUDEPATH += . players network dialog background card button
 
 SOURCES += main.cpp\
