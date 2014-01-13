@@ -26,7 +26,6 @@ ChooseCharacter::ChooseCharacter(int numOne,int numTwo,int numThree,QWidget *par
         connect(character[i],SIGNAL(notClicked()),cancel,SLOT(cancelX()));
         connect(character[i],SIGNAL(notClicked()),cancel,SLOT(cancelClick()));
     }
-    connect(ensure,SIGNAL(changeClicked()),this,SLOT(sendMessage()));
 }
 void ChooseCharacter::paint(QPaintEvent *event, QPainter *painter)
 {
