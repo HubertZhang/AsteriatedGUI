@@ -1,5 +1,6 @@
 
 *.user
+release/*
 resource/*
 AsteriatedGUI.pro.user.1ecc6ee
 
