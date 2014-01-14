@@ -55,8 +55,12 @@ void Window::chatReady(int id)
     temp.setBrush(QPalette::Base,QColor(0,0,0,0));
     temp.setBrush(QPalette::Text,QColor(255,255,255,255));
     chatBrowser->setPalette(temp);
-    chatBrowser->setGeometry(1058,410,302,312);
+    chatBrowser->setGeometry(1064,410,295,312);
     chatBrowser->show();
+    messageBrowser = new QTextBrowser(this);
+    messageBrowser->setPalette(temp);
+    messageBrowser->setGeometry(1064,7,295,393);
+    messageBrowser->show();
     connect(chatLine,SIGNAL(returnPressed()),this,SLOT(sendChatMessage()));
     connect(&chatSocket,SIGNAL(readFinished(int,QString)),this,SLOT(displayMessage(int,QString)));
 }
@@ -70,7 +74,7 @@ void Window::sendChatMessage()
 
 void Window::displayMessage(int id, QString message)
 {
-     chatBrowser->append(QString::number(id)+QString(": ")+message);
+     chatBrowser->append(QString("[")+QString::number(id)+QString("]: ")+message);
 }
 
 void Window::timeOut()
@@ -183,7 +187,7 @@ void Window::messageProcess(std::vector<int> m)
     {
         s = s + QString::number(information[i]) + " ";
     }
-    chatBrowser->append(s);
+    messageBrowser->append(QString("Received: ")+QString(s));
     switch(information[0])
     {
         case 0:
@@ -708,8 +712,7 @@ void Window::sendMessageWindow(std::vector<int> messageSend)
     {
         s = s + QString::number(information[i]) + " ";
     }
-    chatBrowser->append(s);
-    chatBrowser->append(QString::number(-100));
+    messageBrowser->append(QString("Sending: ")+QString(s));
     networkSocket.sendMessage(messageSend);
 }
 void Window::queuePop()

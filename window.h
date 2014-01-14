@@ -67,6 +67,7 @@ private:
 public:
     QLineEdit* chatLine;
     QTextBrowser* chatBrowser;
+    QTextBrowser* messageBrowser;
     explicit Window(QWidget *parent = 0);
     void mousePressEvent(QMouseEvent *event);
     AGClient networkSocket;
