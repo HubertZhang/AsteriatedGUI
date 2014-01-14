@@ -43,7 +43,9 @@ void Window::chatReady(int id)
 {
     chatSocket.setup(id,(char*)networkSocket.peerAddress().toString().toStdString().c_str());
     chatLine = new QLineEdit(this);
-    chatLine->setGeometry(1058,732,302,32);
+    //chatLine->setStyleSheet("border:none");
+    chatLine->setStyleSheet("background-color:transparent");
+    chatLine->setGeometry(1060,730,302,32);
     QPalette temp = chatLine->palette();
     temp.setBrush(QPalette::Background,QColor(0,0,0,0));
     temp.setBrush(QPalette::Text,QColor(255,255,255,255));
@@ -55,11 +57,14 @@ void Window::chatReady(int id)
     temp.setBrush(QPalette::Base,QColor(0,0,0,0));
     temp.setBrush(QPalette::Text,QColor(255,255,255,255));
     chatBrowser->setPalette(temp);
-    chatBrowser->setGeometry(1064,410,295,312);
+    chatBrowser->setGeometry(1060,410,302,312);
+    //chatBrowser->setStyleSheet("border:none");
     chatBrowser->show();
     messageBrowser = new QTextBrowser(this);
     messageBrowser->setPalette(temp);
-    messageBrowser->setGeometry(1064,7,295,393);
+    messageBrowser->setGeometry(1060,7,302,393);
+    //messageBrowser->setStyleSheet("border:none");
+    messageBrowser->setStyleSheet("background-color:transparent");
     messageBrowser->show();
     connect(chatLine,SIGNAL(returnPressed()),this,SLOT(sendChatMessage()));
     connect(&chatSocket,SIGNAL(readFinished(int,QString)),this,SLOT(displayMessage(int,QString)));
@@ -712,7 +717,7 @@ void Window::sendMessageWindow(std::vector<int> messageSend)
     {
         s = s + QString::number(information[i]) + " ";
     }
-    messageBrowser->append(QString("Sending: ")+QString(s));
+    messageBrowser->append(QString("Sending:  ")+QString(s));
     networkSocket.sendMessage(messageSend);
 }
 void Window::queuePop()
