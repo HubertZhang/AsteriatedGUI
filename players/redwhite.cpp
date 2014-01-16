@@ -9,6 +9,7 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
     curseCount = 0;
     curseLine = 0;
     lifeLink = false;
+    intervalSet = false;
     int info[3] = {2,0,0};
     blood = new AskDialog(info,bloodX,paintStructX,false);
     blood->ensure->canBeClicked = false;
@@ -24,6 +25,8 @@ RedWhite::RedWhite(PaintStruct* paintStruct,QWidget *parent,Window* bloodX):
     connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(sendMessageCardAndSkill()));
     disconnect(blood->ensure,SIGNAL(changeClicked()),blood,SLOT(destroyLabel()));
     disconnect(blood->cancel,SIGNAL(changeClicked()),blood,SLOT(destroyLabel()));
+    connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(intervalReset()));
+    connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(intervalReset()));
     connect(blood->ensure,SIGNAL(changeClicked()),this,SLOT(reset()));
     connect(blood->cancel,SIGNAL(changeClicked()),this,SLOT(reset()));
     magicGroup[0] = new PicButton(151,362,559,100,42,false);
@@ -112,7 +115,6 @@ void RedWhite::changeSelfMode(int mode)
                 connect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(singleToEnsure()));
                 connect(cardButton[i],SIGNAL(notClicked()),this,SLOT(allReset()));
             }
-            connect(ensure,SIGNAL(changeClicked()),this,SLOT(bloodSet()));
             break;
         }
         case 9://血之诅咒响应阶段
@@ -207,7 +209,15 @@ void RedWhite::skillset()
 }
 void RedWhite::skillCancel()
 {
-    bloodAsk = false;
+    if(!intervalSet)
+    {
+        bloodAsk = false;
+        for(int i = 0;i < 5;i++)
+        {
+            blood->number[i]->isClicked = false;
+            blood->number[i]->canBeClicked = false;
+        }
+    }
     bloodCount = 0;
     curseCount = 0;
     blood->labelOne->hide();
@@ -221,11 +231,6 @@ void RedWhite::skillCancel()
     blood->cancel->canBeClicked = false;
     blood->ensure->isClicked = false;
     blood->cancel->isClicked = false;
-    for(int i = 0;i < 5;i++)
-    {
-        blood->number[i]->isClicked = false;
-        blood->number[i]->canBeClicked = false;
-    }
     for(int i = 0;i < cardNum;i++)
     {
         disconnect(cardButton[i],SIGNAL(changeClicked()),this,SLOT(clickAllSet()));
@@ -414,4 +419,24 @@ void RedWhite::clickRedWhiteSet()
 void RedWhite::bloodSet()
 {
     changeSelfMode(10);
+}
+void RedWhite::intervalReset()
+{
+    intervalSet = false;
+}
+bool RedWhite::isCrySet()
+{
+    if(magicGroup[2]->isClicked)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+void RedWhite::redWhiteIntervalSet()
+{
+    intervalSet = true;
+    bloodSet();
 }

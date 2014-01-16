@@ -662,13 +662,13 @@ void AskDialog::paint(QPaintEvent* event, QPainter* painter)
             labelOne->setText(*s);
             labelOne->setFont(*font);
             labelOne->setPalette(*palette);
-            labelOne->move(328 + 25,247 + 20);
+            labelOne->move(328 + 25,247 - 10);
             labelOne->show();
             s->sprintf("%d",kind[1]);
             labelTwo->setText(*s);
             labelTwo->setFont(*font);
             labelTwo->setPalette(*palette);
-            labelTwo->move(328 + 25,247 + 60);
+            labelTwo->move(328 + 25,247 + 30);
             labelTwo->show();
             for(int i = 0;i < 5;i++)
             {

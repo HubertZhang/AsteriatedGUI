@@ -16,6 +16,7 @@ public:
     bool bloodAsk;
     bool lifeLink;
     int bloodCount;
+    bool intervalSet;
     int curseCount;
     int curseLine;
     int lifeLinkCha;
@@ -26,6 +27,8 @@ public:
     bool redWhiteLink();
     void lifeLinkOver();
     void clickRedWhiteSet();
+    bool isCrySet();
+    void redWhiteIntervalSet();
     //void skillReset();
 signals:
 public slots:
@@ -40,6 +43,7 @@ public slots:
     void cursePlus();
     void curseMinus();
     void bloodSet();
+    void intervalReset();
 };
 
 

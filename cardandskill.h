@@ -59,6 +59,9 @@ public:
     virtual void lifeLinkOver();
     virtual void clickRedWhiteSet();
     virtual void butterflyTokenAdd(int tokenX[]);
+    virtual bool isCrySet();
+    virtual void redWhiteIntervalSet();
+    void specialInformationHandle();
 signals:
     void isClicked(int x,int y);
     void resetSignal();

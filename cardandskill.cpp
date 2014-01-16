@@ -823,6 +823,7 @@ void CardAndSkill::sendMessageSelf()
 }
 void CardAndSkill::sendMessageCardAndSkill()
 {
+    specialInformationHandle();
     if(informationKind == 17)
     {
         sendMessageDis();
@@ -1163,4 +1164,22 @@ void CardAndSkill::characterDisconnect()
         disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(changeClicked()),ensure,SLOT(recoverClick()));
         disconnect(paintStructX->gameCharacter[i]->characterPic,SIGNAL(notClicked()),ensure,SLOT(cancelClick()));
     }
+}
+void CardAndSkill::specialInformationHandle()
+{
+    if(paintStructX->gameCharacter[5]->characterNum == 23)
+    {
+        if(isCrySet())
+        {
+            redWhiteIntervalSet();
+        }
+    }
+}
+bool CardAndSkill::isCrySet()
+{
+    return false;
+}
+void CardAndSkill::redWhiteIntervalSet()
+{
+
 }
