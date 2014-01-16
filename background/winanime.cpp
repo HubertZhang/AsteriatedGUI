@@ -13,11 +13,11 @@ void WinAnime::setPic()
 {
     if(winTeam)
     {
-        winPic->load(":/End/redWin.png");
+        winPic->load(":/end/redWin.png");
     }
     else
     {
-        winPic->load(":/End/blueWin.png");
+        winPic->load(":/end/blueWin.png");
     }
     this->setIcon(*winPic);
     this->setIconSize(QSize(300,100));

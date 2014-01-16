@@ -19,6 +19,8 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct,
     connect(cancel,SIGNAL(changeClicked()),this,SLOT(destroyLabel()));
     labelOne = new QLabel(parent);
     labelTwo = new QLabel(parent);
+    labelOne->setMinimumSize(500,100);
+    labelTwo->setMinimumSize(500,100);
     for(int i = 0;i < 3;i ++)
     {
         kind[i] = information[i];
@@ -35,13 +37,13 @@ AskDialog::AskDialog(int information[3],Window *parent,PaintStruct* paintStruct,
         labelOne->setText(*s);
         labelOne->setFont(*font);
         labelOne->setPalette(*palette);
-        labelOne->move(328 + 25,247 + 20);
+        labelOne->move(328 + 25,247 -10);
         labelOne->show();
         s = new QString(QString::fromUtf8("取消接三张牌."));
         labelTwo->setText(*s);
         labelTwo->setFont(*font);
         labelTwo->setPalette(*palette);
-        labelTwo->move(328 + 25,247 + 60);
+        labelTwo->move(328 + 25,247 + 30);
         labelTwo->show();
         delete s;
     }

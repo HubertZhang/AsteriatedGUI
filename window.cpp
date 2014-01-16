@@ -35,7 +35,7 @@ Window::Window(QWidget *parent) :
     connect(&networkSocket,SIGNAL(readFinished(std::vector<int>)),this,SLOT(messageProcess(std::vector<int>)));
     setMaximumSize(1366,768);
      //a.setWindowIcon(QIcon(":/icon.png"));
-    showFullScreen();
+    //showFullScreen();
      //window->setWindowFlags(Qt::FramelessWindowHint);
     show();
 }

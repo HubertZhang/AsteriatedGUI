@@ -5,7 +5,8 @@ NewDialog::NewDialog(QWidget *parent) :
 {
     QString* s;
     label = new QLabel(parent);
-    label->move(328 + 25,247 + 20);
+    label->move(328 + 25,247 -10);
+    label->setMinimumSize(500,100);
     skillCount = 0;
     frame = new QPixmap();
     frame->load(":/character/chooseCharacterFrame.png");
